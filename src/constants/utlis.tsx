@@ -1,0 +1,11 @@
+export const WELCOMEBACK   = "Welcome Back";
+export const LOGIN_CONTENT  = "Log in to stay updated with the latest news, matches, and exclusive content.";
+export const JOIN_CONTENT   = "Join now to connect with fans, access exclusive content, and stay updated!";
+export const JOIN   = "Join";
+export const SECOND_STEP_SIGNUP_CONTENT   = "You must provide a doctor’s certificate and a parent or guardian's consent to proceed.";
+export const THIRD_STEP_SIGNUP_CONTENT   = "Select the plan that best suits your needs and enjoy exclusive benefits.";
+export const FOURTH_STEP_SIGNUP_CONTENT   = "Überprüfen Sie Ihre Mitgliedsdaten und geben Sie Ihre Zahlungsinformationen ein, um Ihr Abonnement abzuschließen.";
+export const PAYMENT_UNSUCCESSFUL   = "Payment Unsuccessful";
+export const PAYMENT_UNSUCCESSFUL_CONTENT  = "We couldn't process your payment. Please review your details or try a different payment method.";
+export const PAYMENT_SUCCESSFUL  = "Payment Successful!";
+export const PAYMENT_SUCCESSFUL_CONTENT  = "Thank you for your payment. Your membership is being reviewed by our team for final approval.";

@@ -1,0 +1,51 @@
+.proifleSubTab {
+    border-right: 1px solid #F6F6F6;
+    padding-right: 24px;
+    a.nav-link {
+        padding: 20px 16px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        // font-family: "Cabin";
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 19.44px;
+        color: #3C3C3C;
+        margin-bottom: 12px;
+        border-left: 4px solid transparent;
+        // background: #ececec;
+        text-transform: capitalize;
+    }
+    a.nav-link.active {
+        border-left: 4px solid #1a80c7 !important;
+        background: #d6e8f5;
+        color: #3C3C3C;
+        svg, svg path {
+            fill: #1a80c7;
+        }
+    }
+}
+
+/* media Query start */
+
+@media only screen and (max-width: 1199px) {
+    .proifleSubTab {
+        a.nav-link {
+            gap: 10px;
+            font-size: 14px;
+        }
+    }
+}
+@media only screen and (max-width: 767px) {
+    .proifleSubTab {
+        border-right: none;
+        padding-right: 0px;
+        margin-bottom: 25px;
+        a.nav-link {
+            margin-bottom: 0px;
+        }
+    }
+    .group-img {
+        margin-bottom: 1rem;
+    }
+}

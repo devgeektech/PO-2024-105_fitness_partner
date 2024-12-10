@@ -1,0 +1,17 @@
+button.eyeBtn {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    &::before {
+        content: '';
+        position: absolute;
+        right: 35px;
+        top: 4px;
+        width: 1px;
+        height: 20px;
+        background: rgba(90, 90, 90, 1);
+    }
+}

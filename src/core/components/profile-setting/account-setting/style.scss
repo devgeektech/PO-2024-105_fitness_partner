@@ -1,0 +1,84 @@
+.accountSettingTab {
+    h3 {
+        // font-family: "Cabin";
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 29.16px;
+        color:#1A1A1A;
+    }
+    .uploadImg {
+        width: 120px;
+        height: 120px;
+        border: 1px dashed #3C3C3C;
+        border-radius: 100px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .profileImageChange {
+            img {
+                width: 120px;
+                height: 120px;
+                object-fit: cover;
+            }
+        }
+        p {
+            // font-family: "Cabin";
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 17.01px;
+        }
+        .uploaddBtn {
+            position: absolute;
+            right: -5px;
+            top: 0px;
+            border: none;
+            background: transparent;
+            input[type="file"] {
+                opacity: 0;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+    .bgFormColor {
+        background: #fafafa;
+        border-radius: 8px;
+    }
+    .formEditWrap {
+        label {
+            font-family: "Cabin";
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 19.2px;
+            margin-bottom: 12px;
+            color: #3C3C3C;
+            text-transform: capitalize;
+        }
+    }
+    button.updateBtn.btn.btn-primary {
+        background: #1a80c7;
+        border: 1px solid #1a80c7;
+        min-width: 200px;
+        padding: 15px;
+        border-radius: 10px;
+        // font-family: 'Cabin-Regular';
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 19.2px;
+    }
+    textarea.addressTextarea {
+        height: 65px;
+    }
+}
+
+
+
+@media only screen and (max-width: 767px) {
+    .accountSettingTab {
+        .bgFormColor {
+            padding: 15px !important;
+        }
+    }
+}
