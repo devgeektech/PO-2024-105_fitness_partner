@@ -323,177 +323,172 @@ button.cancelBtn {
         }
     }
 }
-.slotCard {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background: #fff;
-    margin-bottom: 20px;
-    transition: transform 0.3s ease;
-}
-  
-//   .slotCard:hover {
-//     transform: translateY(-5px);
+// .slotCard {
+//     border: 1px solid #ddd;
+//     border-radius: 8px;
+//     overflow: hidden;
+//     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+//     background: #fff;
+//     margin-bottom: 20px;
+//     transition: transform 0.3s ease;
+// }  
+//   .slotImage {
+//     position: relative;
 //   }
   
-  .slotImage {
-    position: relative;
-  }
+//   .slotImage img {
+//     width: 100%;
+//     height: auto;
+//   }
   
-  .slotImage img {
-    width: 100%;
-    height: auto;
-  }
+//   .newBadge {
+//     position: absolute;
+//     top: 8px;
+//     right: 8px;
+//     background: #d22b2b;
+//     color: #fff;
+//     font-size: 12px;
+//     padding: 4px 8px;
+//     border-radius: 8px;
+//   }
   
-  .newBadge {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: #d22b2b;
-    color: #fff;
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 8px;
-  }
+//   .slotDetails {
+//     padding: 16px;
+//   }
   
-  .slotDetails {
-    padding: 16px;
-  }
+//   .slotDetails h5 {
+//     font-size: 16px;
+//     font-weight: 500;
+//     line-height: 19.44px;
+//     text-align: left;
+//     text-transform: capitalize;
+// }
   
-  .slotDetails h5 {
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 19.44px;
-    text-align: left;
-    text-transform: capitalize;
-}
+// .slotDescription {
+//     color: #666;
+//     font-size: 14px;
+//     font-weight: 400;
+//     line-height: 17.01px;
+//     text-align: left;
+//     margin-bottom: 16px;
+// }
+// .slotFooter span.status {
+//     background: #1AC740;
+//     color: #fff;
+//     font-family: Cabin;
+//     font-size: 14px;
+//     font-weight: 500;
+//     line-height: 17.01px;
+//     text-align: left;
+//     text-underline-position: from-font;
+//     text-decoration-skip-ink: none;
+// }
+// .slotFooter span.booked {
+//     background: #1a80c7;
+// }
+// .inr-slots-ab span {
+//     background: rgba(199, 26, 29, 0.1019607843);
+//     padding: 5px 10px;
+//     border-radius: 10px;
+//     border: 1px solid rgba(199, 26, 29, 0.1098039216);
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     gap: 10px;
+//     color: #C71A1D;
+// }
+// .inr-slots-ab span i {
+//     padding: 2px;
+//     background: #C71A1D;
+//     border-radius: 50%;
+//     width: 30px;
+//     height: 30px;
+//     display: inline-block;
+//     line-height: 26px;
+//     text-align: center;
+//     color: #fff;
+//     font-style: normal;
+//     font-weight: 500;
+// }
+//   .slotDescription a {
+//     color: #1a80c7;
+//     text-decoration: underline;
+//   }
   
-.slotDescription {
-    color: #666;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 17.01px;
-    text-align: left;
-    margin-bottom: 16px;
-}
-.slotFooter span.status {
-    background: #1AC740;
-    color: #fff;
-    font-family: Cabin;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 17.01px;
-    text-align: left;
-    text-underline-position: from-font;
-    text-decoration-skip-ink: none;
-}
-.slotFooter span.booked {
-    background: #1a80c7;
-}
-.inr-slots-ab span {
-    background: rgba(199, 26, 29, 0.1019607843);
-    padding: 5px 10px;
-    border-radius: 10px;
-    border: 1px solid rgba(199, 26, 29, 0.1098039216);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    color: #C71A1D;
-}
-.inr-slots-ab span i {
-    padding: 2px;
-    background: #C71A1D;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: inline-block;
-    line-height: 26px;
-    text-align: center;
-    color: #fff;
-    font-style: normal;
-    font-weight: 500;
-}
-  .slotDescription a {
-    color: #1a80c7;
-    text-decoration: underline;
-  }
+//   .slotFeatures {
+//     list-style: none;
+//     padding: 0;
+//     margin: 0 0 16px 0;
+//   }
   
-  .slotFeatures {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 16px 0;
-  }
+//   .slotFeatures li {
+//     font-size: 14px;
+//     color: #333;
+//     margin-bottom: 4px;
+//     display: flex;
+//     align-items: center;
+//   }
   
-  .slotFeatures li {
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: center;
-  }
+//   .slotFeatures li:before {
+//     content: '✓';
+//     margin-right: 8px;
+//     color: #1a80c7;
+//     font-weight: bold;
+//   }
   
-  .slotFeatures li:before {
-    content: '✓';
-    margin-right: 8px;
-    color: #1a80c7;
-    font-weight: bold;
-  }
+//   .slotFooter {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     margin: 16px 0;
+// }
   
-  .slotFooter {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 16px 0;
-}
+//   .status {
+//     font-size: 14px;
+//     font-weight: bold;
+//     padding: 2px 8px;
+//     border-radius: 4px;
+//     text-transform: capitalize;
+//   }
   
-  .status {
-    font-size: 14px;
-    font-weight: bold;
-    padding: 2px 8px;
-    border-radius: 4px;
-    text-transform: capitalize;
-  }
+//   .status.available {
+//     background: #e0f7e9;
+//     color: #4caf50;
+//   }
   
-  .status.available {
-    background: #e0f7e9;
-    color: #4caf50;
-  }
+//   .status.booked {
+//     background: #fff3e0;
+//     color: #ff9800;
+//   }
   
-  .status.booked {
-    background: #fff3e0;
-    color: #ff9800;
-  }
+//   span.price {
+//     font-size: 24px;
+//     font-weight: 600;
+//     line-height: 29.16px;
+//     text-align: left;
+// }
   
-  span.price {
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 29.16px;
-    text-align: left;
-}
+//   .bookBtn {
+//     width: 100%;
+//     padding: 10px 16px;
+//     font-size: 16px;
+//     font-weight: bold;
+//     color: #fff;
+//     background: #1a80c7;
+//     border: none;
+//     border-radius: 10px;
+//     cursor: pointer;
+//     transition: background 0.3s ease;
+//   }
   
-  .bookBtn {
-    width: 100%;
-    padding: 10px 16px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff;
-    background: #1a80c7;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
+//   .bookBtn.disabled {
+//     background: #ccc;
+//     cursor: not-allowed;
+//   }
   
-  .bookBtn.disabled {
-    background: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .bookBtn:not(.disabled):hover {
-    background: #155d94;
-  }
+//   .bookBtn:not(.disabled):hover {
+//     background: #155d94;
+//   }
   
 
 button.eyeBtn {
@@ -514,55 +509,50 @@ button.eyeBtn {
     }
 }
 
-
-// .user-login-check input[type=checkbox] {
-//     width: 34px !important;
-// }
-
 .text-underline{
     text-decoration: underline;
 }
 
-.proifleSubTabContent  {
-    .bgFormColor {
-        background: #FAFAFA;
-        padding: 24px 20px;
-        border: 1px solid #F6F6F6;
-        border-radius: 8px;
-    }
-}
-.accordionWrap {
-    border: 1px solid #F6F6F6;
-    background: #FFFFFF;
-    padding: 24px 20px;
-    border-radius: 8px;
-    .accordion-item {
-        margin: 8px 0;
-        border-radius: 8px;
-        border: 1px solid #F6F6F6;
-    }
-}
-.blueButton {
-    border: 1px solid #1a80c7;
-    background: #1a80c7;
-    font-family: "Cabin";
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 19.2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    padding: 15px;
-    color: #fff;
-    min-width: 120px;
-    &:hover {
-        border: 1px solid #1a80c7;
-        background: #1a80c7;
-        color: #fff;
-        opacity: 0.7;
-    }
-}
+// .proifleSubTabContent  {
+//     .bgFormColor {
+//         background: #FAFAFA;
+//         padding: 24px 20px;
+//         border: 1px solid #F6F6F6;
+//         border-radius: 8px;
+//     }
+// }
+// .accordionWrap {
+//     border: 1px solid #F6F6F6;
+//     background: #FFFFFF;
+//     padding: 24px 20px;
+//     border-radius: 8px;
+//     .accordion-item {
+//         margin: 8px 0;
+//         border-radius: 8px;
+//         border: 1px solid #F6F6F6;
+//     }
+// }
+// .blueButton {
+//     border: 1px solid #1a80c7;
+//     background: #1a80c7;
+//     font-family: "Cabin";
+//     font-size: 16px;
+//     font-weight: 400;
+//     line-height: 19.2px;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     border-radius: 10px;
+//     padding: 15px;
+//     color: #fff;
+//     min-width: 120px;
+//     &:hover {
+//         border: 1px solid #1a80c7;
+//         background: #1a80c7;
+//         color: #fff;
+//         opacity: 0.7;
+//     }
+// }
 /* Header design changes css start */
 .loginProfileWrapper {
     button.header-profile-button.show {
@@ -673,37 +663,8 @@ button.eyeBtn {
     }    
 }
 /* Header design changes css end */
-.editDropdown {
-    button, button.show {
-        color: #3c3c3c;
-        padding-top: 0px;
-        padding-bottom: 0px;
-        background-color: transparent;
-        &:hover {
-            background: transparent;
-            color: #3c3c3c;
-        }
-        &::after {
-            display: none;
-        }
-    }
-}
-.breadcrumbWrap {
-    span.text-primary {
-        color: #1a80c7 !important;
-    }
-}
-/* taskmodal start scss */
-.taskModal.modal {
-    .modal-title.h4 {
-        font-family: "Cabin";
-        font-size: 16px;
-        font-weight: 700;
-        line-height: 19.44px;
-        color: #1A1A1A;
-    }
-}
-/* taskmodal end scss */
+
+
 /* media Query start */
 @media (min-width: 2500px) {
     .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
