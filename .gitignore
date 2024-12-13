@@ -60,7 +60,6 @@ cypress/videos/
 # Ignore OS-specific files
 Thumbs.db
 .DS_Store
-Icon?
 ehthumbs.db
 ._*
 
