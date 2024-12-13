@@ -85,10 +85,10 @@ form {
 		&:focus {
 			box-shadow: none;
 		}
-		&:checked {
-			background-color: $__primarycolor;
-			border-color: $__primarycolor;
-		}
+		// &:checked {
+		// 	background-color: $__primarycolor;
+		// 	border-color: $__primarycolor;
+		// }
 	}
 	.default-check[type=checkbox] {
 		width: $__value__20;

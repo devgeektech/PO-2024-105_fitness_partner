@@ -4,8 +4,12 @@ import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../icons/BackIcon";
 import KeyIcon from "../../icons/KeyIcon";
+import GymIcon from "../../icons/GymIcon";
+import StudioIcon from "../../icons/StudioIcon";
+import SquareUser from "../../icons/SquareUser";
+import SquareWellness from "../../icons/SquareWellness";
 
-const ChangePassword = () => {
+const StepTwo = () => {
   const routes = all_routes;
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -33,12 +37,18 @@ const ChangePassword = () => {
                         alt="Logo"
                       />
                     </header>
-                    <div className="shadow-card">
-                      <h2 className="text-center">Set your new password</h2>
-                      <p className="text-center">
-                        Create a password with combine of alphabets, numbers and
-                        symbols (@,#,%, !){" "}
-                      </p>
+                    <div className="processWrapper">
+                      <ul>
+                        <li className="active"></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                      </ul>
+                    </div>
+                    <div className="shadow-card steps">
+                      <h2 className="text-center">What is your type of business</h2>
                       <div className="tab-content" id="myTabContent">
                         <div
                           className="tab-pane fade show active"
@@ -47,43 +57,37 @@ const ChangePassword = () => {
                           aria-labelledby="user-tab"
                         >
                           {/* Login Form */}
-                          <form>
+                          <form className="selectOptions">
                             <div className="form-group">
-                              <div className="pass-group group-img  iconLeft email position-relative">
-                                <label>
-                                  <KeyIcon />
-                                </label>
-                                <i
-                                  className={`toggle-password ${showPassword ? "feather-eye" : "feather-eye-off"}`}
-                                  onClick={togglePasswordVisibility}
-                                />
-                                <input
-                                  type={showPassword ? "text" : "password"}
-                                  onChange={(e) =>
-                                    setNewPassword(e.target.value)
-                                  }
-                                  value={newPassword}
-                                  id="newpassword"
-                                  className="form-control pass-confirm"
-                                  placeholder="New Password"
-                                />
+                              <div className="card">
+                                <input type="radio" name="radio"/>
+                                <h3><GymIcon/>Gym</h3>
+                                <p>Workout equipment, varied classes in large groups, and instructors.</p>
+                                <span className="bgColor"></span>
                               </div>
                             </div>
                             <div className="form-group">
-                              <div className="pass-group group-img  iconLeft email position-relative">
-                                <label>
-                                  <KeyIcon />
-                                </label>
-                                <input
-                                  type={showPassword ? "text" : "password"}
-                                  onChange={(e) =>
-                                    setConfirmPassword(e.target.value)
-                                  }
-                                  value={confirmPassword}
-                                  id="password"
-                                  className="form-control pass-confirm"
-                                  placeholder="Confirm Password"
-                                />
+                              <div className="card">
+                                <input type="radio" name="radio"/>
+                                <h3><StudioIcon/>Studio</h3>
+                                <p>Bookable activities for individuals or small groups (e.g. Yoga, Pilates, Dance).</p>
+                                <span className="bgColor"></span>
+                              </div>
+                            </div>
+                            <div className="form-group">
+                              <div className="card">
+                                <input type="radio" name="radio"/>
+                                <h3><SquareUser/>Personal trainer</h3>
+                                <p>Private training sessions.</p>
+                                <span className="bgColor"></span>
+                              </div>
+                            </div>
+                            <div className="form-group">
+                              <div className="card">
+                                <input type="radio" name="radio"/>
+                                <h3><SquareWellness/>Wellness service</h3>
+                                <p>Spa, Meditation, Massage, etc.</p>
+                                <span className="bgColor"></span>
                               </div>
                             </div>
 
@@ -91,7 +95,7 @@ const ChangePassword = () => {
                               type="submit"
                               className="btn btn-secondary register-btn d-inline-flex justify-content-center align-items-center w-100 btn-block"
                             >
-                              Set new Password
+                              Continue
                             </button>
                           </form>
                           {/* /Login Form */}
@@ -118,4 +122,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default StepTwo;

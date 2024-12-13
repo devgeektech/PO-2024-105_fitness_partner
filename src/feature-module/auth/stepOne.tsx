@@ -5,7 +5,7 @@ import ImageWithBasePath from "../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../icons/BackIcon";
 import KeyIcon from "../../icons/KeyIcon";
 
-const ChangePassword = () => {
+const StepOne = () => {
   const routes = all_routes;
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -34,10 +34,9 @@ const ChangePassword = () => {
                       />
                     </header>
                     <div className="shadow-card">
-                      <h2 className="text-center">Set your new password</h2>
+                      <h2 className="text-center">Enter your verification code</h2>
                       <p className="text-center">
-                        Create a password with combine of alphabets, numbers and
-                        symbols (@,#,%, !){" "}
+                       We sent it to jatinder@geekinformatic.com
                       </p>
                       <div className="tab-content" id="myTabContent">
                         <div
@@ -48,50 +47,21 @@ const ChangePassword = () => {
                         >
                           {/* Login Form */}
                           <form>
-                            <div className="form-group">
-                              <div className="pass-group group-img  iconLeft email position-relative">
-                                <label>
-                                  <KeyIcon />
-                                </label>
-                                <i
-                                  className={`toggle-password ${showPassword ? "feather-eye" : "feather-eye-off"}`}
-                                  onClick={togglePasswordVisibility}
-                                />
-                                <input
-                                  type={showPassword ? "text" : "password"}
-                                  onChange={(e) =>
-                                    setNewPassword(e.target.value)
-                                  }
-                                  value={newPassword}
-                                  id="newpassword"
-                                  className="form-control pass-confirm"
-                                  placeholder="New Password"
-                                />
+                            <div className="form-group OtpForm">
+                              <div className="d-flex groupInputs justify-content-center">
+                                <input type="text" placeholder="_" maxLength={1} />
+                                <input type="text" placeholder="_" maxLength={1}/>
+                                <input type="text" placeholder="_" maxLength={1}/>
+                                <input type="text" placeholder="_" maxLength={1}/>
                               </div>
                             </div>
-                            <div className="form-group">
-                              <div className="pass-group group-img  iconLeft email position-relative">
-                                <label>
-                                  <KeyIcon />
-                                </label>
-                                <input
-                                  type={showPassword ? "text" : "password"}
-                                  onChange={(e) =>
-                                    setConfirmPassword(e.target.value)
-                                  }
-                                  value={confirmPassword}
-                                  id="password"
-                                  className="form-control pass-confirm"
-                                  placeholder="Confirm Password"
-                                />
-                              </div>
-                            </div>
+                            
 
                             <button
                               type="submit"
                               className="btn btn-secondary register-btn d-inline-flex justify-content-center align-items-center w-100 btn-block"
                             >
-                              Set new Password
+                              Continue
                             </button>
                           </form>
                           {/* /Login Form */}
@@ -118,4 +88,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default StepOne;

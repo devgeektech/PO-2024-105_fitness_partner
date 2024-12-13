@@ -1,3 +1,5 @@
+import StepFour from "../auth/stepFour";
+
 export const all_routes = {
   home: "/index",
 
@@ -113,6 +115,19 @@ export const all_routes = {
   changePassword: "/auth/change-password",
   forgotPasssword: "/auth/forgot-password",
   verifyAccount: "/auth/verification",
+  confirmEmail: "/auth/confirm-email",
+
+  // Register steps Routes
+  stepOne: "/auth/stepOne",
+  stepTwo: "/auth/stepTwo",
+  stepThree: "/auth/stepThree",
+  stepFour: "/auth/stepFour",
+  stepFive: "/auth/stepFive",
+  stepSix: "/auth/stepSix",
+  stepSeven: "/auth/stepSeven",
+  thankYou: "/auth/thank-you",
+
+
 
   //contact-us
   contactUs: "/contact-us",

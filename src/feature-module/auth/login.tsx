@@ -13,6 +13,9 @@ import { setLogin, setUserDetail } from "../../core/data/redux/user/userSlice";
 import http from "../../services/http.service";
 import { LANG } from "../../constants/language";
 import ErrorText from "../../core/components/error-text";
+import EmailIcon from "../../icons/EmailIcon";
+import KeyIcon from "../../icons/KeyIcon";
+import { Form } from "react-bootstrap";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().email(LANG.PLEASE_ADD_VALID_EMAIL).required(LANG.EMAIL_IS_REQUIRED),
@@ -76,7 +79,7 @@ const Login = () => {
           <div className="container wrapper no-padding">
             <div className="row no-margin vph-100">
 
-              <div className="col-12 col-sm-12  col-lg-5 no-padding">
+              <div className="col-12 col-sm-12  col-lg-4 no-padding">
                 <div className="dull-pg">
                   <div className="row no-margin vph-100 d-flex align-items-center justify-content-center">
                     <div className="col-sm-10 col-md-10 col-lg-10 mx-auto">
@@ -88,8 +91,8 @@ const Login = () => {
                           />
                       </header>
                       <div className="shadow-card">
-                        <h2 className="text-center">{LANG.WELCOME_BACK}</h2>
-                        <p className="text-center">{LANG.LOGIN_MSG}</p>
+                        <h2 className="text-center">Enter your email </h2>
+                        <p className="text-center">It’s the one you used to sign up for fitpond.</p>
                         <div className="tab-content" id="myTabContent">
                           <div
                             className="tab-pane fade show active"
@@ -100,7 +103,8 @@ const Login = () => {
                             {/* Login Form */}
                             <form onSubmit={formik.handleSubmit} >
                               <div className="form-group">
-                                <div className="group-img">
+                                <div className="group-img iconLeft email position-relative">
+                                  <label><EmailIcon/></label>
                                   <input
                                     type="text"
                                     placeholder="Email"
@@ -114,7 +118,8 @@ const Login = () => {
                                 <ErrorText show={formik.touched.email && formik.errors.email} message={formik.errors?.email} />
                               </div>
                               <div className="form-group">
-                                <div className="pass-group group-img">
+                                <div className="pass-group group-img  iconLeft email position-relative">
+                                <label><KeyIcon/></label>
                                   <i
                                     className={`toggle-password ${passwordVisible ? "feather-eye" : "feather-eye-off"}`}
                                     onClick={togglePasswordVisibility}
@@ -122,7 +127,7 @@ const Login = () => {
                                   />
                                   <input
                                     type={passwordVisible ? "text" : "password"}
-                                    placeholder={LANG.PASSWORD}
+                                    placeholder="Password"
                                     {...formik.getFieldProps("password")}
                                     className={clsx(
                                       "form-control commonInput pass-input bg-transparent",
@@ -133,17 +138,13 @@ const Login = () => {
                                 <ErrorText show={formik.touched.password && formik.errors.password} message={formik.errors?.password} />
                               </div>
                               <div className="form-group d-sm-flex align-items-center justify-content-between">
-                                <div className="form-check user-login-check form-switch d-flex align-items-center justify-content-start">
-                                  <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    id="user-pass"
-                                  />
+                                <div className="form-check user-login-check  d-flex align-items-center justify-content-start">
+                                <Form.Check aria-label="option 1" />
                                   <label
                                     className="form-check-label"
                                     htmlFor="user-pass"
                                   >
-                                    {LANG.REMEMBER_PASSWORD}
+                                    Remember me
                                   </label>
                                 </div>
                                 <span>
@@ -151,7 +152,7 @@ const Login = () => {
                                     to={route.forgotPasssword}
                                     className="forgot-pass"
                                   >
-                                    {LANG.FORGOT_PASSWORD}?
+                                    Forgot password
                                   </Link>
                                 </span>
                               </div>
@@ -159,7 +160,7 @@ const Login = () => {
                                 type="submit"
                                 className="btn btn-secondary register-btn d-inline-flex justify-content-center align-items-center w-100 btn-block"
                               >
-                                {LANG.LOG_IN}
+                               Continue
                               </button>
                             </form>
                             {/* /Login Form */}
@@ -237,15 +238,15 @@ const Login = () => {
                       </div>
                       <div className="bottom-text text-center">
                         <p>
-                          {LANG.HAVE_NOT_ACCOUNT}{" "}
-                          <Link to={route.register}  className="text-underline">{LANG.REGISTER}</Link>
+                        Already have an account?
+                          <Link to={route.register}  className="text-underline">Sign in</Link>
                         </p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-12 col-sm-12 col-lg-7 no-padding">
+              <div className="col-12 col-sm-12 col-lg-8 no-padding">
                 <div className="banner-bg login">
                   <div className="row no-margin h-100">
                     <div className="col-sm-10 col-md-10 col-lg-10 mx-auto">

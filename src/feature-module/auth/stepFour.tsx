@@ -3,17 +3,11 @@ import { all_routes } from "../router/all_routes";
 import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../icons/BackIcon";
-import KeyIcon from "../../icons/KeyIcon";
+import LocationIcon from "../../icons/LocationIcon";
+import CrossIcon from "../../icons/CrossIcon";
 
-const ChangePassword = () => {
-  const routes = all_routes;
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+const StepFour = () => {
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
   return (
     <div className="main-wrapper authendication-pages">
       <div className="content">
@@ -33,12 +27,18 @@ const ChangePassword = () => {
                         alt="Logo"
                       />
                     </header>
-                    <div className="shadow-card">
-                      <h2 className="text-center">Set your new password</h2>
-                      <p className="text-center">
-                        Create a password with combine of alphabets, numbers and
-                        symbols (@,#,%, !){" "}
-                      </p>
+                    <div className="processWrapper">
+                      <ul>
+                        <li className="active"></li>
+                        <li className="active"></li>
+                        <li className="active"></li>
+                        <li className="active"></li>
+                        <li></li>
+                        <li></li>
+                      </ul>
+                    </div>
+                    <div className="shadow-card steps">
+                      <h2 className="text-center">Tell us about your location</h2>
                       <div className="tab-content" id="myTabContent">
                         <div
                           className="tab-pane fade show active"
@@ -47,51 +47,35 @@ const ChangePassword = () => {
                           aria-labelledby="user-tab"
                         >
                           {/* Login Form */}
-                          <form>
+                          <form className="googleLocations">
                             <div className="form-group">
-                              <div className="pass-group group-img  iconLeft email position-relative">
-                                <label>
-                                  <KeyIcon />
-                                </label>
-                                <i
-                                  className={`toggle-password ${showPassword ? "feather-eye" : "feather-eye-off"}`}
-                                  onClick={togglePasswordVisibility}
-                                />
-                                <input
-                                  type={showPassword ? "text" : "password"}
-                                  onChange={(e) =>
-                                    setNewPassword(e.target.value)
-                                  }
-                                  value={newPassword}
-                                  id="newpassword"
-                                  className="form-control pass-confirm"
-                                  placeholder="New Password"
-                                />
+                              <div className="addressSelect">
+                                <label className="mb-3 w-100">Address 1 <button><CrossIcon/></button></label>
+                                <Link to={"#"} target="_blank" className="underline">85601 D'Amore Tunnel, Perth Amboy, 18711-6797</Link>
                               </div>
                             </div>
                             <div className="form-group">
-                              <div className="pass-group group-img  iconLeft email position-relative">
-                                <label>
-                                  <KeyIcon />
-                                </label>
-                                <input
-                                  type={showPassword ? "text" : "password"}
-                                  onChange={(e) =>
-                                    setConfirmPassword(e.target.value)
-                                  }
-                                  value={confirmPassword}
-                                  id="password"
-                                  className="form-control pass-confirm"
-                                  placeholder="Confirm Password"
-                                />
+                                <label className="mb-3 w-100">Address 2 </label>
+                                <div className="group-img iconLeft email position-relative">
+                                  <label><LocationIcon/></label>
+                                  <input type="text" className="commonInput form-control" placeholder="Search for your business name"/>
+                                </div>
+                              
+                            </div>
+                            <div className="from-group">
+                              <div className="d-flex gap-3">
+                                <input type="text" className="commonInput form-control" placeholder="Zip code"/>
+                                <input type="text" className="commonInput form-control" placeholder="City"/>
                               </div>
                             </div>
-
+                            <div className="form-group d-flex justify-content-end mt-2">
+                              <p className="mb-0">You have more than 1 location?<button className="addEvent" type="button">+ Add more location</button></p>
+                            </div>
                             <button
                               type="submit"
                               className="btn btn-secondary register-btn d-inline-flex justify-content-center align-items-center w-100 btn-block"
                             >
-                              Set new Password
+                              Continue
                             </button>
                           </form>
                           {/* /Login Form */}
@@ -118,4 +102,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default StepFour;

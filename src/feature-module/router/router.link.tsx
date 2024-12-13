@@ -33,6 +33,15 @@ import VerifyAccountPage from "../auth/verify-account";
 import SelectRoles from "../auth/select-roles";
 import TrainerDashboard from "../trainer/trainer-dashboard";
 import ValidationRedirect from "../auth/validation-redirect";
+import ConfirmEmail from "../auth/confirm-email";
+import StepOne from "../auth/stepOne";
+import StepTwo from "../auth/stepTwo";
+import StepThree from "../auth/stepThree";
+import StepFour from "../auth/stepFour";
+import StepFive from "../auth/stepFive";
+import StepSix from "../auth/stepSix";
+import StepSeven from "../auth/stepSeven";
+import ThankYou from "../auth/thank-you";
 
 const routes = all_routes;
 
@@ -144,11 +153,6 @@ const publicRoutes = [
     route: Route,
   }, 
   {
-    path: routes.changePassword,
-    element: <ChangePassword />,
-    route: Route,
-  },
-  {
     path: "/",
     name: "Root",
     element: <Navigate to="/auth/login" />,
@@ -199,6 +203,16 @@ const withoutHeaderRoutes = [
     route: Route,
   },
   {
+    path: routes.changePassword,
+    element: <ChangePassword />,
+    route: Route,
+  },
+  {
+    path: routes.confirmEmail,
+    element: <ConfirmEmail />,
+    route: Route,
+  },
+  {
     path: routes.selectRole,
     element: <SelectRoles />,
     route: Route,
@@ -206,6 +220,47 @@ const withoutHeaderRoutes = [
   {
     path: routes.login_token,
     element: <ValidationRedirect />,
+    route: Route,
+  },
+  // Register steps Routes
+  {
+    path: routes.stepOne,
+    element: <StepOne />,
+    route: Route,
+  },
+  {
+    path: routes.stepTwo,
+    element: <StepTwo />,
+    route: Route,
+  },
+  {
+    path: routes.stepThree,
+    element: <StepThree />,
+    route: Route,
+  },
+  {
+    path: routes.stepFour,
+    element: <StepFour />,
+    route: Route,
+  },
+  {
+    path: routes.stepFive,
+    element: <StepFive />,
+    route: Route,
+  },
+  {
+    path: routes.stepSix,
+    element: <StepSix />,
+    route: Route,
+  },
+  {
+    path: routes.stepSeven,
+    element: <StepSeven />,
+    route: Route,
+  },
+  {
+    path: routes.thankYou,
+    element: <ThankYou />,
     route: Route,
   },
 ];

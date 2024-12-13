@@ -10,6 +10,7 @@ import store from './core/data/redux/store';
 import '../src/style/scss/main.scss'
 import '../src/style/css/feather.css'
 import './index.scss';
+import "./feature-module/auth/style.scss";
 import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { base_path } from "./environment";

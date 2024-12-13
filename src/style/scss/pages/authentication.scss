@@ -55,7 +55,7 @@
 			    height: $__full__width;
 			    width: $__full__width;
 			    position: fixed;
-			    width: 59%;
+			    width: 66.66666667%;
 			    &.register {
 					background-image: url(../../../../public/assets/img/authBg.jpg);
 			    }
@@ -68,6 +68,7 @@
 			}
 			header {
 				margin-top: 80px;
+				margin-bottom: 70px;
 				@include respond-below(custom991) {
 					margin: 24px 0;
 				}
@@ -78,12 +79,16 @@
 				}
 			}
 			p {
-				font-size: 20px;
+				font-size: 16px;
+				margin-bottom: 30px;
 			}
 			.shadow-card {
 				margin: $__value__40 0;
 				@include respond-below(custom991) {
 					margin: 0 0 24px 0; 
+				}
+				h2 {
+					margin-bottom: 40px;
 				}
 			}
 			.text-bg {
@@ -158,7 +163,13 @@
 		}
 		form {
 			.form-group {
-			    margin-bottom: 24px;
+			    margin-bottom: 12px;
+				.group-img.iconLeft {
+					input {
+						padding-left: 50px;
+					}
+					
+				}
 			    .group-img {
 				    position: relative;
 				    i {
@@ -204,7 +215,8 @@
 			}
 			.form-check {
 				label { 
-					color: $__darkgray;
+					// color: $__darkgray;
+					color: rgba(43, 43, 43, 1);
 					font-size: $__font__size__14;
 					a {
 						color: $__primarycolor;
@@ -248,7 +260,9 @@
 				}
 			}
 			.forgot-pass {
-				color: $__red__light;
+				// color: $__red__light;
+				color: rgba(43, 43, 43, 1);
+				text-decoration: underline;
 				@include respond-below(custom767) {
 					margin-top: 10px;
 					display: inline-block;
@@ -314,10 +328,13 @@
 			p {
 				font-size: $__font__size__16;
 				margin-bottom: 0;
+				color: rgba(43, 43, 43, 1);
 				a {
-					color: $__primarycolor;
+					color: #000;
+					// color: $__primarycolor;
 					&:hover {
-						color: $__parrot_green;
+						color: #000;
+						// color: $__parrot_green;
 					}
 				}
 			}
@@ -333,10 +350,10 @@
 	margin-right: 0;
 }
 .shadow-card {
-	background: $__white;
-	border-radius: $__value__10;
+	background: rgba(249, 249, 249, 1);
+	border-radius: 24px;
 	padding: 24px;
-	box-shadow: $__row__box__shadow;
+	// box-shadow: $__row__box__shadow;
 	@include respond-below(custom767) {
 		padding: 20px;
 	}
