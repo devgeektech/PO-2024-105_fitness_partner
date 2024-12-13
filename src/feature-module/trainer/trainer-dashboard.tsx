@@ -58,95 +58,95 @@ const TrainerDashboard = () => {
   return (
     <div>
       <div className="memeberDashboard">
-      <div className="banner">
-        <img src={"/assets/img/bannerTop.jpg"} alt="bannerTop" className="w-100 h-auto"/>
+        <div className="banner">
+          <img src={"/assets/img/bannerTop.jpg"} alt="bannerTop" className="w-100 h-auto"/>
+        </div>
+        <div className="container">
+          <div className="profileBlock d-flex align-items-start">
+            <div className="memberImage">
+              <img src={user?.avatar ? fileUrl+user?.avatar :"/assets/img/default-avatar.png"} style={{minWidth:120}} alt="memberImg"/>
+            </div>
+            <div className="memberInfo">
+              <div className="name_private  d-flex">
+                <h3>{user?.firstName} {user?.lastName}</h3>
+                {/* <Dropdown>
+                  <Dropdown.Toggle variant="success" className="text-capitalize" id="dropdown-basic">{user?.visibility=='public'?LANG.PUBLIC:LANG.PRIVATE}</Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Form.Check type="switch"  id="custom-switch" checked={user?.visibility=='private'}
+                    onChange={(event)=>{
+                      if(event.target.checked){
+                        updateUser({visibility:'private'})
+                      }else{
+                        updateUser({visibility:'public'})
+                      }
+                    }} />
+                  </Dropdown.Menu>
+                </Dropdown>
+                <Dropdown>
+                  <Dropdown.Toggle variant="success" id="dropdown-basic">Urlaub</Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Form.Check type="switch" checked={user?.onVocation}  id="custom-switch"
+                    onChange={(event)=>{
+                        updateUser({onVocation:event.target.checked})
+                    }} />
+                  </Dropdown.Menu>
+                </Dropdown> */}
+              </div>
+              <p>{user?.description}</p>
+              <ul className="memberDetail">
+                  <li>Email : <label>{user?.email}</label></li>
+                  <li>{LANG.CONTACT} : <label>{user?.phone}</label></li>
+                  <li>{LANG.ADDRESS} : <label>{user?.street} {user?.houseNumber} {user?.zipcode} {user?.city} {user?.birthPlaceCity} {user?.birthPlaceCountry} {user?.nationality}</label></li>
+              </ul>
+            </div>
+            {/* <button className="eidtProfileBtn" onClick={navigateToProfile}>{LANG.EDIT_PROFILE} <EditIcon/></button> */}
+          </div>
+          <div className="threeBlocks">
+            <div className="row">
+              <div className="col-md-4">
+                <div className="blockWrapper d-flex justify-content-between">
+                  <div className="">
+                    <h4>{employmentDuration(user?.createdAt)}</h4>
+                    <span>{LANG.EMPLOYMENT_DURATION}</span>
+                  </div>
+                  <span className="bg-yellow-badge">
+                    <EmploymentIcon />
+                  </span>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="blockWrapper d-flex justify-content-between">
+                  <div className="">
+                    <h4>{members?.length}</h4>
+                    <span>{LANG.TOTAL_TEAM_MEMBER}</span>
+                  </div>
+                  <GroupUsersIcon/>
+                </div>
+              </div> 
+              <div className="col-md-4">
+                <div className="blockWrapper d-flex justify-content-between">
+                  <div className="">
+                    <h4>{upcommingEvents?.length}</h4>
+                    <span>{LANG.UPCOMING_EVENTS}</span>
+                  </div>
+                  <CalendarIcon/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr className="divider"></hr>
+          <div className="tabOuter" id="tabs-layout">
+            <TrainerTab/>
+          </div>
+        </div>
       </div>
-      <div className="container">
-        <div className="profileBlock d-flex align-items-start">
-          <div className="memberImage">
-            <img src={user?.avatar ? fileUrl+user?.avatar :"/assets/img/default-avatar.png"} style={{minWidth:120}} alt="memberImg"/>
-          </div>
-          <div className="memberInfo">
-            <div className="name_private  d-flex">
-              <h3>{user?.firstName} {user?.lastName}</h3>
-              {/* <Dropdown>
-                <Dropdown.Toggle variant="success" className="text-capitalize" id="dropdown-basic">{user?.visibility=='public'?LANG.PUBLIC:LANG.PRIVATE}</Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                  <Form.Check type="switch"  id="custom-switch" checked={user?.visibility=='private'}
-                   onChange={(event)=>{
-                    if(event.target.checked){
-                      updateUser({visibility:'private'})
-                    }else{
-                      updateUser({visibility:'public'})
-                    }
-                   }} />
-                </Dropdown.Menu>
-              </Dropdown>
-              <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">Urlaub</Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Form.Check type="switch" checked={user?.onVocation}  id="custom-switch"
-                   onChange={(event)=>{
-                      updateUser({onVocation:event.target.checked})
-                   }} />
-                </Dropdown.Menu>
-              </Dropdown> */}
-            </div>
-            <p>{user?.description}</p>
-            <ul className="memberDetail">
-                <li>Email : <label>{user?.email}</label></li>
-                <li>{LANG.CONTACT} : <label>{user?.phone}</label></li>
-                <li>{LANG.ADDRESS} : <label>{user?.street} {user?.houseNumber} {user?.zipcode} {user?.city} {user?.birthPlaceCity} {user?.birthPlaceCountry} {user?.nationality}</label></li>
-            </ul>
-          </div>
-          {/* <button className="eidtProfileBtn" onClick={navigateToProfile}>{LANG.EDIT_PROFILE} <EditIcon/></button> */}
-        </div>
-        <div className="threeBlocks">
-          <div className="row">
-            <div className="col-md-4">
-              <div className="blockWrapper d-flex justify-content-between">
-                <div className="">
-                  <h4>{employmentDuration(user?.createdAt)}</h4>
-                  <span>{LANG.EMPLOYMENT_DURATION}</span>
-                </div>
-                <span className="bg-yellow-badge">
-                   <EmploymentIcon />
-                </span>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="blockWrapper d-flex justify-content-between">
-                <div className="">
-                  <h4>{members?.length}</h4>
-                  <span>{LANG.TOTAL_TEAM_MEMBER}</span>
-                </div>
-                <GroupUsersIcon/>
-              </div>
-            </div> 
-            <div className="col-md-4">
-              <div className="blockWrapper d-flex justify-content-between">
-                <div className="">
-                  <h4>{upcommingEvents?.length}</h4>
-                  <span>{LANG.UPCOMING_EVENTS}</span>
-                </div>
-                <CalendarIcon/>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr className="divider"></hr>
-        <div className="tabOuter" id="tabs-layout">
-          <TrainerTab/>
-        </div>
+
+      <div>
+
+        {/* /Request Modal */}
       </div>
-    </div>
-
-
-    <div>
-
-  {/* /Request Modal */}
-</div>
 
     </div>
   );

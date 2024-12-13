@@ -31,7 +31,7 @@ export default function Footer() {
     }
     return (
         <div className='footer'>
-            <div className='footerInner'>
+            {/* <div className='footerInner'>
                 <div className='container'>
                     <div className='row my-4'>
                         <div className='col-lg-6 d-flex'>
@@ -71,9 +71,9 @@ export default function Footer() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className='copyright'>
-                <p className='mb-0 text-center'>© 2024 F.C Kikers. All rights reserved</p>
+                <p className='mb-0 text-center'>© 2024 fitpond. All rights reserved</p>
             </div>
         </div>
     )

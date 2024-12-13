@@ -4,10 +4,15 @@
 
 .header {
     position: $__fixed;
-    left: 0;
-    top: 0;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
     width: 100%;
     z-index: 999;
+    padding: 20px 0;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.12);
     @extend %animation-effect;
     &.fixed {
         background-color: $__white;
@@ -37,7 +42,7 @@
         -webkit-justify-content: space-between;
         -ms-flex-pack: space-between;
         position: $__relative;
-        height: 85px;
+        height: 80px;
         @include margin-padding(null, 0 15px 0 15px);
         margin-bottom: 0;
         @include respond-below(custom991) {
@@ -47,12 +52,13 @@
         .main-nav {
             > li {
                 > a {
-                    line-height: 85px;
+                    line-height: 24px;
                     display: inline-block;
                     font-weight: $__medium;
                     color: $__white;
                     font-size: $__font__size__16;
                     text-transform: capitalize;
+                    padding: 10px 15px;
                     @include respond-below(custom991) {
                         color: $__white;
                     }
@@ -69,7 +75,10 @@
                         }
                     }
                     &:hover {
-                        color: $__active_color;
+                        // color: $__active_color;
+                        color: $__white;
+                        background-color: #000;
+                        border-radius: 100px;
                     }
                 }
                 .submenu {                    
@@ -129,7 +138,7 @@
             }
         }
         .logo img{
-            height: 60px;
+            height: 30px;
         }
         #mobile_btn {
             display: none;
@@ -293,7 +302,9 @@
                     > a {
                         display: $__block;
                         // color: $__active_color;
-                        color: #1a80c7;
+                        color: #fff;
+                        background-color: #000;
+                        border-radius: 100px;
                         &:before {
                             opacity: 1;
                         }
@@ -797,7 +808,7 @@ header {
             .main-nav {
                 > li {
                     > a {
-                        color: $__darkgray;
+                        color: $__white;
                         @include respond-below(custom991) {
                            color: $__white;
                         }
