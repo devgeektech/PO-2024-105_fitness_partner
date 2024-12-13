@@ -219,7 +219,7 @@ const Header = () => {
                 <VisibilityBox show={user?.isLogin && role == 'member'}>
                   <li
                     key={99}
-                    className={
+                    className={ 
                       location.pathname.includes('/user/forum-list')
                         ? "active"
                         : ""
