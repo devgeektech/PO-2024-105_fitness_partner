@@ -12,9 +12,10 @@ import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { getAge, getFormData } from "../../utils";
 import { LANG } from "../../constants/language";
-import StepZero from "./register-steps/stepZero";
-import StepOne from "./stepOne";
-
+import StepFirst from "./register-steps/stepFirst";
+import StepSecond from "./register-steps/stepSecond";
+import StepThird from "./register-steps/stepThird"
+import StepFour from "./register-steps/stepFour"
 const registerSchema = Yup.object().shape({
   type: Yup.string().required(LANG.FIELD_IS_REQUIRED),
   lastClub: Yup.string().test(
@@ -94,7 +95,7 @@ const Signin = () => {
   const [step,setStep]= useState<number>(1);
   const [loading, setLoading] = useState(false);
 
-  const formik = useFormik({
+  const stepOneFormik = useFormik({
     initialValues:registerInitialValues,
     validationSchema: registerSchema,
     onSubmit: async (values, { setSubmitting }) => {
@@ -109,80 +110,45 @@ const Signin = () => {
     },
   });
 
-  const parentDetailFormik = useFormik({
-    initialValues:{},
-    validationSchema: parentDetailSchema,
+  const stepSecondFormik = useFormik({
+    initialValues:registerInitialValues,
+    validationSchema: registerSchema,
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
         setStep(3);
-        console.log(values);
-        setSubmitting(true)
       } catch (error) {
-        console.log(error)
+        console.log(error,loading)
         setSubmitting(false);
         setLoading(false);
       }
     },
   });
 
-  const subscriptionFormik = useFormik({
-    initialValues:{
-      subscription: "",
-      privacyPolicy: false,
-      dataPolicy: false,
-      termAndCondition: false,
-      siblingDetails:[
-        {
-          email:"",
-          name: "",
-          dob: ""
-        }
-      ]
-    },
-    validationSchema: subscriptionSchema,
+  const stepThirdFormik = useFormik({
+    initialValues:registerInitialValues,
+    validationSchema: registerSchema,
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
         setStep(4);
-        console.log(values);
-        
       } catch (error) {
-        console.log(error)
+        console.log(error,loading)
         setSubmitting(false);
         setLoading(false);
       }
     },
   });
 
-  const uploadFormik = useFormik({
-    initialValues:{},
-    validationSchema: uploadFileSchema,
+  const stepFourFormik = useFormik({
+    initialValues:registerInitialValues,
+    validationSchema: registerSchema,
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
-        const payload:any= {
-          ...formik.values,
-          ...parentDetailFormik.values,
-          ...subscriptionFormik.values,
-          ...values,
-          siblingDetails: JSON.stringify(subscriptionFormik.values.siblingDetails)
-        }
-        const formData= getFormData(payload);
-        const result = await registerUser(formData);
-        if(result.status == 200){
-          toast.success(LANG.REGISTRATION_SUCCESSFULLY_DONE);
-          navigate(route.login);
-        } else if(result.status == 404){
-          console.log(result.data);
-        }
-        setSubmitting(false);
-        setLoading(false);
+        setStep(4);
       } catch (error) {
-        if(error instanceof AxiosError){
-          toast.error(error.response?.data?.responseMessage)
-        }
-        console.log(error)
+        console.log(error,loading)
         setSubmitting(false);
         setLoading(false);
       }
@@ -192,23 +158,23 @@ const Signin = () => {
   const renderLayout=(activeStep:number)=>{
      switch(activeStep){    
         case 1: {
-            return <StepZero formik={formik} />;
+            return <StepFirst formik={stepOneFormik} />;
         }
         case 2: {
-            return <StepOne formik={formik}/>;
+            return <StepSecond formik={stepSecondFormik}/>;
         }
         case 3: {
-            return <ThirdStep formik={subscriptionFormik}/>;
+            return <StepThird formik={stepThirdFormik}/>;
         }
         case 4: {
-            return <FourthStep formik={uploadFormik} registerValue={formik.values}  />;
+            return <StepFour formik={stepFourFormik} />;
         }
-        case 5: {
-            return <PaymentUnsuccessful/>;
-        }
-        case 6: {
-            return <PaymentSuccessful/>;
-        }
+        // case 5: {
+        //     return <PaymentUnsuccessful/>;
+        // }
+        // case 6: {
+        //     return <PaymentSuccessful/>;
+        // }
      }
   }
 

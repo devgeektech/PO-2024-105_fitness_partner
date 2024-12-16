@@ -42,7 +42,7 @@ import StepFive from "../auth/stepFive";
 import StepSix from "../auth/stepSix";
 import StepSeven from "../auth/stepSeven";
 import ThankYou from "../auth/thank-you";
-import StepZero from "../auth/register-steps/stepZero";
+import StepZero from "../auth/register-steps/stepFirst";
 
 const routes = all_routes;
 

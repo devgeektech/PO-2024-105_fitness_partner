@@ -4,16 +4,14 @@ import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
 import KeyIcon from "../../../icons/KeyIcon";
+import GymIcon from "../../../icons/GymIcon";
+import StudioIcon from "../../../icons/StudioIcon";
+import SquareUser from "../../../icons/SquareUser";
+import SquareWellness from "../../../icons/SquareWellness";
+import LocationIcon from "../../../icons/LocationIcon";
 
-const StepOne = () => {
-  const routes = all_routes;
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+const StepTwo = ({formik}:any) => {
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
   return (
     <div className="main-wrapper authendication-pages">
       <div className="content">
@@ -33,11 +31,18 @@ const StepOne = () => {
                         alt="Logo"
                       />
                     </header>
-                    <div className="shadow-card">
-                      <h2 className="text-center">Enter your verification code</h2>
-                      <p className="text-center">
-                       We sent it to jatinder@geekinformatic.com
-                      </p>
+                    <div className="processWrapper">
+                      <ul>
+                        <li className="active"></li>
+                        <li className="active"></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                      </ul>
+                    </div>
+                    <div className="shadow-card steps">
+                      <h2 className="text-center">Link your google business with us</h2>
                       <div className="tab-content" id="myTabContent">
                         <div
                           className="tab-pane fade show active"
@@ -46,16 +51,17 @@ const StepOne = () => {
                           aria-labelledby="user-tab"
                         >
                           {/* Login Form */}
-                          <form>
-                            <div className="form-group OtpForm">
-                              <div className="d-flex groupInputs justify-content-center">
-                                <input type="text" placeholder="_" maxLength={1} />
-                                <input type="text" placeholder="_" maxLength={1}/>
-                                <input type="text" placeholder="_" maxLength={1}/>
-                                <input type="text" placeholder="_" maxLength={1}/>
-                              </div>
+                          <form className="googleLocations">
+                            <div className="form-group">
+                                <div className="group-img iconLeft email position-relative">
+                                  <label><LocationIcon/></label>
+                                  <input type="text" className="commonInput form-control" placeholder="Search for your business name"/>
+                                </div>
+                              
                             </div>
-                            
+                            <div className="form-group d-flex justify-content-end">
+                              <p className="mb-0">You have more than 1 location?<button className="addEvent" type="button">+ Add more location</button></p>
+                            </div>
 
                             <button
                               type="submit"
@@ -63,12 +69,16 @@ const StepOne = () => {
                             >
                               Continue
                             </button>
+                            <div className="text-center">
+                              <Link className="underline" to={"#"}>Skip for now</Link>
+                            </div>
                           </form>
                           {/* /Login Form */}
                         </div>
                       </div>
                     </div>
                   </div>
+                  <p className="text-center">Not on Google yet?<Link className="underline" to={"#"}>Add your profile now</Link></p>
                 </div>
               </div>
             </div>
@@ -88,4 +98,4 @@ const StepOne = () => {
   );
 };
 
-export default StepOne;
+export default StepTwo;
