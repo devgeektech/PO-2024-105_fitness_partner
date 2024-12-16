@@ -1,19 +1,29 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { all_routes } from "../../router/all_routes";
 import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
-import KeyIcon from "../../../icons/KeyIcon";
 
-const StepOne = ({formik}:any) => {
-  const routes = all_routes;
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+const StepSecond = ({ formik, otp, setOtp }:any) => {
+  const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
+  const handleOtpChange = (index: number, value: string) => {
+    if (/^[0-9]?$/.test(value)) {
+      const newOtp = [...otp];
+      newOtp[index] = value;
+      setOtp(newOtp);
+      formik.setFieldValue("otp", newOtp);
+      if (value !== "" && index < otp.length - 1) {
+        inputRefs.current[index + 1]?.focus();
+      }
+    }
   };
+
+  const handleBackspace = (index: number, value: string) => {
+    if (value === "" && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
   return (
     <div className="main-wrapper authendication-pages">
       <div className="content">
@@ -46,16 +56,29 @@ const StepOne = ({formik}:any) => {
                           aria-labelledby="user-tab"
                         >
                           {/* Login Form */}
-                          <form>
+                          <form autoComplete="off" onSubmit={formik.handleSubmit}>
                             <div className="form-group OtpForm">
                               <div className="d-flex groupInputs justify-content-center">
-                                <input type="text" placeholder="_" maxLength={1} />
-                                <input type="text" placeholder="_" maxLength={1}/>
-                                <input type="text" placeholder="_" maxLength={1}/>
-                                <input type="text" placeholder="_" maxLength={1}/>
+                                {otp.map((digit:any, index:any) => (
+                                  <input
+                                    key={index}
+                                    type="text"
+                                    placeholder="_"
+                                    maxLength={1}
+                                    value={digit}
+                                    onChange={(e) =>
+                                      handleOtpChange(index, e.target.value)
+                                    }
+                                    onKeyDown={(e) => {
+                                      if (e.key === "Backspace") {
+                                        handleBackspace(index, e.currentTarget.value);
+                                      }
+                                    }}
+                                    ref={(el) => (inputRefs.current[index] = el)}
+                                  />
+                                ))}
                               </div>
                             </div>
-                            
 
                             <button
                               type="submit"
@@ -88,4 +111,4 @@ const StepOne = ({formik}:any) => {
   );
 };
 
-export default StepOne;
+export default StepSecond;
