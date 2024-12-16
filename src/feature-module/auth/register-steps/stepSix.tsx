@@ -3,14 +3,10 @@ import { all_routes } from "../../router/all_routes";
 import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
-import KeyIcon from "../../../icons/KeyIcon";
-import GymIcon from "../../../icons/GymIcon";
-import StudioIcon from "../../../icons/StudioIcon";
-import SquareUser from "../../../icons/SquareUser";
-import SquareWellness from "../../../icons/SquareWellness";
 import LocationIcon from "../../../icons/LocationIcon";
+import SearchIcon from "../../../icons/SearchIcon";
 
-const StepFour = ({formik}:any) => {
+const StepSix = ({ formik }: any) => {
 
   return (
     <div className="main-wrapper authendication-pages">
@@ -35,14 +31,14 @@ const StepFour = ({formik}:any) => {
                       <ul>
                         <li className="active"></li>
                         <li className="active"></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
+                        <li className="active"></li>
+                        <li className="active"></li>
+                        <li className="active"></li>
                         <li></li>
                       </ul>
                     </div>
                     <div className="shadow-card steps">
-                      <h2 className="text-center">Link your google business with us</h2>
+                      <h2 className="text-center">Select your services</h2>
                       <div className="tab-content" id="myTabContent">
                         <div
                           className="tab-pane fade show active"
@@ -50,35 +46,24 @@ const StepFour = ({formik}:any) => {
                           role="tabpanel"
                           aria-labelledby="user-tab"
                         >
-                          {/* Login Form */}
                           <form className="googleLocations">
                             <div className="form-group">
                                 <div className="group-img iconLeft email position-relative">
-                                  <label><LocationIcon/></label>
-                                  <input type="text" className="commonInput form-control" placeholder="Search for your business name"/>
+                                  <label><SearchIcon/></label>
+                                  <input type="text" className="commonInput form-control" placeholder="Search service"/>
                                 </div>
-                              
                             </div>
-                            <div className="form-group d-flex justify-content-end">
-                              <p className="mb-0">You have more than 1 location?<button className="addEvent" type="button">+ Add more location</button></p>
-                            </div>
-
                             <button
                               type="submit"
                               className="btn btn-secondary register-btn d-inline-flex justify-content-center align-items-center w-100 btn-block"
                             >
                               Continue
                             </button>
-                            <div className="text-center">
-                              <Link className="underline" to={"#"}>Skip for now</Link>
-                            </div>
                           </form>
-                          {/* /Login Form */}
                         </div>
                       </div>
                     </div>
                   </div>
-                  <p className="text-center">Not on Google yet?<Link className="underline" to={"#"}>Add your profile now</Link></p>
                 </div>
               </div>
             </div>
@@ -98,4 +83,4 @@ const StepFour = ({formik}:any) => {
   );
 };
 
-export default StepFour;
+export default StepSix;

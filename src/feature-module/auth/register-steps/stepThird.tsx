@@ -75,12 +75,18 @@ const StepThird = ({ formik }: any) => {
                           aria-labelledby="user-tab"
                         >
                           {/* Login Form */}
-                          <form className="selectOptions">
+                          <form className="selectOptions" autoComplete="off" onSubmit={formik.handleSubmit}>
 
                             <div className="form-group">
                               {wellnesslist?.map((item: any, index: number) => (
                                 <div className="card" key={index}>
-                                  <input type="radio" name="radio" value={item._id} />
+                                  <input
+                                    type="radio"
+                                    name="wellnessTypeId"
+                                    value={item._id}
+                                    checked={formik.values.wellnessTypeId === item._id}
+                                    onChange={() => formik.setFieldValue("wellnessTypeId", item._id)}
+                                  />
                                   <h3>
                                     {item.image ? (
                                       <img src={item.image} alt={item.name} className="item-img" />

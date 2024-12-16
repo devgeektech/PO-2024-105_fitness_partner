@@ -12,6 +12,7 @@ import StepFirst from "./register-steps/stepFirst";
 import StepSecond from "./register-steps/stepSecond";
 import StepThird from "./register-steps/stepThird"
 import StepFour from "./register-steps/stepFour"
+import StepSix from "./register-steps/stepSix";
 
 const registerInitialValues = {
   type:"",
@@ -82,6 +83,8 @@ const Signin = () => {
     initialValues:registerInitialValues,
     validationSchema: stepFirstRegisterSchema,
     onSubmit: async (values, { setSubmitting }) => {
+      console.log("Selected Value:", values);
+
       setLoading(true);
       try {
         setStep(4);
@@ -108,6 +111,23 @@ const Signin = () => {
     },
   });
 
+  const stepSixFormik = useFormik({
+    initialValues:registerInitialValues,
+    validationSchema: stepFirstRegisterSchema,
+    onSubmit: async (values, { setSubmitting }) => {
+      console.log("Selected Value:", values);
+
+      setLoading(true);
+      try {
+        setStep(4);
+      } catch (error) {
+        console.log(error,loading)
+        setSubmitting(false);
+        setLoading(false);
+      }
+    },
+  });
+
   const renderLayout=(activeStep:number)=>{
      switch(activeStep){    
         case 1: {
@@ -121,6 +141,12 @@ const Signin = () => {
         }
         case 4: {
             return <StepFour formik={stepFourFormik} />;
+        }
+        // case 5: {
+        //     return <StepFive formik={stepFiveFormik} />;
+        // }
+        case 6: {
+            return <StepSix formik={stepSixFormik} />;
         }
      }
   }
