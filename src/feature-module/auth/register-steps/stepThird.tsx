@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { all_routes } from "../../router/all_routes";
 import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
@@ -8,16 +8,34 @@ import GymIcon from "../../../icons/GymIcon";
 import StudioIcon from "../../../icons/StudioIcon";
 import SquareUser from "../../../icons/SquareUser";
 import SquareWellness from "../../../icons/SquareWellness";
+import { getWellnesslist } from "../../../services/wellness.service";
 
-const StepTwo = ({formik}:any) => {
+const StepThird = ({ formik }: any) => {
   const routes = all_routes;
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [wellnesslist, setWellnesslist] = useState<any[]>([]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  useEffect(() => {
+    getWellness();
+  }, []);
+
+  const getWellness = async () => {
+    try {
+      const result = await getWellnesslist();
+      setWellnesslist(result?.data?.data || []);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+
   return (
     <div className="main-wrapper authendication-pages">
       <div className="content">
@@ -58,37 +76,23 @@ const StepTwo = ({formik}:any) => {
                         >
                           {/* Login Form */}
                           <form className="selectOptions">
+
                             <div className="form-group">
-                              <div className="card">
-                                <input type="radio" name="radio"/>
-                                <h3><GymIcon/>Gym</h3>
-                                <p>Workout equipment, varied classes in large groups, and instructors.</p>
-                                <span className="bgColor"></span>
-                              </div>
-                            </div>
-                            <div className="form-group">
-                              <div className="card">
-                                <input type="radio" name="radio"/>
-                                <h3><StudioIcon/>Studio</h3>
-                                <p>Bookable activities for individuals or small groups (e.g. Yoga, Pilates, Dance).</p>
-                                <span className="bgColor"></span>
-                              </div>
-                            </div>
-                            <div className="form-group">
-                              <div className="card">
-                                <input type="radio" name="radio"/>
-                                <h3><SquareUser/>Personal trainer</h3>
-                                <p>Private training sessions.</p>
-                                <span className="bgColor"></span>
-                              </div>
-                            </div>
-                            <div className="form-group">
-                              <div className="card">
-                                <input type="radio" name="radio"/>
-                                <h3><SquareWellness/>Wellness service</h3>
-                                <p>Spa, Meditation, Massage, etc.</p>
-                                <span className="bgColor"></span>
-                              </div>
+                              {wellnesslist?.map((item: any, index: number) => (
+                                <div className="card" key={index}>
+                                  <input type="radio" name="radio" value={item._id} />
+                                  <h3>
+                                    {item.image ? (
+                                      <img src={item.image} alt={item.name} className="item-img" />
+                                    ) : (
+                                      <GymIcon />
+                                    )}
+                                    {item.name}
+                                  </h3>
+                                  <p>{item.description}</p>
+                                  <span className="bgColor"></span>
+                                </div>
+                              ))}
                             </div>
 
                             <button
@@ -122,4 +126,4 @@ const StepTwo = ({formik}:any) => {
   );
 };
 
-export default StepTwo;
+export default StepThird;

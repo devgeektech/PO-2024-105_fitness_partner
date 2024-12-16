@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { all_routes } from "../router/all_routes";
-import ThirdStep from "./register-steps/ThirdStep";
-import FourthStep from "./register-steps/FourthStep";
-import PaymentUnsuccessful from "./register-steps/PaymentUnsuccessful";
-import PaymentSuccessful from "./register-steps/PaymentSuccessful";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { registerUser } from "../../services/auth.service";
@@ -82,7 +78,10 @@ const Signin = () => {
           toast.error("Something went wrong");
         }
       
-      } catch (error) {
+      } catch (error:any) {
+        if(error?.response?.data?.responseCode == 400){
+          toast.error(error?.response?.data?.responseMessage);
+        }
         console.log(error,loading)
         setSubmitting(false);
         setLoading(false);
@@ -137,7 +136,7 @@ const Signin = () => {
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
-        setStep(4);
+        setStep(5);
       } catch (error) {
         console.log(error,loading)
         setSubmitting(false);
@@ -160,12 +159,6 @@ const Signin = () => {
         case 4: {
             return <StepFour formik={stepFourFormik} />;
         }
-        // case 5: {
-        //     return <PaymentUnsuccessful/>;
-        // }
-        // case 6: {
-        //     return <PaymentSuccessful/>;
-        // }
      }
   }
 
