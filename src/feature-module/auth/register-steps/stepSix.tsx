@@ -1,12 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { all_routes } from "../../router/all_routes";
 import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
 import LocationIcon from "../../../icons/LocationIcon";
 import SearchIcon from "../../../icons/SearchIcon";
+import { getServicelist } from "../../../services/services.service";
 
 const StepSix = ({ formik }: any) => {
+  const [servicelist, setServicelist] = useState<any[]>([]);
+
+  useEffect(() => {
+    getServices();
+  }, []);
+
+  const getServices = async () => {
+    try {
+      const result = await getServicelist();
+      setServicelist(result?.data?.data || []);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   return (
     <div className="main-wrapper authendication-pages">
