@@ -12,187 +12,8 @@ import BusinessIcon from "../../../icons/BusinessIcon";
 import EmailIcon from "../../../icons/EmailIcon";
 import GlobeIcon from "../../../icons/GlobeIcon";
 import PhoneIcon from "../../../icons/PhoneIcon";
-const StepZero = ({fromik}:any) => {
-  const routes = all_routes;
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-
-
-const registerInitialValues = {
-  type: "",
-  firstName: "",
-  lastName: "",
-  phone: "",
-  dob: "",
-  email: "",
-  password: "",
-  nationality: "",
-};
-
-const registerSchema = Yup.object().shape({
-  type: Yup.string().required(LANG.FIELD_IS_REQUIRED),
-  lastClub: Yup.string().test(
-    "lastClubRequiredIfTypeIsVereinswechsel",
-    LANG.FIELD_IS_REQUIRED,
-    function (value) {
-      const { type } = this.parent;
-      if (type === "Vereinswechsel") {
-        return Boolean(value);
-      }
-      return true;
-    }
-  ),
-  firstName: Yup.string().required(LANG.FIRSTNAME_IS_REQUIRED),
-  lastName: Yup.string().required(LANG.LASTNAME_IS_REQUIRED),
-  street: Yup.string().required(LANG.STREET_IS_REQUIRED),
-  houseNumber: Yup.string().required(LANG.HOUSE_NO_IS_REQUIRED),
-  zipCode: Yup.number()
-    .test(
-      "len",
-      LANG.ZIPCODE_MUST_BE_FIVE_CHAR,
-      (val: any) => val.toString().length === 5
-    )
-    .required(LANG.ZIP_CODE_IS_REQUIRED),
-  city: Yup.string().required(LANG.CITY_IS_REQUIRED),
-  dob: Yup.date().required(LANG.BIRETHDATE_IS_REQUIRED),
-  gender: Yup.string().required(LANG.FIELD_IS_REQUIRED),
-  birthPlaceCity: Yup.string().required(LANG.FIELD_IS_REQUIRED),
-  birthPlaceCountry: Yup.string().required(LANG.FIELD_IS_REQUIRED),
-  nationality: Yup.string().required(LANG.FIELD_IS_REQUIRED),
-  email: Yup.string()
-    .email(LANG.PLEASE_ADD_VALID_EMAIL)
-    .required(LANG.EMAIL_IS_REQUIRED),
-  password: Yup.string().required(LANG.PASSWORD_IS_REQUIRED),
-  confirmPassword: Yup.string()
-    .required(LANG.CONFIRM_PASSWORD_IS_REQUIRED)
-    .oneOf([Yup.ref("password")], LANG.PASSWORD_MUST_MATCH),
-  phone: Yup.string()
-    .min(10, LANG.MINIMUM_LIMIT_PHONE_CHAR)
-    .max(13, LANG.MAXIMUM_LIMIT_HUNDRED_CHAR)
-    .required(LANG.FIELD_IS_REQUIRED),
-});
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const formik = useFormik({
-    initialValues: registerInitialValues,
-    validationSchema: registerSchema,
-    onSubmit: async (values, { setSubmitting }) => {
-      // setLoading(true);
-      // try {
-      //   setStep(2);
-      //   if (getAge(values.dob) < 18) {
-      //     parentDetailSchema.fields.parentFirstName =
-      //       parentDetailSchema.fields.parentFirstName.required(
-      //         LANG.FIRSTNAME_IS_REQUIRED
-      //       );
-      //     parentDetailSchema.fields.parentLastName =
-      //       parentDetailSchema.fields.parentLastName.required(
-      //         LANG.LASTNAME_IS_REQUIRED
-      //       );
-      //     parentDetailSchema.fields.parentEmail =
-      //       parentDetailSchema.fields.parentEmail
-      //         .email(LANG.PLEASE_ADD_VALID_EMAIL)
-      //         .required(LANG.EMAIL_IS_REQUIRED);
-      //     parentDetailSchema.fields.parentPhone =
-      //       parentDetailSchema.fields.parentPhone
-      //         .min(10, LANG.MINIMUM_LIMIT_PHONE_CHAR)
-      //         .max(13, LANG.MAXIMUM_LIMIT_HUNDRED_CHAR)
-      //         .required(LANG.FIELD_IS_REQUIRED);
-      //   } else {
-      //     parentDetailSchema.fields.parentFirstName = Yup.string();
-      //     parentDetailSchema.fields.parentLastName = Yup.string();
-      //     parentDetailSchema.fields.parentEmail = Yup.string().email();
-      //     parentDetailSchema.fields.parentPhone = Yup.string();
-      //   }
-      //   // validation for match permission doc
-      //   if (values.type == "Erstmalige Spielerlaubnis") {
-      //     uploadFileSchema.fields.matchPermissionDoc = Yup.mixed().required(
-      //       LANG.FIELD_IS_REQUIRED
-      //     );
-      //   } else {
-      //     uploadFileSchema.fields.matchPermissionDoc = Yup.mixed();
-      //   }
-      //   // validation for club transfer doc
-      //   if (values.type == "Vereinswechsel") {
-      //     uploadFileSchema.fields.clubTransferDoc = Yup.mixed().required(
-      //       LANG.FIELD_IS_REQUIRED
-      //     );
-      //   } else {
-      //     uploadFileSchema.fields.clubTransferDoc = Yup.mixed();
-      //   }
-      //   // validation for doctor & birth certificate doc
-      //   if (
-      //     values.type == "Erstmalige Spielerlaubnis" &&
-      //     getAge(values.dob) < 18
-      //   ) {
-      //     uploadFileSchema.fields.doctorCerificateDoc = Yup.mixed().required(
-      //       LANG.FIELD_IS_REQUIRED
-      //     );
-      //     uploadFileSchema.fields.birthCertificateDoc = Yup.mixed().required(
-      //       LANG.FIELD_IS_REQUIRED
-      //     );
-      //   } else {
-      //     uploadFileSchema.fields.doctorCerificateDoc = Yup.mixed();
-      //     uploadFileSchema.fields.birthCertificateDoc = Yup.mixed();
-      //   }
-
-      //   // residence & players parent certification
-      //   if (
-      //     values.nationality == "Dutch" &&
-      //     getAge(values.dob) > 10 &&
-      //     getAge(values.dob) < 18
-      //   ) {
-      //     uploadFileSchema.fields.residenceCertificateDoc =
-      //       Yup.mixed().required(LANG.FIELD_IS_REQUIRED);
-      //     uploadFileSchema.fields.playersParentDeclarationDoc =
-      //       Yup.mixed().required(LANG.FIELD_IS_REQUIRED);
-      //   } else {
-      //     uploadFileSchema.fields.residenceCertificateDoc = Yup.mixed();
-      //     uploadFileSchema.fields.playersParentDeclarationDoc = Yup.mixed();
-      //   }
-
-      //   // copy of passport
-      //   if (values.nationality == "Dutch" && getAge(values.dob) > 10) {
-      //     uploadFileSchema.fields.copyOfPassportDoc = Yup.mixed().required(
-      //       LANG.FIELD_IS_REQUIRED
-      //     );
-      //   } else {
-      //     uploadFileSchema.fields.copyOfPassportDoc = Yup.mixed();
-      //   }
-
-      //   // Application Attachment Argentina
-
-      //   if (ARGENTINA_NATIONALITY.includes(values.nationality)) {
-      //     uploadFileSchema.fields.attachmentArgentinaDoc = Yup.mixed().required(
-      //       LANG.FIELD_IS_REQUIRED
-      //     );
-      //   } else {
-      //     uploadFileSchema.fields.attachmentArgentinaDoc = Yup.mixed();
-      //   }
-
-      //   //  Application Attachment Istupnica & Brisovnica
-
-      //   if (ISTUPNICA_OR_BRISOVNICA_NATIONALITY.includes(values.nationality)) {
-      //     uploadFileSchema.fields.attachmentIstupnicaDoc = Yup.mixed().required(
-      //       LANG.FIELD_IS_REQUIRED
-      //     );
-      //     uploadFileSchema.fields.attachmentBrisovnicaDoc =
-      //       Yup.mixed().required(LANG.FIELD_IS_REQUIRED);
-      //   } else {
-      //     uploadFileSchema.fields.attachmentIstupnicaDoc = Yup.mixed();
-      //     uploadFileSchema.fields.attachmentBrisovnicaDoc = Yup.mixed();
-      //   }
-      // } catch (error) {
-      //   console.log(error, loading);
-      //   setSubmitting(false);
-      //   setLoading(false);
-      // }
-    },
-  });
-
+import ErrorText from "../../../core/components/error-text";
+const StepFirst = ({formik}:any) => {
   return (
     <>
      <div className="main-wrapper authendication-pages">
@@ -224,16 +45,25 @@ const registerSchema = Yup.object().shape({
                               aria-labelledby="user-tab"
                             >
                               {/* Register Form */}
-                              <form onSubmit={formik.handleSubmit}>
+                              <form autoComplete="off" onSubmit={formik.handleSubmit}>
                                 <div className="form-group">
                                     <div className="group-img iconLeft  position-relative">
                                       <label><UserIcon/></label>
                                       <input
+                                        name="name"
+                                        id="name"
                                         type="text"
                                         maxLength={64}
                                         className="form-control commonInput"
                                         placeholder="Your name"
+                                        onChange={(ev: any) => {
+                                            console.log(ev.target.value,"name :")
+                                            formik.setFieldValue("name", ev.target.value);
+                                        }}
                                       />
+                                    </div>
+                                    <div className="text-start">
+                                       <ErrorText show={formik.errors.name} message={formik.errors?.name} />
                                     </div>
                                 </div>
                                 <div className="form-group">
@@ -241,10 +71,18 @@ const registerSchema = Yup.object().shape({
                                       <label><BusinessIcon/></label>
                                       <input
                                         type="text"
+                                        name="businessName"
+                                        id="businessName"
                                         maxLength={64}
                                         className="form-control commonInput"
                                         placeholder="Business name"
+                                        onChange={(ev: any) => {
+                                          formik.setFieldValue("businessName", ev.target.value);
+                                        }}
                                       />
+                                    </div>
+                                    <div className="text-start">
+                                       <ErrorText show={formik.errors.businessName} message={formik.errors?.businessName} />
                                     </div>
                                 </div>
                                 <div className="form-group">
@@ -252,10 +90,18 @@ const registerSchema = Yup.object().shape({
                                       <label><EmailIcon/></label>
                                       <input
                                         type="email"
+                                        id="email"
+                                        name= "email"
                                         maxLength={64}
                                         className="form-control commonInput"
                                         placeholder="Email"
+                                        onChange={(ev: any) => {
+                                          formik.setFieldValue("email", ev.target.value);
+                                        }}
                                       />
+                                    </div>
+                                    <div className="text-start">
+                                       <ErrorText show={formik.errors.email} message={formik.errors?.email} />
                                     </div>
                                 </div>
                                 <div className="form-group">
@@ -263,10 +109,18 @@ const registerSchema = Yup.object().shape({
                                       <label><GlobeIcon/></label>
                                       <input
                                         type="text"
+                                        name="businessWebsite"
+                                        id="businessWebsite"
                                         maxLength={64}
                                         className="form-control commonInput"
                                         placeholder="Business website"
+                                        onChange={(ev: any) => {
+                                          formik.setFieldValue("businessWebsite", ev.target.value);
+                                        }}
                                       />
+                                    </div>
+                                    <div className="text-start">
+                                       <ErrorText show={formik.errors.businessWebsite} message={formik.errors?.businessWebsite} />
                                     </div>
                                 </div>
                                 <div className="form-group">
@@ -274,10 +128,18 @@ const registerSchema = Yup.object().shape({
                                       <label><PhoneIcon/></label>
                                       <input
                                         type="text"
+                                        id="phone"
+                                        name= "phone"
                                         maxLength={64}
                                         className="form-control commonInput"
                                         placeholder="Phone number"
+                                        onChange={(ev: any) => {
+                                          formik.setFieldValue("phone", ev.target.value);
+                                        }}
                                       />
+                                    </div>
+                                    <div className="text-start">
+                                       <ErrorText show={formik.errors.phone} message={formik.errors?.phone} />
                                     </div>
                                 </div>
 
@@ -326,4 +188,4 @@ const registerSchema = Yup.object().shape({
   );
 };
 
-export default StepZero;
+export default StepFirst;
