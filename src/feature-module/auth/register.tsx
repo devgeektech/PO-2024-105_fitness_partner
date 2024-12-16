@@ -3,10 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { all_routes } from "../router/all_routes";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { registerUser } from "../../services/auth.service";
 import { toast } from "react-toastify";
-import { AxiosError } from "axios";
-import { getAge, getFormData } from "../../utils";
 import { LANG } from "../../constants/language";
 import StepFirst from "./register-steps/stepFirst";
 import StepSecond from "./register-steps/stepSecond";
@@ -14,6 +11,7 @@ import StepThird from "./register-steps/stepThird"
 import StepFour from "./register-steps/stepFour"
 import StepSix from "./register-steps/stepSix";
 import { registerFirstStep, verifyOtp } from "../../services/onBoardingService";
+import StepFive from "./register-steps/stepFive";
 
 const registerInitialValues = {
   type:"",
@@ -38,6 +36,8 @@ const stepSecondInitialValues = {
  otp : ""
 }
 
+const stepFiveInitialValues = {}
+
 const stepThirdInitialValues = {
   wellnessTypeId : ""
 }
@@ -53,16 +53,18 @@ const stepFirstRegisterSchema = Yup.object().shape({
 const stepSecondRegisterSchema = Yup.object().shape({
 }); 
 
+const stepFiveRegisterSchema = Yup.object().shape({});
+
 const stepThirdRegisterSchema = Yup.object().shape({
   wellnessTypeId: Yup.string().required("Field is required"),
 });
 
 const Signin = () => {
-  const navigate= useNavigate();
+  const navigate = useNavigate();
   const route = all_routes;
-  const [step,setStep]= useState<number>(1);
+  const [step,setStep]= useState<number>(5);
   const [loading, setLoading] = useState(false);
-  const [otp, setOtp] = useState(["", "", "", ""]); // State to store OTP inputs
+  const [otp, setOtp] = useState(["", "", "", ""]);
   const [submitDetails, setSubmitDetails] = useState({
     name:"",
     businessName : "",
@@ -174,6 +176,22 @@ const Signin = () => {
     },
   });
 
+  const stepFiveFormik = useFormik({
+    initialValues: stepFiveInitialValues,
+    validationSchema: stepFiveRegisterSchema,
+    onSubmit: async (values, { setSubmitting }) => {
+      console.log("Selected Value:", values);
+      setLoading(true);
+      try {
+        setStep(4);
+      } catch (error) {
+        console.log(error,loading)
+        setSubmitting(false);
+        setLoading(false);
+      }
+    },
+  });``
+
   const renderLayout=(activeStep:number)=>{
     // console.log('activeStep ========= ',activeStep);
     
@@ -190,9 +208,9 @@ const Signin = () => {
         case 4: {
             return <StepFour formik={stepFourFormik} />;
         }
-        // case 5: {
-        //     return <StepFive formik={stepFiveFormik} />;
-        // }
+        case 5: {
+            return <StepFive formik={stepFiveFormik} />;
+        }
         case 6: {
             return <StepSix formik={stepSixFormik} />;
         }
