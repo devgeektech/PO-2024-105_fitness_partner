@@ -18,10 +18,8 @@ body {
     height: 10px;
 }
 
-::-webkit-scrollbar-thumb
-{
+::-webkit-scrollbar-thumb {
 	border-radius: 10px;
-	// -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 }
 a, button{
     transition: 0.5s all ease-in-out;
@@ -323,174 +321,6 @@ button.cancelBtn {
         }
     }
 }
-// .slotCard {
-//     border: 1px solid #ddd;
-//     border-radius: 8px;
-//     overflow: hidden;
-//     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-//     background: #fff;
-//     margin-bottom: 20px;
-//     transition: transform 0.3s ease;
-// }  
-//   .slotImage {
-//     position: relative;
-//   }
-  
-//   .slotImage img {
-//     width: 100%;
-//     height: auto;
-//   }
-  
-//   .newBadge {
-//     position: absolute;
-//     top: 8px;
-//     right: 8px;
-//     background: #d22b2b;
-//     color: #fff;
-//     font-size: 12px;
-//     padding: 4px 8px;
-//     border-radius: 8px;
-//   }
-  
-//   .slotDetails {
-//     padding: 16px;
-//   }
-  
-//   .slotDetails h5 {
-//     font-size: 16px;
-//     font-weight: 500;
-//     line-height: 19.44px;
-//     text-align: left;
-//     text-transform: capitalize;
-// }
-  
-// .slotDescription {
-//     color: #666;
-//     font-size: 14px;
-//     font-weight: 400;
-//     line-height: 17.01px;
-//     text-align: left;
-//     margin-bottom: 16px;
-// }
-// .slotFooter span.status {
-//     background: #1AC740;
-//     color: #fff;
-//     font-family: Cabin;
-//     font-size: 14px;
-//     font-weight: 500;
-//     line-height: 17.01px;
-//     text-align: left;
-//     text-underline-position: from-font;
-//     text-decoration-skip-ink: none;
-// }
-// .slotFooter span.booked {
-//     background: #1a80c7;
-// }
-// .inr-slots-ab span {
-//     background: rgba(199, 26, 29, 0.1019607843);
-//     padding: 5px 10px;
-//     border-radius: 10px;
-//     border: 1px solid rgba(199, 26, 29, 0.1098039216);
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     gap: 10px;
-//     color: #C71A1D;
-// }
-// .inr-slots-ab span i {
-//     padding: 2px;
-//     background: #C71A1D;
-//     border-radius: 50%;
-//     width: 30px;
-//     height: 30px;
-//     display: inline-block;
-//     line-height: 26px;
-//     text-align: center;
-//     color: #fff;
-//     font-style: normal;
-//     font-weight: 500;
-// }
-//   .slotDescription a {
-//     color: #1a80c7;
-//     text-decoration: underline;
-//   }
-  
-//   .slotFeatures {
-//     list-style: none;
-//     padding: 0;
-//     margin: 0 0 16px 0;
-//   }
-  
-//   .slotFeatures li {
-//     font-size: 14px;
-//     color: #333;
-//     margin-bottom: 4px;
-//     display: flex;
-//     align-items: center;
-//   }
-  
-//   .slotFeatures li:before {
-//     content: '✓';
-//     margin-right: 8px;
-//     color: #1a80c7;
-//     font-weight: bold;
-//   }
-  
-//   .slotFooter {
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     margin: 16px 0;
-// }
-  
-//   .status {
-//     font-size: 14px;
-//     font-weight: bold;
-//     padding: 2px 8px;
-//     border-radius: 4px;
-//     text-transform: capitalize;
-//   }
-  
-//   .status.available {
-//     background: #e0f7e9;
-//     color: #4caf50;
-//   }
-  
-//   .status.booked {
-//     background: #fff3e0;
-//     color: #ff9800;
-//   }
-  
-//   span.price {
-//     font-size: 24px;
-//     font-weight: 600;
-//     line-height: 29.16px;
-//     text-align: left;
-// }
-  
-//   .bookBtn {
-//     width: 100%;
-//     padding: 10px 16px;
-//     font-size: 16px;
-//     font-weight: bold;
-//     color: #fff;
-//     background: #1a80c7;
-//     border: none;
-//     border-radius: 10px;
-//     cursor: pointer;
-//     transition: background 0.3s ease;
-//   }
-  
-//   .bookBtn.disabled {
-//     background: #ccc;
-//     cursor: not-allowed;
-//   }
-  
-//   .bookBtn:not(.disabled):hover {
-//     background: #155d94;
-//   }
-  
-
 button.eyeBtn {
     position: absolute;
     right: 20px;
@@ -508,51 +338,9 @@ button.eyeBtn {
         background: rgba(90, 90, 90, 1);
     }
 }
-
 .text-underline{
     text-decoration: underline;
 }
-
-// .proifleSubTabContent  {
-//     .bgFormColor {
-//         background: #FAFAFA;
-//         padding: 24px 20px;
-//         border: 1px solid #F6F6F6;
-//         border-radius: 8px;
-//     }
-// }
-// .accordionWrap {
-//     border: 1px solid #F6F6F6;
-//     background: #FFFFFF;
-//     padding: 24px 20px;
-//     border-radius: 8px;
-//     .accordion-item {
-//         margin: 8px 0;
-//         border-radius: 8px;
-//         border: 1px solid #F6F6F6;
-//     }
-// }
-// .blueButton {
-//     border: 1px solid #1a80c7;
-//     background: #1a80c7;
-//     font-family: "Cabin";
-//     font-size: 16px;
-//     font-weight: 400;
-//     line-height: 19.2px;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     border-radius: 10px;
-//     padding: 15px;
-//     color: #fff;
-//     min-width: 120px;
-//     &:hover {
-//         border: 1px solid #1a80c7;
-//         background: #1a80c7;
-//         color: #fff;
-//         opacity: 0.7;
-//     }
-// }
 /* Header design changes css start */
 .loginProfileWrapper {
     button.header-profile-button.show {
@@ -666,14 +454,14 @@ button.eyeBtn {
 
 
 /* media Query start */
-@media (min-width: 2500px) {
-    .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
-        max-width: 75%;
-    }
-    .profileBlock {
-        margin-top: -170px;
-    }
-}
+// @media (min-width: 2500px) {
+//     .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+//         max-width: 75%;
+//     }
+//     .profileBlock {
+//         margin-top: -170px;
+//     }
+// }
 @media (min-width: 767px) {
     .taskModal.modal {
         .modal-dialog {
@@ -683,6 +471,10 @@ button.eyeBtn {
 }
 
 @media only screen and (max-width: 767px) {
+    h1 {
+        font-size: 24px;
+        line-height: 32px;
+    }
     .commonGrid {
         padding: 16px 10px;
     }
@@ -698,6 +490,14 @@ button.eyeBtn {
         .card-body {
             .mb-5 {
                 margin-bottom: 1rem !important;
+            }
+        }
+    }
+    .gamesBlock {
+        .gameContent {
+            .title {
+                font-size: 18px;
+                line-height: 26px;
             }
         }
     }

@@ -24,6 +24,8 @@ import LocationIcon from "../../icons/LocationIcon";
 import LocationGreyIcon from "../../icons/LocationGreyIcon";
 import TimerIcon from "../../icons/TimerIcon";
 import SingleSlideSlider from "../../core/components/singleSlideSlider";
+import MultiColumnSlider from "../../core/components/multiColumSlider";
+import GamesBlock from "../../core/components/games";
 // import Swiper from 'swiper';
 
 
@@ -122,6 +124,14 @@ const TrainerDashboard = () => {
               <li><TimerIcon/><span>Sunday</span>|<span>05.00 AM - 04:00 PM</span></li>
             </ul>
           </div>
+          <div className="mulitColumnSliderWrapper">
+            <h3>Classes</h3>
+            {/* <MultiColumnSlider/> */}
+            <div className="mulitColumnSlider">
+              {/* <GamesBlock/> */}
+              <MultiColumnSlider/>
+            </div>
+          </div>
           <div className="singleSlideSlider">
             <h3>Glimpse of gym</h3>
               <SingleSlideSlider/>
@@ -130,12 +140,12 @@ const TrainerDashboard = () => {
 
         </div>
 
-        {/* <div className="container">
+        <div className="container">
           <hr className="divider"></hr>
           <div className="tabOuter" id="tabs-layout">
             <TrainerTab />
           </div>
-        </div> */}
+        </div>
       </div>
       <div></div>
     </div>
