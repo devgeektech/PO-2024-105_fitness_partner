@@ -7,7 +7,7 @@ export const EMAIL_EXIST_URL = `/auth/member/exists`;
 export const CHECK_MEMBER_URL = `/auth/member/checkMember`;
 
 export const loginUser= async (payload:any)=>{
-   return http.post('/auth/member/login',payload);
+   return http.post('/auth/partner/login',payload);
 }
 
 export const loginByToken= async (payload:any)=>{

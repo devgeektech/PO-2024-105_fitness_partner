@@ -34,7 +34,6 @@ coverage/
 # Environment variable files
 .env
 .env.*
-!.env.example
 
 # Ignore database or session storage files
 *.sqlite

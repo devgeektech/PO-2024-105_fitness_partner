@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { all_routes } from "../router/all_routes";
+import { all_routes } from "../../router/all_routes";
 import { Link } from "react-router-dom";
-import ImageWithBasePath from "../../core/data/img/ImageWithBasePath";
-import BackIcon from "../../icons/BackIcon";
-import KeyIcon from "../../icons/KeyIcon";
+import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
+import BackIcon from "../../../icons/BackIcon";
+import KeyIcon from "../../../icons/KeyIcon";
 
-const StepOne = (props:any) => {
+const StepOne = () => {
   const routes = all_routes;
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -14,7 +14,6 @@ const StepOne = (props:any) => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  
   return (
     <div className="main-wrapper authendication-pages">
       <div className="content">

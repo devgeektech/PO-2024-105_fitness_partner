@@ -126,6 +126,7 @@ export const all_routes = {
   stepSix: "/auth/stepSix",
   stepSeven: "/auth/stepSeven",
   thankYou: "/auth/thank-you",
+  stepZero: "/auth/StepZero",
 
 
 

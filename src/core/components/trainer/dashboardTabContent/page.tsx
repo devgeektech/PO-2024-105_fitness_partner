@@ -44,7 +44,7 @@ export default function TrainerDashboardTabContent() {
   const router = useNavigate();
 
   useEffect(() => {
-    getAllData();
+    // getAllData();
   }, []);
 
   useEffect(() => {
@@ -124,7 +124,7 @@ export default function TrainerDashboardTabContent() {
                   Pending<span>8+</span>
                 </div> */}
         </div>
-        <div className="table-responsive">
+        {/* <div className="table-responsive">
           <Table className="">
             <thead>
               <tr>
@@ -186,7 +186,7 @@ export default function TrainerDashboardTabContent() {
               )}
             </tbody>
           </Table>
-        </div>
+        </div> */}
       </div>
       <div className="tableWrapper eventstable">
         <div className="title_Counter d-flex justify-content-between mb-3">
@@ -195,7 +195,7 @@ export default function TrainerDashboardTabContent() {
                   Pending<span>8+</span>
                 </div> */}
         </div>
-        <div className="table-responsive">
+        {/* <div className="table-responsive">
           <Table className="">
             <thead>
               <tr>
@@ -258,7 +258,7 @@ export default function TrainerDashboardTabContent() {
               )}
             </tbody>
           </Table>
-        </div>
+        </div> */}
       </div>
       <div className="">
         <div className="row">

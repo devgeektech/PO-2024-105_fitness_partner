@@ -21,7 +21,7 @@ const SelectRoles = () => {
     }
     else if(role=='sponsor'){
       setStorageItem('role', 'sponsor');
-      navigate(routes.sponsorDashboard);
+      // navigate(routes.sponsorDashboard);
     }else{
       setStorageItem('role', 'member');
       navigate(routes.userDashboard+'?tab=profile&tabKey=accountSetting');

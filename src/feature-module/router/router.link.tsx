@@ -42,6 +42,7 @@ import StepFive from "../auth/stepFive";
 import StepSix from "../auth/stepSix";
 import StepSeven from "../auth/stepSeven";
 import ThankYou from "../auth/thank-you";
+import StepZero from "../auth/register-steps/stepZero";
 
 const routes = all_routes;
 
@@ -257,6 +258,11 @@ const withoutHeaderRoutes = [
     path: routes.stepSeven,
     element: <StepSeven />,
     route: Route,
+  },
+  {
+    path: routes.stepZero,
+    element: <StepZero />,
+    route: Route
   },
   {
     path: routes.thankYou,
