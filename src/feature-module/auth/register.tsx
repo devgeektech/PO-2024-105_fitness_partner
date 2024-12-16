@@ -38,6 +38,10 @@ const stepSecondInitialValues = {
  otp : ""
 }
 
+const stepThirdInitialValues = {
+  wellnessTypeId : ""
+}
+
 const stepFirstRegisterSchema = Yup.object().shape({
   name: Yup.string().required("Field is required"),
   businessName: Yup.string().required("Bussiness name is required"),
@@ -48,6 +52,10 @@ const stepFirstRegisterSchema = Yup.object().shape({
 
 const stepSecondRegisterSchema = Yup.object().shape({
 }); 
+
+const stepThirdRegisterSchema = Yup.object().shape({
+  wellnessTypeId: Yup.string().required("Field is required"),
+});
 
 const Signin = () => {
   const navigate= useNavigate();
@@ -62,6 +70,7 @@ const Signin = () => {
     businessWebsite : "",
     phone : ""
   })
+  const [wellnessTypeId, setWellnessTypeId] = useState(""); 
 
   const stepOneFormik = useFormik({
     initialValues: stepFirstInitialValues,
@@ -117,8 +126,8 @@ const Signin = () => {
   });
 
   const stepThirdFormik = useFormik({
-    initialValues:registerInitialValues,
-    validationSchema: stepFirstRegisterSchema,
+    initialValues:stepThirdInitialValues,
+    validationSchema: stepThirdRegisterSchema,
     onSubmit: async (values, { setSubmitting }) => {
       console.log("Selected Value:", values);
 
@@ -156,7 +165,7 @@ const Signin = () => {
 
       setLoading(true);
       try {
-        setStep(4);
+        setStep(6);
       } catch (error) {
         console.log(error,loading)
         setSubmitting(false);
@@ -166,6 +175,8 @@ const Signin = () => {
   });
 
   const renderLayout=(activeStep:number)=>{
+    // console.log('activeStep ========= ',activeStep);
+    
      switch(activeStep){    
         case 1: {
             return <StepFirst formik={stepOneFormik} />;
@@ -174,7 +185,7 @@ const Signin = () => {
             return <StepSecond formik={stepSecondFormik} otp={otp} setOtp={setOtp} />;
         }
         case 3: {
-            return <StepThird formik={stepThirdFormik}/>;
+            return <StepThird formik={stepThirdFormik}  wellnessTypeId={wellnessTypeId} setWellnessTypeId={setWellnessTypeId}/>;
         }
         case 4: {
             return <StepFour formik={stepFourFormik} />;
