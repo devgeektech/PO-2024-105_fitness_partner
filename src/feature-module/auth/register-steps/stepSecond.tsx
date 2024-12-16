@@ -5,7 +5,7 @@ import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
 import KeyIcon from "../../../icons/KeyIcon";
 
-const StepOne = ({formik}:any) => {
+const StepSecond = ({formik}:any) => {
   const routes = all_routes;
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -88,4 +88,4 @@ const StepOne = ({formik}:any) => {
   );
 };
 
-export default StepOne;
+export default StepSecond;

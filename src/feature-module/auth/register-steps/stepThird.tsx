@@ -10,12 +10,12 @@ import SquareUser from "../../../icons/SquareUser";
 import SquareWellness from "../../../icons/SquareWellness";
 import { getWellnesslist } from "../../../services/wellness.service";
 
-const StepTwo = ({ formik }: any) => {
+const StepThird = ({ formik }: any) => {
   const routes = all_routes;
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [wellnesslist, setWellnesslist] = useState<any>();
+  const [wellnesslist, setWellnesslist] = useState<any[]>([]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -28,7 +28,7 @@ const StepTwo = ({ formik }: any) => {
   const getWellness = async () => {
     try {
       const result = await getWellnesslist();
-      setWellnesslist(result?.data?.data);
+      setWellnesslist(result?.data?.data || []);
     } catch (error) {
       console.error(error);
     }
@@ -82,7 +82,11 @@ const StepTwo = ({ formik }: any) => {
                                 <div className="card" key={index}>
                                   <input type="radio" name="radio" value={item._id} />
                                   <h3>
-                                    <GymIcon />
+                                    {item.image ? (
+                                      <img src={item.image} alt={item.name} className="item-img" />
+                                    ) : (
+                                      <GymIcon />
+                                    )}
                                     {item.name}
                                   </h3>
                                   <p>{item.description}</p>
@@ -90,42 +94,6 @@ const StepTwo = ({ formik }: any) => {
                                 </div>
                               ))}
                             </div>
-
-
-
-
-                            {/* <div className="form-group">
-                              <div className="card">
-                                <input type="radio" name="radio"/>
-                                <h3><GymIcon/>Gym</h3>
-                                <p>Workout equipment, varied classes in large groups, and instructors.</p>
-                                <span className="bgColor"></span>
-                              </div>
-                            </div>
-                            <div className="form-group">
-                              <div className="card">
-                                <input type="radio" name="radio"/>
-                                <h3><StudioIcon/>Studio</h3>
-                                <p>Bookable activities for individuals or small groups (e.g. Yoga, Pilates, Dance).</p>
-                                <span className="bgColor"></span>
-                              </div>
-                            </div>
-                            <div className="form-group">
-                              <div className="card">
-                                <input type="radio" name="radio"/>
-                                <h3><SquareUser/>Personal trainer</h3>
-                                <p>Private training sessions.</p>
-                                <span className="bgColor"></span>
-                              </div>
-                            </div>
-                            <div className="form-group">
-                              <div className="card">
-                                <input type="radio" name="radio"/>
-                                <h3><SquareWellness/>Wellness service</h3>
-                                <p>Spa, Meditation, Massage, etc.</p>
-                                <span className="bgColor"></span>
-                              </div>
-                            </div> */}
 
                             <button
                               type="submit"
@@ -158,4 +126,4 @@ const StepTwo = ({ formik }: any) => {
   );
 };
 
-export default StepTwo;
+export default StepThird;
