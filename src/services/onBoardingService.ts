@@ -5,8 +5,14 @@ export const RESET_PASSWORD_URL = `/auth/admin/reset_password`;
 export const ACCOUNT_VERIFICATION_URL = `/auth/member/verifyAccount`;
 export const EMAIL_EXIST_URL = `/auth/member/exists`;
 export const CHECK_MEMBER_URL = `/auth/member/checkMember`;
+export const REGISTER_FIRST_STEP = `/auth/partner/signup`
+export const VERIFY_OTP = `/auth/partner/verifyCode`
 
-
-export const loginUser= async (payload:any)=>{
-   return http.post('/auth/partner/login',payload);
+export const registerFirstStep= async (payload:any)=>{
+   return http.post(REGISTER_FIRST_STEP, payload);
 }
+
+export const verifyOtp = async (payload:any)=>{
+   return http.put(VERIFY_OTP, payload);
+}
+

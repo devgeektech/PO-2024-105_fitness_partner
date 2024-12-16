@@ -13,6 +13,7 @@ import StepSecond from "./register-steps/stepSecond";
 import StepThird from "./register-steps/stepThird"
 import StepFour from "./register-steps/stepFour"
 import StepSix from "./register-steps/stepSix";
+import { registerFirstStep, verifyOtp } from "../../services/onBoardingService";
 
 const registerInitialValues = {
   type:"",
@@ -33,6 +34,10 @@ const stepFirstInitialValues = {
   phone : ""
 }
 
+const stepSecondInitialValues = {
+ otp : ""
+}
+
 const stepFirstRegisterSchema = Yup.object().shape({
   name: Yup.string().required("Field is required"),
   businessName: Yup.string().required("Bussiness name is required"),
@@ -41,11 +46,22 @@ const stepFirstRegisterSchema = Yup.object().shape({
   phone: Yup.string().min(10, LANG.MINIMUM_LIMIT_PHONE_CHAR).max(13,LANG.MAXIMUM_LIMIT_HUNDRED_CHAR).required(LANG.FIELD_IS_REQUIRED),
 });
 
+const stepSecondRegisterSchema = Yup.object().shape({
+}); 
+
 const Signin = () => {
   const navigate= useNavigate();
   const route = all_routes;
   const [step,setStep]= useState<number>(1);
   const [loading, setLoading] = useState(false);
+  const [otp, setOtp] = useState(["", "", "", ""]); // State to store OTP inputs
+  const [submitDetails, setSubmitDetails] = useState({
+    name:"",
+    businessName : "",
+    email: "",
+    businessWebsite : "",
+    phone : ""
+  })
 
   const stepOneFormik = useFormik({
     initialValues: stepFirstInitialValues,
@@ -53,10 +69,20 @@ const Signin = () => {
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
-        console.log("working", values)
-
-        setStep(2);
-      } catch (error) {
+        const result = await registerFirstStep(values);
+        if(result.status == 200){
+          toast.success("Business details saved");
+          let state = {...submitDetails, ...values}
+          setSubmitDetails(state)
+          setStep(2);
+        }else if(result.status == 404){
+          toast.error("Something went wrong");
+        }
+      
+      } catch (error:any) {
+        if(error?.response?.data?.responseCode == 400){
+          toast.error(error?.response?.data?.responseMessage);
+        }
         console.log(error,loading)
         setSubmitting(false);
         setLoading(false);
@@ -65,13 +91,24 @@ const Signin = () => {
   });
 
   const stepSecondFormik = useFormik({
-    initialValues:registerInitialValues,
-    validationSchema: stepFirstRegisterSchema,
+    initialValues: stepSecondInitialValues,
+    validationSchema: stepSecondRegisterSchema,
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
-        setStep(3);
-      } catch (error) {
+        const otpString = otp.join("");
+        if (otpString.length === 4 && submitDetails.email != '') {
+          const result:any = await verifyOtp({email: submitDetails.email, otp: otpString});
+          if(result.status == 200){
+            toast.success("Otp Verified Successfully");
+            setStep(3);
+          }
+          setOtp(["", "", "", ""]);
+        } 
+      } catch (error:any) {
+        if(error?.response?.data?.responseCode == 400){
+          toast.error(error?.response?.data?.responseMessage);
+        }
         console.log(error,loading)
         setSubmitting(false);
         setLoading(false);
@@ -134,7 +171,7 @@ const Signin = () => {
             return <StepFirst formik={stepOneFormik} />;
         }
         case 2: {
-            return <StepSecond formik={stepSecondFormik}/>;
+            return <StepSecond formik={stepSecondFormik} otp={otp} setOtp={setOtp} />;
         }
         case 3: {
             return <StepThird formik={stepThirdFormik}/>;
