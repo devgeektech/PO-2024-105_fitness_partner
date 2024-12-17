@@ -9,22 +9,23 @@ import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 // import { GoogleApiWrapper } from "google-maps-react";
 // import Autocomplete from "react-google-autocomplete";
 import { GoogleMap, LoadScript, Autocomplete } from "@react-google-maps/api";
-const StepFive = ({ formik }: any) => {
+import ErrorText from "../../../core/components/error-text";
+const StepFive = ({ formik, locations, setLocations }: any) => {
   const [address, setAddress] = useState("");
   const [url, setUrl] = useState("");
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
   const [autocomplete, setAutocomplete] = useState<any>(null);
-  const [locations, setLocations] = useState<any>([]);
-
-  const [zipCode, setZipCode] = useState<any>([]);
+  const [city, setCity] = useState<any>('')
+  const [zipCode, setZipCode] = useState<any>('');
+  const [myBusinessAccount, setMyBusinessAccount] = useState<any>(false);
   const handleLoad = (autoCompleteInstance: any) => {
     setAutocomplete(autoCompleteInstance);
   };
 
   useEffect(() => {
     //
-  }, [setLocations, locations]);
+  }, [setLocations]);
 
   const handlePlaceChanged = () => {
     if (autocomplete !== null) {
@@ -45,14 +46,26 @@ const StepFive = ({ formik }: any) => {
         });
       }
 
+      if(place.place_id){
+        setMyBusinessAccount(true)
+      }
+
       if (location) {
         setAddress(place.formatted_address);
         setLat(location.lat());
         setLng(location.lng());
         setAddress(place.formatted_address);
         setUrl(url);
+        setZipCode(zipCode)
+        setCity(cityValue)
       }
     }
+  };
+
+  const deleteLocation = (indexToRemove: number) => {
+    setLocations((prevLocations: any[]) => 
+      prevLocations.filter((_, index) => index !== indexToRemove)
+    );
   };
 
   const addMoreLocations = () => {
@@ -61,12 +74,16 @@ const StepFive = ({ formik }: any) => {
     if (lat && lng) {
       const isDuplicate = array.some((loc: any) => loc.address === address);
 
-      if (!isDuplicate) {
-        array.push({ lat, lng, address, url });
-        setLocations(array);
+      if (!isDuplicate) {        
+        array.push({ lat, lng, address, url, hasBusinessAccount:myBusinessAccount });
+        setTimeout(()=>{
+          setLocations(array);
+          setAddress('');
+          setZipCode('')
+          setCity('')
+        },500)
       }
     }
-    console.log(array,">>> array >>>")
   };
 
   return (
@@ -109,14 +126,14 @@ const StepFive = ({ formik }: any) => {
                           role="tabpanel"
                           aria-labelledby="user-tab"
                         >
-                          <form className="googleLocations">
+                          <form className="googleLocations" onSubmit={formik.handleSubmit}>
                             <div className="form-group">
-                              {locations &&
+                              {
                                 locations.map((item: any, index: any) => (
                                   <div key={index} className="addressSelect">
                                     <label className="mb-3 w-100">
                                       Address {index + 1}{" "}
-                                      <button>
+                                      <button type="button" onClick={() => deleteLocation(index)}>
                                         <CrossIcon />
                                       </button>
                                     </label>
@@ -142,27 +159,36 @@ const StepFive = ({ formik }: any) => {
                                 >
                                   <input
                                     type="text"
+                                    name="search"
                                     className="commonInput form-control"
                                     placeholder="Search for a place"
                                   />
+                                 
                                 </Autocomplete>
+                               
                               </div>
                             </div>
                             <div className="from-group">
                               <div className="d-flex gap-3">
                                 <input
                                   type="text"
+                                  name="zipCode"
                                   className="commonInput form-control"
                                   placeholder="Zip code"
+                                  onChange={v=>setZipCode(v.target.value)}
                                   value={zipCode}
                                 />
                                 <input
                                   type="text"
+                                  name="city"
                                   className="commonInput form-control"
                                   placeholder="City"
+                                  value={city}
+                                  onChange={v=>setCity(v.target.value)}
                                 />
                               </div>
                             </div>
+                            
                             <div className="form-group d-flex justify-content-end mt-2">
                               <p className="mb-0">
                                 You have more than 1 location?

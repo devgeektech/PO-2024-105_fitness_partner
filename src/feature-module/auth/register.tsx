@@ -73,6 +73,7 @@ const Signin = () => {
     phone : ""
   })
   const [wellnessTypeId, setWellnessTypeId] = useState(""); 
+  const [locations, setLocations] = useState<any>([]);
 
   const stepOneFormik = useFormik({
     initialValues: stepFirstInitialValues,
@@ -159,12 +160,30 @@ const Signin = () => {
     },
   });
 
+  const stepFiveFormik = useFormik({
+    initialValues: stepFiveInitialValues,
+    validationSchema: stepFiveRegisterSchema,
+    onSubmit: async (values, { setSubmitting }) => {
+      setLoading(true);
+      try {
+        if(locations.length == 0){
+          toast.error("Please select location first");
+          return
+        } 
+        setStep(6);
+      } catch (error) {
+        console.log(error,loading)
+        setSubmitting(false);
+        setLoading(false);
+      }
+    },
+  });
+
   const stepSixFormik = useFormik({
     initialValues:registerInitialValues,
     validationSchema: stepFirstRegisterSchema,
     onSubmit: async (values, { setSubmitting }) => {
       console.log("Selected Value:", values);
-
       setLoading(true);
       try {
         setStep(6);
@@ -176,25 +195,9 @@ const Signin = () => {
     },
   });
 
-  const stepFiveFormik = useFormik({
-    initialValues: stepFiveInitialValues,
-    validationSchema: stepFiveRegisterSchema,
-    onSubmit: async (values, { setSubmitting }) => {
-      console.log("Selected Value:", values);
-      setLoading(true);
-      try {
-        setStep(4);
-      } catch (error) {
-        console.log(error,loading)
-        setSubmitting(false);
-        setLoading(false);
-      }
-    },
-  });``
 
   const renderLayout=(activeStep:number)=>{
-    // console.log('activeStep ========= ',activeStep);
-    
+
      switch(activeStep){    
         case 1: {
             return <StepFirst formik={stepOneFormik} />;
@@ -209,7 +212,7 @@ const Signin = () => {
             return <StepFour formik={stepFourFormik} />;
         }
         case 5: {
-            return <StepFive formik={stepFiveFormik} />;
+            return <StepFive formik={stepFiveFormik} locations={locations} setLocations={setLocations} />;
         }
         case 6: {
             return <StepSix formik={stepSixFormik} />;
