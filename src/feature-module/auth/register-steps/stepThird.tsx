@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { all_routes } from "../../router/all_routes";
 import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
-import KeyIcon from "../../../icons/KeyIcon";
-import GymIcon from "../../../icons/GymIcon";
 import StudioIcon from "../../../icons/StudioIcon";
-import SquareUser from "../../../icons/SquareUser";
-import SquareWellness from "../../../icons/SquareWellness";
 import { getWellnesslist } from "../../../services/wellness.service";
 
-const StepThird = ({ formik }: any) => {
-  const routes = all_routes;
+const StepThird = ({ formik, setWellnessTypeId }: any) => {
   const [wellnesslist, setWellnesslist] = useState<any[]>([]);
 
   useEffect(() => {
@@ -26,7 +20,6 @@ const StepThird = ({ formik }: any) => {
       console.error(error);
     }
   };
-
 
 
   return (
@@ -78,13 +71,16 @@ const StepThird = ({ formik }: any) => {
                                     name="wellnessTypeId"
                                     value={item._id}
                                     checked={formik.values.wellnessTypeId === item._id}
-                                    onChange={() => formik.setFieldValue("wellnessTypeId", item._id)}
+                                    onChange={() => {
+                                      formik.setFieldValue("wellnessTypeId", item._id);
+                                      setWellnessTypeId(item._id); 
+                                    }}
                                   />
                                   <h3>
                                     {item.image ? (
                                       <img src={item.image} alt={item.name} className="item-img" />
                                     ) : (
-                                      <GymIcon />
+                                      <StudioIcon />
                                     )}
                                     {item.name}
                                   </h3>

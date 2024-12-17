@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { all_routes } from "../../router/all_routes";
 import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
-import LocationIcon from "../../../icons/LocationIcon";
 import SearchIcon from "../../../icons/SearchIcon";
 import { getServicelist } from "../../../services/services.service";
 
-const StepSix = ({ formik }: any) => {
+const StepSix = ({ formik , setServices}: any) => {
   const [servicelist, setServicelist] = useState<any[]>([]);
 
   useEffect(() => {
@@ -26,14 +24,13 @@ const StepSix = ({ formik }: any) => {
   // Handle Checkbox Changes
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = event.target;
-
     const updatedServices = checked
-      ? [...formik.values.services, value] // Add to array
-      : formik.values.services.filter((id: string) => id !== value); // Remove from array
+      ? [...(formik.values.services || []), value]
+      : (formik.values.services || []).filter((id: string) => id !== value);
 
-    formik.setFieldValue("services", updatedServices); // Update Formik state
+    formik.setFieldValue("services", updatedServices);
+    setServices(updatedServices); 
   };
-
 
 
   return (
@@ -90,7 +87,7 @@ const StepSix = ({ formik }: any) => {
                                     type="checkbox"
                                     name="service"
                                     value={item._id}
-                                    checked={formik.values.services.includes(item._id)} // Bind to Formik
+                                    checked={(formik.values.services || []).includes(item._id)}
                                     onChange={handleCheckboxChange}
                                   />
                                   {item.name}
