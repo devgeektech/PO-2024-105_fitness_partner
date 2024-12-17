@@ -12,14 +12,7 @@ import { getWellnesslist } from "../../../services/wellness.service";
 
 const StepThird = ({ formik }: any) => {
   const routes = all_routes;
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [wellnesslist, setWellnesslist] = useState<any[]>([]);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
 
   useEffect(() => {
     getWellness();

@@ -5,7 +5,7 @@ import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
 import LocationIcon from "../../../icons/LocationIcon";
 import CrossIcon from "../../../icons/CrossIcon";
-import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+// import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 // import { GoogleApiWrapper } from "google-maps-react";
 // import Autocomplete from "react-google-autocomplete";
 import { GoogleMap, LoadScript, Autocomplete } from "@react-google-maps/api";
