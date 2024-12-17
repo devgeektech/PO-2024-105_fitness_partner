@@ -238,8 +238,8 @@ const Login = () => {
                       </div>
                       <div className="bottom-text text-center">
                         <p>
-                        Already have an account?
-                          <Link to={route.register}  className="text-underline">Sign in</Link>
+                         Didn't have an account? 
+                          <Link to={route.register}  className="text-underline">Sign up</Link>
                         </p>
                       </div>
                     </div>

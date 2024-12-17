@@ -63,7 +63,7 @@ const StepFirst = ({formik}:any) => {
                                       />
                                     </div>
                                     <div className="text-start">
-                                       <ErrorText show={formik.errors.name} message={formik.errors?.name} />
+                                       <ErrorText show={formik.errors.name && formik.touched.name} message={formik.errors?.name} />
                                     </div>
                                 </div>
                                 <div className="form-group">
@@ -82,7 +82,7 @@ const StepFirst = ({formik}:any) => {
                                       />
                                     </div>
                                     <div className="text-start">
-                                       <ErrorText show={formik.errors.businessName} message={formik.errors?.businessName} />
+                                       <ErrorText show={formik.errors.businessName && formik.touched.businessName} message={formik.errors?.businessName} />
                                     </div>
                                 </div>
                                 <div className="form-group">
@@ -101,7 +101,7 @@ const StepFirst = ({formik}:any) => {
                                       />
                                     </div>
                                     <div className="text-start">
-                                       <ErrorText show={formik.errors.email} message={formik.errors?.email} />
+                                       <ErrorText show={formik.errors.email && formik.touched.email} message={formik.errors?.email} />
                                     </div>
                                 </div>
                                 <div className="form-group">
@@ -120,7 +120,7 @@ const StepFirst = ({formik}:any) => {
                                       />
                                     </div>
                                     <div className="text-start">
-                                       <ErrorText show={formik.errors.businessWebsite} message={formik.errors?.businessWebsite} />
+                                       <ErrorText show={formik.errors.businessWebsite && formik.touched.businessWebsite} message={formik.errors?.businessWebsite} />
                                     </div>
                                 </div>
                                 <div className="form-group">
@@ -139,7 +139,7 @@ const StepFirst = ({formik}:any) => {
                                       />
                                     </div>
                                     <div className="text-start">
-                                       <ErrorText show={formik.errors.phone} message={formik.errors?.phone} />
+                                       <ErrorText show={formik.errors.phone && formik.touched.phone} message={formik.errors?.phone} />
                                     </div>
                                 </div>
 

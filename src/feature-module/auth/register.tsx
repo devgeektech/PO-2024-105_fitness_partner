@@ -52,7 +52,7 @@ const stepFirstRegisterSchema = Yup.object().shape({
   businessName: Yup.string().required("Bussiness name is required"),
   email: Yup.string().email("Please add valid email").required(),
   businessWebsite: Yup.string(),
-  phone: Yup.string().min(10, LANG.MINIMUM_LIMIT_PHONE_CHAR).max(13,LANG.MAXIMUM_LIMIT_HUNDRED_CHAR).required(LANG.FIELD_IS_REQUIRED),
+  phone: Yup.string().min(10, LANG.MINIMUM_LIMIT_PHONE_CHAR).max(13,LANG.MAXIMUM_LIMIT_HUNDRED_CHAR),
 });
 
 const stepSecondRegisterSchema = Yup.object().shape({
