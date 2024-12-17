@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { all_routes } from "../../router/all_routes";
 import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
 import LocationIcon from "../../../icons/LocationIcon";
 import CrossIcon from "../../../icons/CrossIcon";
-import { GoogleMap, LoadScript, Autocomplete } from "@react-google-maps/api";
+import { Autocomplete } from "@react-google-maps/api";
 const StepFive = ({ formik, locations, setLocations }: any) => {
   const [address, setAddress] = useState("");
   const [url, setUrl] = useState("");

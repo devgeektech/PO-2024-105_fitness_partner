@@ -1,18 +1,13 @@
-import React, { useState } from "react";
-import { all_routes } from "../../router/all_routes";
+import React from "react";
 import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
-import BackIcon from "../../../icons/BackIcon";
-import KeyIcon from "../../../icons/KeyIcon";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { LANG } from "../../../constants/language";
 import UserIcon from "../../../icons/UserIcon";
 import BusinessIcon from "../../../icons/BusinessIcon";
 import EmailIcon from "../../../icons/EmailIcon";
 import GlobeIcon from "../../../icons/GlobeIcon";
 import PhoneIcon from "../../../icons/PhoneIcon";
 import ErrorText from "../../../core/components/error-text";
+
 const StepFirst = ({formik}:any) => {
   return (
     <>
