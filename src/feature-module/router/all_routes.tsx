@@ -127,6 +127,8 @@ export const all_routes = {
   stepSeven: "/auth/stepSeven",
   thankYou: "/auth/thank-you",
 
+  // setting Edit Routes
+  settingEdit: "/trainer/settingEdit",
 
 
   //contact-us

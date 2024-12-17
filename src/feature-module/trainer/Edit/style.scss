@@ -1,0 +1,13 @@
+.settingEdit {
+    padding-top: 16px;
+    ul.breadcrumbWrapper {
+        margin-bottom: 40px;
+        display: flex;
+        gap: 12px;
+        li {
+            a,span {
+                color: #000;
+            }
+        }
+    }
+}
