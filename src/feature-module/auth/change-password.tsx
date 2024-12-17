@@ -5,11 +5,15 @@ import ImageWithBasePath from "../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../icons/BackIcon";
 import KeyIcon from "../../icons/KeyIcon";
 
-const ChangePassword = () => {
+const ChangePassword = ({ email, onBoarding }: any) => {
   const routes = all_routes;
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  console.log('email =========== ', email);
+  console.log('onBoarding >>>>> ', onBoarding);
+  
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -65,7 +69,7 @@ const ChangePassword = () => {
                                   value={newPassword}
                                   id="newpassword"
                                   className="form-control pass-confirm"
-                                  placeholder="New Password"
+                                  placeholder="Enter your new Password"
                                 />
                               </div>
                             </div>
@@ -82,7 +86,7 @@ const ChangePassword = () => {
                                   value={confirmPassword}
                                   id="password"
                                   className="form-control pass-confirm"
-                                  placeholder="Confirm Password"
+                                  placeholder="Confirm your new Password"
                                 />
                               </div>
                             </div>

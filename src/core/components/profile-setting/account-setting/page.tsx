@@ -18,6 +18,9 @@ import { alphaOnly, getAge, numOnly } from '../../../../utils';
 import { NATIONALITIES } from '../../../../constants/nationalities';
 import { BLOOD_GROUP_LIST, GENDERS } from '../../../../constants';
 import ErrorText from '../../error-text';
+import BusinessIcon from '../../../../icons/BusinessIcon';
+import FileIcon from '../../../../icons/FileIcon';
+import { Link } from 'react-router-dom';
 
 const profileSchema:any = Yup.object().shape({
   firstName: Yup.string().required(LANG.FIELD_IS_REQUIRED),
@@ -108,6 +111,7 @@ export default function AccountSetting({ userDetail }: any) {
   }
   return (
     <div className='accountSettingTab'>
+ 
       <h3 className='mb-3'>{LANG.EDIT_ACCOUNT_DETAILS}</h3>
       <div className='uploadImageWrapper mb-3'>
         <div className='uploadImg'>
@@ -118,12 +122,14 @@ export default function AccountSetting({ userDetail }: any) {
         </div>
       </div>
       <div className='personalIformation bgFormColor p-4 formEditWrap mb-3'>
-        <label>{LANG.PERSONAL_INFORMATION}</label>
+        <label>Business information</label>
         <Form onSubmit={formik.handleSubmit}>
           <div className='row'>
             <div className='col-md-4'>
               <Form.Group className="mb-3">
-                <input type="text" placeholder={LANG.FIRST_NAME}
+              <div className="group-img iconLeft  position-relative">
+              <label><BusinessIcon/></label>
+                <input type="text" placeholder="Business name"
                   readOnly={true}
                   {...formik.getFieldProps("firstName")}
                   className={clsx(
@@ -131,10 +137,11 @@ export default function AccountSetting({ userDetail }: any) {
                     { "border border-danger": formik.touched.firstName && formik.errors.firstName },
                   )}
                 />
+                </div>
               </Form.Group>
             </div>
 
-            <div className='col-md-4'>
+            {/* <div className='col-md-4'>
               <Form.Group className="mb-3">
                 <input type="text" placeholder={LANG.LAST_NAME}
                   readOnly={true}
@@ -180,16 +187,20 @@ export default function AccountSetting({ userDetail }: any) {
                   )}
                 />
               </Form.Group>
-            </div>
+            </div> */}
           </div>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+          <div className="group-img iconLeft  position-relative textareaWrap">
+          <label><FileIcon/></label>
           <Form.Control 
             as="textarea" 
             rows={3} 
             defaultValue='' 
             {...formik.getFieldProps("description")}
             name="description"
+            placeholder='Tell us something about your business'
           /> 
+          </div>
           </Form.Group>
 
 

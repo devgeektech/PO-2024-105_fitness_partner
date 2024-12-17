@@ -1,4 +1,20 @@
 .accountSettingTab {
+    .group-img.iconLeft {
+        input.commonInput.form-control {
+            padding-left: 40px;
+        }
+    }
+    .iconLeft.textareaWrap {
+        textarea.form-control {
+            padding-left: 40px;
+            background-color: rgb(236, 236, 236);
+        }
+    }
+    .iconLeft.textareaWrap {
+        label {
+            top: 32px;
+        }
+    }
     h3 {
         // font-family: "Cabin";
         font-size: 24px;

@@ -127,6 +127,8 @@ export const all_routes = {
   thankYou: "/auth/thank-you",
   stepZero: "/auth/StepZero",
 
+  // setting Edit Routes
+  settingEdit: "/trainer/settingEdit",
 
 
   //contact-us

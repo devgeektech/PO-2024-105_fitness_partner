@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { all_routes } from '../../router/all_routes'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ImageWithBasePath from '../../../core/data/img/ImageWithBasePath';
 import BackIcon from '../../../icons/BackIcon';
 
-const ThankYou = ({ email }: any ) => {
-  const [showPassword, setShowPassword] = useState(false);
+const ThankYou = ({ email }: any) => {
+  const navigate = useNavigate();
 
+  const handleLoginClick = () => {
+    navigate('/auth/change-password', { state: { email, onBoarding: true } });
+  };
 
   return (
     <div className="main-wrapper authendication-pages">
@@ -38,7 +40,10 @@ const ThankYou = ({ email }: any ) => {
                           aria-labelledby="user-tab"
                         >
                           <form>
-                            <button type="submit" className="btn btn-secondary register-btn d-inline-flex justify-content-center align-items-center w-100 btn-block">
+                            <button
+                              type="submit"
+                              onClick={handleLoginClick}
+                              className="btn btn-secondary register-btn d-inline-flex justify-content-center align-items-center w-100 btn-block">
                               Login
                             </button>
                           </form>
@@ -54,7 +59,6 @@ const ThankYou = ({ email }: any ) => {
                 <div className="row no-margin h-100">
                   <div className="col-sm-10 col-md-10 col-lg-10 mx-auto">
                     <div className="h-100 d-flex justify-content-center align-items-center">
-
                     </div>
                   </div>
                 </div>

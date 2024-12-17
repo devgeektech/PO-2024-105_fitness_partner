@@ -83,7 +83,9 @@ const stepSevenRegisterSchema = Yup.object().shape({
 const Signin = () => {
   const navigate = useNavigate();
   const route = all_routes;
-  const [step, setStep] = useState<number>(1);
+  const [error, setError] = useState<string>("");
+  const [step, setStep]= useState<number>(1);
+
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [isVerifiedBussiness, setIsVerifiedBussiness] = useState<any>(false)
@@ -141,7 +143,7 @@ const Signin = () => {
             setStep(3);
           }
           setOtp(["", "", "", ""]);
-        }
+        } 
       } catch (error: any) {
         if (error?.response?.data?.responseCode == 400) {
           toast.error(error?.response?.data?.responseMessage);
@@ -250,8 +252,6 @@ const Signin = () => {
       }
     },
   });
-
-
   const renderLayout = (activeStep: number) => {
 
     switch (activeStep) {
@@ -259,7 +259,7 @@ const Signin = () => {
         return <StepFirst formik={stepOneFormik} />;
       }
       case 2: {
-        return <StepSecond formik={stepSecondFormik} otp={otp} setOtp={setOtp} />;
+        return <StepSecond formik={stepSecondFormik} otp={otp} setOtp={setOtp} submitDetails={submitDetails} />;
       }
       case 3: {
         return <StepThird formik={stepThirdFormik} wellnessTypeId={wellnessTypeId} setWellnessTypeId={setWellnessTypeId} />;

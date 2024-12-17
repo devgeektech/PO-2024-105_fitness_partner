@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
 
-const StepSecond = ({ formik, otp, setOtp }:any) => {
+const StepSecond = ({ formik, otp, setOtp, submitDetails, error, setError }:any) => {
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const handleOtpChange = (index: number, value: string) => {
     if (/^[0-9]?$/.test(value)) {
@@ -21,6 +21,13 @@ const StepSecond = ({ formik, otp, setOtp }:any) => {
     if (value === "" && index > 0) {
       inputRefs.current[index - 1]?.focus();
     }
+  };
+
+
+  const handleResendCode = () => {
+    // Logic to resend the code
+    console.log("Resending code...");
+    setError(""); // Reset error
   };
 
   return (
@@ -45,7 +52,7 @@ const StepSecond = ({ formik, otp, setOtp }:any) => {
                     <div className="shadow-card">
                       <h2 className="text-center">Enter your verification code</h2>
                       <p className="text-center">
-                       We sent it to jatinder@geekinformatic.com
+                       We sent it to {submitDetails.email}
                       </p>
                       <div className="tab-content" id="myTabContent">
                         <div
@@ -77,8 +84,29 @@ const StepSecond = ({ formik, otp, setOtp }:any) => {
                                   />
                                 ))}
                               </div>
+                              {error && (
+                              <p
+                                className="text-center mt-2"
+                                style={{ color: "#FF6F61", fontSize: "0.875rem" }}
+                              >
+                              ⚠ {error}
+                            </p>
+                          )}
                             </div>
-
+                            <div className="text-center mt-3">
+                          <button
+                            type="button"
+                            className="btn btn-link p-0"
+                            style={{
+                              color: "#0081FF",
+                              textDecoration: "underline",
+                              cursor: "pointer",
+                            }}
+                            onClick={handleResendCode}
+                          >
+                            Get a new code
+                          </button>
+                        </div>
                             <button
                               type="submit"
                               className="btn btn-secondary register-btn d-inline-flex justify-content-center align-items-center w-100 btn-block"

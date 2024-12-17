@@ -13,12 +13,13 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import Notification from "../../core/components/notification/Notification";
 import { getAllNotifications } from "../../services/notifications.service";
 import { setNotifications, setUnReadNotificationCount, setReadNotificationCount } from "../../core/data/redux/notification/notificationSlice";
-import { socket } from "../../utils/socket-client";
+// import { socket } from "../../utils/socket-client";
 import SubscriptionIcon from "../../icons/SubscriptionIcon";
 import AccountSettingIcon from "../../icons/AccountSettingIcon";
 import HelpSupportIcon from "../../icons/HelpSupportIcon";
 import LogutIcon from "../../icons/LogutIcon";
 import { Badge } from "primereact/badge";
+import { JsonRequestError } from "@fullcalendar/core";
 // import profileImage from "../../../public/assets/img/memberImg.png";
 
 const Header = () => {
@@ -32,35 +33,37 @@ const Header = () => {
   const navigate = useNavigate();
   const savedNotifications = useSelector((state: any) => state.notification?.notifications) || [];
   const notReadNotifications = useSelector((state: any) => state.notification.notificationCount);
-  useEffect(() => {
-    // Only connect if not already connected
-    if (!socket.connected) {
-      socket.connect();
-      // Ensure the socket connects only once
-    }
-    if (socket) {
-      // Listen for incoming notifications
-      socket.on("receiveNotification", (data) => {
-        const notificationRecords: any = [data,...savedNotifications]
-        dispatch(setNotifications(notificationRecords));
-        dispatch(setUnReadNotificationCount(1));
-      });
+  
+  // useEffect(() => {
+  //   // Only connect if not already connected
+  //   if (!socket.connected) {
+  //     socket.connect();
+  //     // Ensure the socket connects only once
+  //   }
+  //   if (socket) {
+  //     // Listen for incoming notifications
+  //     socket.on("receiveNotification", (data:any) => {
+  //       const notificationRecords: any = [data,...savedNotifications]
+  //       dispatch(setNotifications(notificationRecords));
+  //       dispatch(setUnReadNotificationCount(1));
+  //     });
 
-      // Listen for other messages if needed
-      socket.on("message", (data) => {
-        console.log("Message:", data);
-      });
-      // Clean up the socket listeners when the component unmounts
-      return () => {
-        socket.off("receiveNotification"); // Remove specific listener
-        socket.off("message");
-        socket.off("joinRoom"); // Remove specific listener
-        if (socket.connected) {
-          socket.disconnect(); // Disconnect the socket when the component unmounts
-        }
-      };
-    }
-  }, [savedNotifications, socket, dispatch, notReadNotifications, setReadNotificationCount]);
+  //     // Listen for other messages if needed
+  //     socket.on("message", (data:any) => {
+  //       console.log("Message:", data);
+  //     });
+  //     // Clean up the socket listeners when the component unmounts
+  //     return () => {
+  //       socket.off("receiveNotification"); // Remove specific listener
+  //       socket.off("message");
+  //       socket.off("joinRoom"); // Remove specific listener
+  //       if (socket.connected) {
+  //         socket.disconnect(); // Disconnect the socket when the component unmounts
+  //       }
+  //     };
+  //   }
+  // }, [savedNotifications, socket, dispatch, notReadNotifications, setReadNotificationCount]);
+  
   const fileUrl = process.env.REACT_APP_FILE_URL;
 
   const capitalizeFirstLetter = (text: any) => {
@@ -146,7 +149,11 @@ const Header = () => {
   const customStyle = {
     background: location.pathname.includes(routes.home)
       ? "rgb(23, 124, 130)"
-      : "#ffffff",
+      : "rgba(33, 148, 255, 1)",
+    width: "calc(100% - 64px)",
+    marginLeft: "32px",
+    marginRight: "32px",
+    borderRadius: "24px",  
   };
 
   const notificationDetail = (e: any) => {
@@ -157,6 +164,7 @@ const Header = () => {
 
   return (
     <>
+    {routes.home}
       <header
         ref={headerRef}
         className={
@@ -164,21 +172,21 @@ const Header = () => {
             ? "header header-trans"
             : "header header-sticky"
         }
-        style={customStyle}
+        // style={customStyle}
       >
-        <div className="container-fluid">
+        <div className="container-fluid headerInner" style={customStyle}>
           <nav className="navbar navbar-expand-lg header-nav">
             <div className="navbar-header">
               <Link to="index" className="navbar-brand logo">
-                {location.pathname.includes(routes.home) ? (
+                {true ? (
                   <ImageWithBasePath
-                    src="assets/img/logo.png"
+                    src="assets/img/LogoWhite.svg"
                     className="img-fluid"
                     alt="Logo"
                   />
                 ) : (
                   <ImageWithBasePath
-                    src="assets/img/logo.png"
+                    src="assets/img/LogoWhite.svg"
                     className="img-fluid"
                     alt="Another Image"
                   />
@@ -209,7 +217,7 @@ const Header = () => {
                         : ""
                     }
                   >
-                    <Link to={role == "member" ? routes.userDashboard : routes.trainerDashboard}>{LANG.DASHBAORD}</Link>
+                    <Link to={role == "member" ? routes.userDashboard : routes.trainerDashboard}>Setting</Link>
                   </li>
                 </VisibilityBox>
                 <VisibilityBox show={user?.isLogin && role == 'member'}>
@@ -290,11 +298,11 @@ const Header = () => {
               </ul>
             </div>
             <ul className="nav header-navbar-rht">
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <i className="pi pi-bell p-overlay-badge cursor-pointer" onClick={notificationDetail} style={{ fontSize: '1.7rem' }}>
                   {notReadNotifications>0 &&<Badge style={{background: 'red'}} value={notReadNotifications}></Badge>}
                 </i>
-              </li>
+              </li> */}
               <li className="nav-item">
                 {
                   user?.isLogin ? <>
@@ -360,9 +368,9 @@ const Header = () => {
           </nav>
         </div>
       </header>
-      <OverlayPanel className="notification-overlay" ref={npanel} appendTo={headerRef.current}>
+      {/* <OverlayPanel className="notification-overlay" ref={npanel} appendTo={headerRef.current}>
         <Notification />
-      </OverlayPanel>
+      </OverlayPanel> */}
     </>
   );
 };
