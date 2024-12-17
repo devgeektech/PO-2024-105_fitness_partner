@@ -72,7 +72,7 @@ const stepSixRegisterSchema = Yup.object().shape({
 const Signin = () => {
   const navigate = useNavigate();
   const route = all_routes;
-  const [step,setStep]= useState<number>(1);
+  const [step,setStep]= useState<number>(5);
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [isVerifiedBussiness, setIsVerifiedBussiness] = useState<any>(false)
