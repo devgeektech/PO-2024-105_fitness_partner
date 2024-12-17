@@ -97,7 +97,7 @@ export const all_routes = {
 
   // trainer
 
-  trainerDashboard: "/trainer/trainer-dashboard",
+  Settings: "/settings",
  
   // Listing Routes
   listingGridSidebar: "/listing/listing-grid-sidebar",

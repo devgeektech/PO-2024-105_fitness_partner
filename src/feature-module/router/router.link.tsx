@@ -31,7 +31,7 @@ import ChangePassword from "../auth/change-password";
 import Maintenance from "../pages/maintenance";
 import VerifyAccountPage from "../auth/verify-account";
 import SelectRoles from "../auth/select-roles";
-import TrainerDashboard from "../trainer/trainer-dashboard";
+import Settings from "../settings/settings";
 import ValidationRedirect from "../auth/validation-redirect";
 import ConfirmEmail from "../auth/confirm-email";
 import StepOne from "../auth/stepOne";
@@ -43,7 +43,7 @@ import StepSix from "../auth/stepSix";
 import StepSeven from "../auth/stepSeven";
 import ThankYou from "../auth/thank-you";
 import StepZero from "../auth/register-steps/stepFirst";
-import EditSetting from "../trainer/Edit/page";
+import EditSetting from "../settings/Edit/page";
 
 const routes = all_routes;
 
@@ -99,8 +99,8 @@ const publicRoutes = [
     route: Route,
   },
   {
-    path: routes.trainerDashboard,
-    element: <TrainerDashboard />,
+    path: routes.Settings,
+    element: <Settings />,
     route: Route,
   },
   {
