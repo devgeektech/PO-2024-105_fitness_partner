@@ -42,6 +42,10 @@ const stepThirdInitialValues = {
   wellnessTypeId : ""
 }
 
+const stepSixInitialValues = {
+  sevices : []
+}
+
 const stepFirstRegisterSchema = Yup.object().shape({
   name: Yup.string().required("Field is required"),
   businessName: Yup.string().required("Bussiness name is required"),
@@ -59,10 +63,14 @@ const stepThirdRegisterSchema = Yup.object().shape({
   wellnessTypeId: Yup.string().required("Field is required"),
 });
 
+const stepSixRegisterSchema = Yup.object().shape({
+  services: Yup.array().min(1, "At least one service must be selected").required("Field is required"),
+});
+
 const Signin = () => {
   const navigate = useNavigate();
   const route = all_routes;
-  const [step,setStep]= useState<number>(5);
+  const [step,setStep]= useState<number>(6);
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [submitDetails, setSubmitDetails] = useState({
@@ -160,14 +168,14 @@ const Signin = () => {
   });
 
   const stepSixFormik = useFormik({
-    initialValues:registerInitialValues,
-    validationSchema: stepFirstRegisterSchema,
+    initialValues:stepSixInitialValues,
+    validationSchema: stepSixRegisterSchema,
     onSubmit: async (values, { setSubmitting }) => {
       console.log("Selected Value:", values);
 
       setLoading(true);
       try {
-        setStep(6);
+        setStep(7);
       } catch (error) {
         console.log(error,loading)
         setSubmitting(false);

@@ -1,44 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { all_routes } from "../../router/all_routes";
 import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
 import LocationIcon from "../../../icons/LocationIcon";
 import SearchIcon from "../../../icons/SearchIcon";
-import { getServicelist } from "../../../services/services.service";
+import DollorIcon from "../../../icons/DollorIcon";
+import WarningGreyIcon from "../../../icons/WarningGreyIcon";
 
-const StepSix = ({ formik }: any) => {
-  const [servicelist, setServicelist] = useState<any[]>([]);
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
-
-  useEffect(() => {
-    getServices();
-  }, []);
-
-  const getServices = async () => {
-    try {
-      const result = await getServicelist();
-      setServicelist(result?.data?.data || []);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = event.target;
-
-    setSelectedServices((prevSelected) => {
-      if (checked) {
-        // Add the service ID to the array
-        return [...prevSelected, value];
-      } else {
-        // Remove the service ID from the array
-        return prevSelected.filter((id) => id !== value);
-      }
-    });
-  };
-
-
+const StepSeven = () => {
 
   return (
     <div className="main-wrapper authendication-pages">
@@ -66,11 +36,11 @@ const StepSix = ({ formik }: any) => {
                         <li className="active"></li>
                         <li className="active"></li>
                         <li className="active"></li>
-                        <li></li>
+                        <li className="active"></li>
                       </ul>
                     </div>
                     <div className="shadow-card steps">
-                      <h2 className="text-center">Select your services</h2>
+                      <h2 className="text-center">Tell us your fees</h2>
                       <div className="tab-content" id="myTabContent">
                         <div
                           className="tab-pane fade show active"
@@ -78,30 +48,15 @@ const StepSix = ({ formik }: any) => {
                           role="tabpanel"
                           aria-labelledby="user-tab"
                         >
-                          <form className="googleLocations" autoComplete="off" onSubmit={formik.handleSubmit}>
+                          <form className="googleLocations">
                             <div className="form-group">
-                              <div className="group-img iconLeft email position-relative">
-                                <label><SearchIcon /></label>
-                                <input type="text" className="commonInput form-control" placeholder="Search service" />
-                              </div>
+                                <div className="group-img iconLeft iconRight email position-relative">
+                                  <label><DollorIcon/></label>
+                                  <input type="text" className="commonInput form-control" placeholder="Search service"/>
+                                  <span className="perCheck">| per check-in</span>
+                                </div>
+                                <p className="mb-0 mt-2 text-start opacity-50"><WarningGreyIcon/> Recommendation: Generally other partners charge between $10 - $15.</p>
                             </div>
-
-                            <div className="services-list">
-                              {servicelist?.map((item: any, index: number) => (
-
-                                <label className="service-item" key={index} >
-                                  <input
-                                    type="checkbox"
-                                    name="service"
-                                    value={item._id}
-                                    onChange={handleCheckboxChange}
-                                  />
-                                  {item.name}
-                                </label>
-
-                              ))}
-                            </div>
-
                             <button
                               type="submit"
                               className="btn btn-secondary register-btn d-inline-flex justify-content-center align-items-center w-100 btn-block"
@@ -132,4 +87,4 @@ const StepSix = ({ formik }: any) => {
   );
 };
 
-export default StepSix;
+export default StepSeven;
