@@ -1,4 +1,3 @@
-import StepFour from "../auth/stepFour";
 
 export const all_routes = {
   home: "/index",

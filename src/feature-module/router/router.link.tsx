@@ -34,15 +34,15 @@ import SelectRoles from "../auth/select-roles";
 import TrainerDashboard from "../trainer/trainer-dashboard";
 import ValidationRedirect from "../auth/validation-redirect";
 import ConfirmEmail from "../auth/confirm-email";
-import StepOne from "../auth/stepOne";
-import StepTwo from "../auth/stepTwo";
-import StepThree from "../auth/stepThree";
-import StepFour from "../auth/stepFour";
-import StepFive from "../auth/stepFive";
-import StepSix from "../auth/stepSix";
-import StepSeven from "../auth/stepSeven";
-import ThankYou from "../auth/thank-you";
 import StepZero from "../auth/register-steps/stepFirst";
+import StepSeven from "../auth/register-steps/stepSeven";
+import StepSix from "../auth/register-steps/stepSix";
+import StepFive from "../auth/register-steps/stepFive";
+import StepFour from "../auth/register-steps/stepFour";
+import StepThird from "../auth/register-steps/stepThird";
+import StepSecond from "../auth/register-steps/stepSecond";
+import StepFirst from "../auth/register-steps/stepFirst";
+import ThankYou from "../auth/register-steps/thankYou";
 
 const routes = all_routes;
 
@@ -226,17 +226,17 @@ const withoutHeaderRoutes = [
   // Register steps Routes
   {
     path: routes.stepOne,
-    element: <StepOne />,
+    element: <StepFirst />,
     route: Route,
   },
   {
     path: routes.stepTwo,
-    element: <StepTwo />,
+    element: <StepSecond />,
     route: Route,
   },
   {
     path: routes.stepThree,
-    element: <StepThree />,
+    element: <StepThird />,
     route: Route,
   },
   {
