@@ -8,7 +8,7 @@ import SearchIcon from "../../../icons/SearchIcon";
 import DollorIcon from "../../../icons/DollorIcon";
 import WarningGreyIcon from "../../../icons/WarningGreyIcon";
 
-const StepSeven = () => {
+const StepSeven = ({ formik }: any) => {
 
   return (
     <div className="main-wrapper authendication-pages">
@@ -48,7 +48,7 @@ const StepSeven = () => {
                           role="tabpanel"
                           aria-labelledby="user-tab"
                         >
-                          <form className="googleLocations">
+                          <form className="googleLocations"  autoComplete="off" onSubmit={formik.handleSubmit}>
                             <div className="form-group">
                                 <div className="group-img iconLeft iconRight email position-relative">
                                   <label><DollorIcon/></label>

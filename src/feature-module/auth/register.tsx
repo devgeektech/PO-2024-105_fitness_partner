@@ -12,6 +12,7 @@ import StepFour from "./register-steps/stepFour"
 import StepSix from "./register-steps/stepSix";
 import { registerFirstStep, verifyOtp } from "../../services/onBoardingService";
 import StepFive from "./register-steps/stepFive";
+import StepSeven from "./register-steps/stepSeven";
 
 const registerInitialValues = {
   type:"",
@@ -46,6 +47,10 @@ const stepSixInitialValues = {
   services : []
 }
 
+const stepSevenInitialValues = {
+  checkinRate : ""
+}
+
 const stepFirstRegisterSchema = Yup.object().shape({
   name: Yup.string().required("Field is required"),
   businessName: Yup.string().required("Bussiness name is required"),
@@ -67,6 +72,11 @@ const stepSixRegisterSchema = Yup.object().shape({
   services: Yup.array().min(1, "At least one service must be selected").required("Field is required"),
 });
 
+const stepSevenRegisterSchema = Yup.object().shape({
+  checkinRate: Yup.string().required("Field is required"),
+});
+
+
 const Signin = () => {
   const navigate = useNavigate();
   const route = all_routes;
@@ -83,6 +93,8 @@ const Signin = () => {
   const [wellnessTypeId, setWellnessTypeId] = useState(""); 
   const [locations, setLocations] = useState<any>([]);
   const [services, setServices] = useState<any>([]);
+  const [checkinRate, setCheckinRate] = useState(""); 
+
 
   const stepOneFormik = useFormik({
     initialValues: stepFirstInitialValues,
@@ -204,6 +216,23 @@ const Signin = () => {
     },
   });
 
+  const stepSevenFormik = useFormik({
+    initialValues:stepSevenInitialValues,
+    validationSchema: stepSevenRegisterSchema,
+    onSubmit: async (values, { setSubmitting }) => {
+      console.log("Selected Value:", values);
+
+      setLoading(true);
+      try {
+        setStep(8);
+      } catch (error) {
+        console.log(error,loading)
+        setSubmitting(false);
+        setLoading(false);
+      }
+    },
+  });
+
 
   const renderLayout=(activeStep:number)=>{
 
@@ -224,7 +253,10 @@ const Signin = () => {
             return <StepFive formik={stepFiveFormik} locations={locations} setLocations={setLocations} />;
         }
         case 6: {
-            return <StepSix formik={stepSixFormik}  services={services} setServices={setServices} />;
+            return <StepSix formik={stepSixFormik} services={services} setServices={setServices} />;
+        }
+        case 7: {
+            return <StepSeven formik={stepSevenFormik} checkinRate={checkinRate} setCheckinRate={setCheckinRate} />;
         }
      }
   }
