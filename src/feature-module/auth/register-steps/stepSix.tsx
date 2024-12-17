@@ -5,7 +5,7 @@ import BackIcon from "../../../icons/BackIcon";
 import SearchIcon from "../../../icons/SearchIcon";
 import { getServicelist } from "../../../services/services.service";
 
-const StepSix = ({ formik }: any) => {
+const StepSix = ({ formik , setServices}: any) => {
   const [servicelist, setServicelist] = useState<any[]>([]);
 
   useEffect(() => {
@@ -29,6 +29,7 @@ const StepSix = ({ formik }: any) => {
       : (formik.values.services || []).filter((id: string) => id !== value);
 
     formik.setFieldValue("services", updatedServices);
+    setServices(updatedServices); 
   };
 
 

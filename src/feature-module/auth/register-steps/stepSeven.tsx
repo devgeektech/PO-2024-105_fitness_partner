@@ -48,14 +48,20 @@ const StepSeven = ({ formik }: any) => {
                           role="tabpanel"
                           aria-labelledby="user-tab"
                         >
-                          <form className="googleLocations"  autoComplete="off" onSubmit={formik.handleSubmit}>
+                          <form className="googleLocations" autoComplete="off" onSubmit={formik.handleSubmit}>
                             <div className="form-group">
-                                <div className="group-img iconLeft iconRight email position-relative">
-                                  <label><DollorIcon/></label>
-                                  <input type="text" className="commonInput form-control" placeholder="Search service"/>
-                                  <span className="perCheck">| per check-in</span>
-                                </div>
-                                <p className="mb-0 mt-2 text-start opacity-50"><WarningGreyIcon/> Recommendation: Generally other partners charge between $10 - $15.</p>
+                              <div className="group-img iconLeft iconRight email position-relative">
+                                <label><DollorIcon /></label>
+                                <input
+                                  type="number"
+                                  className="commonInput form-control"
+                                  placeholder="0"
+                                  name="checkinRate"
+                                  onChange={(event: any) => formik.setFieldValue("checkinRate", event.target.value)}
+                                />
+                                <span className="perCheck">| per check-in</span>
+                              </div>
+                              <p className="mb-0 mt-2 text-start opacity-50"><WarningGreyIcon /> Recommendation: Generally other partners charge between $10 - $15.</p>
                             </div>
                             <button
                               type="submit"
