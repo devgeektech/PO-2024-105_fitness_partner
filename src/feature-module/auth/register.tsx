@@ -36,11 +36,13 @@ const stepSecondInitialValues = {
  otp : ""
 }
 
-const stepFiveInitialValues = {}
-
 const stepThirdInitialValues = {
   wellnessTypeId : ""
 }
+
+const stepFourInitialValues = {}
+
+const stepFiveInitialValues = {}
 
 const stepFirstRegisterSchema = Yup.object().shape({
   name: Yup.string().required("Field is required"),
@@ -53,18 +55,21 @@ const stepFirstRegisterSchema = Yup.object().shape({
 const stepSecondRegisterSchema = Yup.object().shape({
 }); 
 
-const stepFiveRegisterSchema = Yup.object().shape({});
-
 const stepThirdRegisterSchema = Yup.object().shape({
   wellnessTypeId: Yup.string().required("Field is required"),
 });
 
+const stepFourRegisterSchema = Yup.object().shape({});
+
+const stepFiveRegisterSchema = Yup.object().shape({});
+
 const Signin = () => {
   const navigate = useNavigate();
   const route = all_routes;
-  const [step,setStep]= useState<number>(5);
+  const [step,setStep]= useState<number>(1);
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState(["", "", "", ""]);
+  const [isVerifiedBussiness, setIsVerifiedBussiness] = useState<any>(false)
   const [submitDetails, setSubmitDetails] = useState({
     name:"",
     businessName : "",
@@ -113,7 +118,7 @@ const Signin = () => {
           const result:any = await verifyOtp({email: submitDetails.email, otp: otpString});
           if(result.status == 200){
             toast.success("Otp Verified Successfully");
-            setStep(3);
+            setStep(4);
           }
           setOtp(["", "", "", ""]);
         } 
@@ -132,8 +137,6 @@ const Signin = () => {
     initialValues:stepThirdInitialValues,
     validationSchema: stepThirdRegisterSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      console.log("Selected Value:", values);
-
       setLoading(true);
       try {
         setStep(4);
@@ -146,8 +149,8 @@ const Signin = () => {
   });
 
   const stepFourFormik = useFormik({
-    initialValues:registerInitialValues,
-    validationSchema: stepFirstRegisterSchema,
+    initialValues: stepFourInitialValues,
+    validationSchema: stepFourRegisterSchema,
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
@@ -209,7 +212,7 @@ const Signin = () => {
             return <StepThird formik={stepThirdFormik}  wellnessTypeId={wellnessTypeId} setWellnessTypeId={setWellnessTypeId}/>;
         }
         case 4: {
-            return <StepFour formik={stepFourFormik} />;
+            return <StepFour formik={stepFourFormik} isVerifiedBussiness={isVerifiedBussiness} setIsVerifiedBussiness={setIsVerifiedBussiness}/>;
         }
         case 5: {
             return <StepFive formik={stepFiveFormik} locations={locations} setLocations={setLocations} />;
