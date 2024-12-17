@@ -43,6 +43,7 @@ import StepSix from "../auth/stepSix";
 import StepSeven from "../auth/stepSeven";
 import ThankYou from "../auth/thank-you";
 import StepZero from "../auth/register-steps/stepFirst";
+import EditSetting from "../trainer/Edit/page";
 
 const routes = all_routes;
 
@@ -165,6 +166,11 @@ const publicRoutes = [
     element: <Navigate to="/index" />,
     route: Route,
   },
+  {
+    path: routes.settingEdit,
+    element: <EditSetting/>,
+    route: Route,
+  },
 ];
 
 const withoutHeaderRoutes = [
@@ -269,5 +275,6 @@ const withoutHeaderRoutes = [
     element: <ThankYou />,
     route: Route,
   },
+
 ];
 export { publicRoutes, withoutHeaderRoutes };

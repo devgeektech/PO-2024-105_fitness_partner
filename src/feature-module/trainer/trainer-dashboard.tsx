@@ -140,14 +140,13 @@ const TrainerDashboard = () => {
 
         </div>
 
-        <div className="container">
+        {/* <div className="container">
           <hr className="divider"></hr>
           <div className="tabOuter" id="tabs-layout">
             <TrainerTab />
           </div>
-        </div>
+        </div> */}
       </div>
-      <div></div>
     </div>
   );
 };

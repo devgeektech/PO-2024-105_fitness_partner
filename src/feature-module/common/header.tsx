@@ -19,6 +19,7 @@ import AccountSettingIcon from "../../icons/AccountSettingIcon";
 import HelpSupportIcon from "../../icons/HelpSupportIcon";
 import LogutIcon from "../../icons/LogutIcon";
 import { Badge } from "primereact/badge";
+import { JsonRequestError } from "@fullcalendar/core";
 // import profileImage from "../../../public/assets/img/memberImg.png";
 
 const Header = () => {
@@ -32,6 +33,7 @@ const Header = () => {
   const navigate = useNavigate();
   const savedNotifications = useSelector((state: any) => state.notification?.notifications) || [];
   const notReadNotifications = useSelector((state: any) => state.notification.notificationCount);
+  
   useEffect(() => {
     // Only connect if not already connected
     if (!socket.connected) {
@@ -161,6 +163,7 @@ const Header = () => {
 
   return (
     <>
+    {routes.home}
       <header
         ref={headerRef}
         className={
@@ -174,7 +177,7 @@ const Header = () => {
           <nav className="navbar navbar-expand-lg header-nav">
             <div className="navbar-header">
               <Link to="index" className="navbar-brand logo">
-                {location.pathname.includes(routes.home) ? (
+                {true ? (
                   <ImageWithBasePath
                     src="assets/img/LogoWhite.svg"
                     className="img-fluid"
