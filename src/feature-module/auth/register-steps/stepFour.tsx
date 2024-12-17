@@ -9,8 +9,24 @@ import StudioIcon from "../../../icons/StudioIcon";
 import SquareUser from "../../../icons/SquareUser";
 import SquareWellness from "../../../icons/SquareWellness";
 import LocationIcon from "../../../icons/LocationIcon";
+import { GoogleMap, LoadScript, Autocomplete } from "@react-google-maps/api";
+const StepFour = ({formik, isVerifiedBussiness, setIsVerifiedBussiness}:any) => {
+  
+  const [autocomplete, setAutocomplete] = useState<any>(null);
+  
+  const handleLoad = (autoCompleteInstance: any) => {
+    setAutocomplete(autoCompleteInstance);
+  };
 
-const StepFour = ({formik}:any) => {
+  const handlePlaceChanged = () => {
+    if (autocomplete !== null) {
+      const place = autocomplete.getPlace();
+
+      if(place.place_id){
+        setIsVerifiedBussiness(true)
+      }
+    }
+  };
 
   return (
     <div className="main-wrapper authendication-pages">
@@ -51,17 +67,27 @@ const StepFour = ({formik}:any) => {
                           aria-labelledby="user-tab"
                         >
                           {/* Login Form */}
-                          <form className="googleLocations">
+                          <form className="googleLocations" onSubmit={formik.handleSubmit}>
                             <div className="form-group">
                                 <div className="group-img iconLeft email position-relative">
                                   <label><LocationIcon/></label>
-                                  <input type="text" className="commonInput form-control" placeholder="Search for your business name"/>
+                                  <Autocomplete
+                                  onLoad={handleLoad}
+                                  onPlaceChanged={handlePlaceChanged}
+                                >
+                                  <input
+                                    type="text"
+                                    name="search"
+                                    className="commonInput form-control"
+                                    placeholder="Search for a place"
+                                  />
+                                 
+                                </Autocomplete>
                                 </div>
-                              
                             </div>
-                            <div className="form-group d-flex justify-content-end">
+                            {/* <div className="form-group d-flex justify-content-end">
                               <p className="mb-0">You have more than 1 location?<button className="addEvent" type="button">+ Add more location</button></p>
-                            </div>
+                            </div> */}
 
                             <button
                               type="submit"
