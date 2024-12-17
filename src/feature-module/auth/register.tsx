@@ -13,6 +13,7 @@ import StepSix from "./register-steps/stepSix";
 import { addAccountDetails, registerFirstStep, verifyOtp } from "../../services/onBoardingService";
 import StepFive from "./register-steps/stepFive";
 import StepSeven from "./register-steps/stepSeven";
+import ThankYou from "./register-steps/thankYou";
 
 const registerInitialValues = {
   type: "",
@@ -237,8 +238,8 @@ const Signin = () => {
 
         if (result.status == 200) {
           toast.success(result.data.responseMessage);
-          
-          // setStep(8);
+
+          setStep(8);
         } else if (result.status == 404) {
           toast.error("Something went wrong");
         }
@@ -276,7 +277,7 @@ const Signin = () => {
         return <StepSeven formik={stepSevenFormik} checkinRate={checkinRate} setCheckinRate={setCheckinRate} />;
       }
       case 8: {
-        return <StepSeven formik={stepSevenFormik} checkinRate={checkinRate} setCheckinRate={setCheckinRate} />;
+        return <ThankYou email={submitDetails.email}/>;
       }
     }
   }

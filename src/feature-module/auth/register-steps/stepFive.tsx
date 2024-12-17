@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { all_routes } from "../../router/all_routes";
 import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
 import LocationIcon from "../../../icons/LocationIcon";
 import CrossIcon from "../../../icons/CrossIcon";
-// import GooglePlacesAutocomplete from "react-google-places-autocomplete";
-// import { GoogleApiWrapper } from "google-maps-react";
-// import Autocomplete from "react-google-autocomplete";
-import { GoogleMap, LoadScript, Autocomplete } from "@react-google-maps/api";
-import ErrorText from "../../../core/components/error-text";
+import { Autocomplete } from "@react-google-maps/api";
 const StepFive = ({ formik, locations, setLocations }: any) => {
   const [address, setAddress] = useState("");
   const [url, setUrl] = useState("");
@@ -32,10 +27,10 @@ const StepFive = ({ formik, locations, setLocations }: any) => {
       const place = autocomplete.getPlace();
       const location = place.geometry?.location;
       const url = place.url;
-      let  zipCode = ''
+      let zipCode = ''
       let cityValue = ''
       if (place.address_components) {
-        place.address_components.forEach((component:any) => {
+        place.address_components.forEach((component: any) => {
           const types = component.types;
           if (types.includes("postal_code")) {
             zipCode = component.long_name;
@@ -46,7 +41,7 @@ const StepFive = ({ formik, locations, setLocations }: any) => {
         });
       }
 
-      if(place.place_id){
+      if (place.place_id) {
         setMyBusinessAccount(true)
       }
 
@@ -63,7 +58,7 @@ const StepFive = ({ formik, locations, setLocations }: any) => {
   };
 
   const deleteLocation = (indexToRemove: number) => {
-    setLocations((prevLocations: any[]) => 
+    setLocations((prevLocations: any[]) =>
       prevLocations.filter((_, index) => index !== indexToRemove)
     );
   };
@@ -74,14 +69,14 @@ const StepFive = ({ formik, locations, setLocations }: any) => {
     if (lat && lng) {
       const isDuplicate = array.some((loc: any) => loc.address === address);
 
-      if (!isDuplicate) {        
-        array.push({ lat, lng, address, url, hasBusinessAccount:myBusinessAccount });
-        setTimeout(()=>{
+      if (!isDuplicate) {
+        array.push({ lat, lng, address, url, hasBusinessAccount: myBusinessAccount });
+        setTimeout(() => {
           setLocations(array);
           setAddress('');
           setZipCode('')
           setCity('')
-        },500)
+        }, 500)
       }
     }
   };
@@ -163,9 +158,9 @@ const StepFive = ({ formik, locations, setLocations }: any) => {
                                     className="commonInput form-control"
                                     placeholder="Search for a place"
                                   />
-                                 
+
                                 </Autocomplete>
-                               
+
                               </div>
                             </div>
                             <div className="from-group">
@@ -175,7 +170,7 @@ const StepFive = ({ formik, locations, setLocations }: any) => {
                                   name="zipCode"
                                   className="commonInput form-control"
                                   placeholder="Zip code"
-                                  onChange={v=>setZipCode(v.target.value)}
+                                  onChange={v => setZipCode(v.target.value)}
                                   value={zipCode}
                                 />
                                 <input
@@ -184,11 +179,11 @@ const StepFive = ({ formik, locations, setLocations }: any) => {
                                   className="commonInput form-control"
                                   placeholder="City"
                                   value={city}
-                                  onChange={v=>setCity(v.target.value)}
+                                  onChange={v => setCity(v.target.value)}
                                 />
                               </div>
                             </div>
-                            
+
                             <div className="form-group d-flex justify-content-end mt-2">
                               <p className="mb-0">
                                 You have more than 1 location?

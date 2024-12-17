@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-import { all_routes } from "../../router/all_routes";
+import React from "react";
 import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
-import LocationIcon from "../../../icons/LocationIcon";
-import SearchIcon from "../../../icons/SearchIcon";
 import DollorIcon from "../../../icons/DollorIcon";
 import WarningGreyIcon from "../../../icons/WarningGreyIcon";
+
 
 const StepSeven = ({ formik }: any) => {
 
