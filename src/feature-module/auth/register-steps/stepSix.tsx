@@ -9,7 +9,6 @@ import { getServicelist } from "../../../services/services.service";
 
 const StepSix = ({ formik }: any) => {
   const [servicelist, setServicelist] = useState<any[]>([]);
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
 
   useEffect(() => {
     getServices();
@@ -24,18 +23,15 @@ const StepSix = ({ formik }: any) => {
     }
   };
 
+  // Handle Checkbox Changes
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = event.target;
 
-    setSelectedServices((prevSelected) => {
-      if (checked) {
-        // Add the service ID to the array
-        return [...prevSelected, value];
-      } else {
-        // Remove the service ID from the array
-        return prevSelected.filter((id) => id !== value);
-      }
-    });
+    const updatedServices = checked
+      ? [...formik.values.services, value] // Add to array
+      : formik.values.services.filter((id: string) => id !== value); // Remove from array
+
+    formik.setFieldValue("services", updatedServices); // Update Formik state
   };
 
 
@@ -94,6 +90,7 @@ const StepSix = ({ formik }: any) => {
                                     type="checkbox"
                                     name="service"
                                     value={item._id}
+                                    checked={formik.values.services.includes(item._id)} // Bind to Formik
                                     onChange={handleCheckboxChange}
                                   />
                                   {item.name}
@@ -101,6 +98,12 @@ const StepSix = ({ formik }: any) => {
 
                               ))}
                             </div>
+
+                            {formik.errors.services && formik.touched.services && (
+                              <div className="error">
+                                {formik.errors.services}
+                              </div>
+                            )}
 
                             <button
                               type="submit"
