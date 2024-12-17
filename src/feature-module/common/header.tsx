@@ -146,7 +146,11 @@ const Header = () => {
   const customStyle = {
     background: location.pathname.includes(routes.home)
       ? "rgb(23, 124, 130)"
-      : "#ffffff",
+      : "rgba(33, 148, 255, 1)",
+    width: "calc(100% - 64px)",
+    marginLeft: "32px",
+    marginRight: "32px",
+    borderRadius: "24px",  
   };
 
   const notificationDetail = (e: any) => {
@@ -164,21 +168,21 @@ const Header = () => {
             ? "header header-trans"
             : "header header-sticky"
         }
-        style={customStyle}
+        // style={customStyle}
       >
-        <div className="container-fluid">
+        <div className="container-fluid headerInner" style={customStyle}>
           <nav className="navbar navbar-expand-lg header-nav">
             <div className="navbar-header">
               <Link to="index" className="navbar-brand logo">
                 {location.pathname.includes(routes.home) ? (
                   <ImageWithBasePath
-                    src="assets/img/logo.png"
+                    src="assets/img/LogoWhite.svg"
                     className="img-fluid"
                     alt="Logo"
                   />
                 ) : (
                   <ImageWithBasePath
-                    src="assets/img/logo.png"
+                    src="assets/img/LogoWhite.svg"
                     className="img-fluid"
                     alt="Another Image"
                   />
@@ -209,7 +213,7 @@ const Header = () => {
                         : ""
                     }
                   >
-                    <Link to={role == "member" ? routes.userDashboard : routes.trainerDashboard}>{LANG.DASHBAORD}</Link>
+                    <Link to={role == "member" ? routes.userDashboard : routes.trainerDashboard}>Setting</Link>
                   </li>
                 </VisibilityBox>
                 <VisibilityBox show={user?.isLogin && role == 'member'}>
@@ -290,11 +294,11 @@ const Header = () => {
               </ul>
             </div>
             <ul className="nav header-navbar-rht">
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <i className="pi pi-bell p-overlay-badge cursor-pointer" onClick={notificationDetail} style={{ fontSize: '1.7rem' }}>
                   {notReadNotifications>0 &&<Badge style={{background: 'red'}} value={notReadNotifications}></Badge>}
                 </i>
-              </li>
+              </li> */}
               <li className="nav-item">
                 {
                   user?.isLogin ? <>
@@ -360,9 +364,9 @@ const Header = () => {
           </nav>
         </div>
       </header>
-      <OverlayPanel className="notification-overlay" ref={npanel} appendTo={headerRef.current}>
+      {/* <OverlayPanel className="notification-overlay" ref={npanel} appendTo={headerRef.current}>
         <Notification />
-      </OverlayPanel>
+      </OverlayPanel> */}
     </>
   );
 };
