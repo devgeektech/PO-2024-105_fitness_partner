@@ -83,7 +83,7 @@ const stepSevenRegisterSchema = Yup.object().shape({
 const Signin = () => {
   const navigate = useNavigate();
   const route = all_routes;
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<any>(null);
   const [step, setStep]= useState<number>(1);
 
   const [loading, setLoading] = useState(false);
@@ -140,6 +140,7 @@ const Signin = () => {
           const result: any = await verifyOtp({ email: submitDetails.email, otp: otpString });
           if (result.status == 200) {
             toast.success("Otp Verified Successfully");
+            setError(null)
             setStep(3);
           }
           setOtp(["", "", "", ""]);
@@ -147,6 +148,7 @@ const Signin = () => {
       } catch (error: any) {
         if (error?.response?.data?.responseCode == 400) {
           toast.error(error?.response?.data?.responseMessage);
+          setError("Make sure it maches the one in your email")
         }
         console.log(error, loading)
         setSubmitting(false);
@@ -259,7 +261,7 @@ const Signin = () => {
         return <StepFirst formik={stepOneFormik} />;
       }
       case 2: {
-        return <StepSecond formik={stepSecondFormik} otp={otp} setOtp={setOtp} submitDetails={submitDetails} />;
+        return <StepSecond formik={stepSecondFormik} otp={otp} setOtp={setOtp} submitDetails={submitDetails} error={error} setError={setError}/>;
       }
       case 3: {
         return <StepThird formik={stepThirdFormik} wellnessTypeId={wellnessTypeId} setWellnessTypeId={setWellnessTypeId} />;

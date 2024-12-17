@@ -67,6 +67,7 @@ const StepSecond = ({ formik, otp, setOtp, submitDetails, error, setError }:any)
                               <div className="d-flex groupInputs justify-content-center">
                                 {otp.map((digit:any, index:any) => (
                                   <input
+                                    style={{ border:"2px #E77F16 !Important"}}
                                     key={index}
                                     type="text"
                                     placeholder="_"
@@ -87,7 +88,7 @@ const StepSecond = ({ formik, otp, setOtp, submitDetails, error, setError }:any)
                               {error && (
                               <p
                                 className="text-center mt-2"
-                                style={{ color: "#FF6F61", fontSize: "0.875rem" }}
+                                style={{ color: "#E77F16", fontSize: "0.875rem" }}
                               >
                               ⚠ {error}
                             </p>
