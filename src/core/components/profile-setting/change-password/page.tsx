@@ -10,6 +10,7 @@ import { changeUserPassword } from '../../../../services/auth.service';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import { LANG } from '../../../../constants/language';
+import KeyIcon from '../../../../icons/KeyIcon';
 
 const changePasswordSchema = Yup.object().shape({
   oldPassword: Yup.string().required(LANG.OLD_PASSWORD_IS_REQUIRED),
@@ -49,17 +50,19 @@ export default function ChangePasswordTabContent() {
   });
   return (
     <div className='accountSettingTab'>
-      <h3 className='mb-3'>{LANG.PASSWORD_AND_SECURITY}</h3>
-      <div className='personalIformation bgFormColor p-4 formEditWrap mb-3'>
-        <label>{LANG.UPDATE_YOUR_PASSWORD}</label>
+      <div className='personalIformation bgFormColor p-4 formEditWrap mb-3 changePassword'>
+      <h3 className='mb-3'>Change Password</h3>
+        {/* <label>{LANG.UPDATE_YOUR_PASSWORD}</label> */}
         <Form onSubmit={formik.handleSubmit}>
           <div className='row'>
             {/* Old Password */}
             <div className='col-md-12'>
               <Form.Group className="mb-3 position-relative">
+                <div className='pass-group group-img  iconLeft email position-relative'>
+                  <label><KeyIcon/></label>
                 <input
                   type={isOldPasswordVisible ? 'text' : 'password'}
-                  placeholder={LANG.ENTER_OLD_PASSWORD}
+                  placeholder='Enter your old password'
                   {...formik.getFieldProps("oldPassword")}
                   className={clsx(
                     "commonInput form-control",
@@ -73,15 +76,18 @@ export default function ChangePasswordTabContent() {
                 >
                   {isOldPasswordVisible ? <Eyeopen /> : <Eyeclode />}
                 </button>
+                </div>
               </Form.Group>
             </div>
-
+            <h4 className='text-center'>Create a password with combine of alphabets, numbers and symbols (@,#,%, !) </h4>
             {/* New Password */}
             <div className='col-md-12'>
               <Form.Group className="mb-3 position-relative">
+              <div className='pass-group group-img  iconLeft email position-relative'>
+                <label><KeyIcon/></label>
                 <input
                   type={isNewPasswordVisible ? 'text' : 'password'}
-                  placeholder={LANG.ENTER_NEW_PASSWORD}
+                  placeholder='Enter your new password'
                   {...formik.getFieldProps("newPassword")}
                   className={clsx(
                     "commonInput form-control",
@@ -95,15 +101,18 @@ export default function ChangePasswordTabContent() {
                 >
                   {isNewPasswordVisible ? <Eyeopen /> : <Eyeclode />}
                 </button>
+                </div>
               </Form.Group>
             </div>
 
             {/* Confirm Password */}
             <div className='col-md-12'>
               <Form.Group className="mb-3 position-relative">
+              <div className='pass-group group-img  iconLeft email position-relative'>
+                <label><KeyIcon/></label>
                 <input
                   type={isConfirmPasswordVisible ? 'text' : 'password'}
-                  placeholder={LANG.ENTER_CONFIRM_PASSWORD}
+                  placeholder='Confirm your new password'
                   {...formik.getFieldProps("confirmPassword")}
                   className={clsx(
                     "commonInput form-control",
@@ -117,11 +126,12 @@ export default function ChangePasswordTabContent() {
                 >
                   {isConfirmPasswordVisible ? <Eyeopen /> : <Eyeclode />}
                 </button>
+                </div>
               </Form.Group>
             </div>
           </div>
 
-          <Button type='submit' className='updateBtn mt-4'>{LANG.UPDATE}</Button>
+          <Button type='submit' className='updateBtn mt-4'>Update password</Button>
         </Form>
       </div>
     </div>

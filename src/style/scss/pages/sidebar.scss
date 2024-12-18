@@ -54,6 +54,7 @@
     z-index: 99;
     height: $__full__height;
     width: $__full__width;
+    top: 0 !important;
     @include position($__fixed,60px,null,null,0);
     background-color: rgba(0, 0, 0, 0.6);
     &.opened {

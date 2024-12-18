@@ -190,10 +190,14 @@ button.cancelBtn {
 .mb-32px {
     margin-bottom: 32px;
 }
+button.toggleMenu.menu-open {
+    background: transparent;
+    border: none;
+}
 .commonGrid {
-    border: 1px solid #F6F6F6;
-    border-radius: 8px;
-    padding: 16px 20px;
+    // border: 1px solid #F6F6F6;
+    // border-radius: 8px;
+    // padding: 16px 20px;
     margin-bottom: 24px;
     .friendBlock {
         box-shadow: 0 0 4px #0c0c0d0d;
@@ -471,6 +475,12 @@ button.eyeBtn {
 }
 
 @media only screen and (max-width: 767px) {
+    header.header.header-sticky {
+        .container-fluid.headerInner {
+            width: 95% !important;
+            margin: auto !important;
+        }
+    }
     h1 {
         font-size: 24px;
         line-height: 32px;

@@ -52,6 +52,10 @@ const Login = () => {
           localStorage.setItem('id', result.data?.data?._id);
           dispatch(setLogin(true));
           dispatch(setUserDetail(result.data?.data));
+          let locations = result.data?.data?.locations;
+          if(locations && locations.length > 0){
+            localStorage.setItem('locationId', locations[0]);
+          }
           http.defaults.headers['Authorization'] = result.data?.data?.token;
           navigate(route.Settings);
         }else if(result.status == 404){

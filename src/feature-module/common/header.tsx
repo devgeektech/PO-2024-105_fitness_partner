@@ -1,25 +1,57 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { all_routes } from "../router/all_routes";
 import ImageWithBasePath from "../../core/data/img/ImageWithBasePath";
-import { useDispatch } from "react-redux";
-import { setLogin } from "../../core/data/redux/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogin, setUserDetail } from "../../core/data/redux/user/userSlice";
 import { Dropdown } from "react-bootstrap";
 import { clearStorage } from "../../services/storage.service";
 import { LANG } from "../../constants/language";
 import LogutIcon from "../../icons/LogutIcon";
+import { isLoginUser } from "../../services/user.service";
+import { getAllLocations, getLocationById } from "../../services/partner.service";
 const Header = () => {
   const routes: any = all_routes;
   const headerRef = useRef(null);
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const logout = async () => {
-    dispatch(setLogin(false));
-    clearStorage();
-    navigate(routes.login)
-  }
+  const locationId = localStorage.getItem('locationId');
+  const user = useSelector((state: any) => state.user);
+  const [availLocations, setAvailLocations] = useState<any>([]);
+  // const logout = async () => {
+  //   dispatch(setLogin(false));
+  //   clearStorage();
+  //   navigate(routes.login)
+  // }
+  const savedNotifications = useSelector((state: any) => state.notification?.notifications) || [];
+  const notReadNotifications = useSelector((state: any) => state.notification.notificationCount);
+  
+  // const MenuToggle = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const toggleMenu = () => {
+      setIsMenuOpen(!isMenuOpen);
+    };
+    useEffect(() => {
+      if (isMenuOpen) {
+        document.body.classList.add("menu-opened");
+        const sidebarOverlay = document.querySelector(".sidebar-overlay");
+        if (sidebarOverlay) {
+          sidebarOverlay.classList.add("opened");
+        }
+      } else {
+        document.body.classList.remove("menu-opened");
+        const sidebarOverlay = document.querySelector(".sidebar-overlay");
+        if (sidebarOverlay) {
+          sidebarOverlay.classList.remove("opened");
+    }
+      }
+  
+      // Cleanup to remove class if component unmounts
+      return () => {
+        document.body.classList.remove("menu-opened");
+      };
+    }, [isMenuOpen]);
 
   const header = [
     {
@@ -82,6 +114,27 @@ const Header = () => {
     borderRadius: "24px",
   };
 
+  useEffect(() => {
+    const isLogged = isLoginUser();
+    if (isLogged) {
+      dispatch(setLogin(true));
+      getUserDetail();
+    } else {
+      navigate(routes.login);
+    }
+  }, [])
+
+  const getUserDetail = async () => {
+    try {
+      const [selectedLocation, Loc] = await Promise.all([getLocationById(), getAllLocations()]);
+      let array = Loc?.data?.data?.locations;
+
+      dispatch(setUserDetail(selectedLocation?.data?.data?.partnerDetails));    
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <header
@@ -111,17 +164,20 @@ const Header = () => {
                   />
                 )}
               </Link>
+              <button className="toggleMenu menu-open" id="mobile_btn" onClick={toggleMenu}>
+                <ImageWithBasePath src="assets/img/megaMenu.png" className="img-fluid" alt="megaMenu Image" />
+              </button>
             </div>
             <div className="main-menu-wrapper">
               <div className="menu-header">
                 <Link to="index" className="menu-logo">
                   <ImageWithBasePath
-                    src="assets/img/logo-black.svg"
+                    src="assets/img/LogoWhite.svg"
                     className="img-fluid"
                     alt="Logo"
                   />
                 </Link>
-                <Link id="menu_close" className="menu-close" to="#">
+                <Link id="menu_close" className="menu-close" to="#" onClick={toggleMenu}>
                   {" "}
                   <i className="fas fa-times" />
                 </Link>
@@ -169,7 +225,7 @@ const Header = () => {
                     <div className="dropdownWrap">
                       <Dropdown.Menu>
                         <div>
-                          <div className="profileMember d-flex align-items-center gap-2">
+                          {/* <div className="profileMember d-flex align-items-center gap-2">
                             <div className="profileImg">
                               <img src="" alt="memberImg" />
                             </div>
@@ -179,7 +235,7 @@ const Header = () => {
                               </div>
                               <Link className="mail" to={""}>{"salman@geekinformatics"}</Link>
                             </div>
-                          </div>
+                          </div> */}
                           <div className="linksWrap">
                             <Dropdown.Item >Account Setting</Dropdown.Item>
                             <Dropdown.Item >Help & Support</Dropdown.Item>
@@ -196,6 +252,7 @@ const Header = () => {
               </li>
             </ul>
           </nav>
+          <div className="sidebar-overlay " onClick={toggleMenu}></div>
         </div>
       </header>
     </>

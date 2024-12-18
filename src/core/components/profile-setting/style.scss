@@ -6,22 +6,20 @@
         display: flex;
         align-items: center;
         gap: 16px;
-        // font-family: "Cabin";
         font-size: 16px;
         font-weight: 400;
         line-height: 19.44px;
-        color: #3C3C3C;
+        color: rgba(43, 43, 43, 1);
         margin-bottom: 12px;
-        border-left: 4px solid transparent;
-        // background: #ececec;
+        background: rgba(249, 249, 249, 1);
         text-transform: capitalize;
+        border-radius: 12px;
     }
     a.nav-link.active {
-        border-left: 4px solid #1a80c7 !important;
-        background: #d6e8f5;
-        color: #3C3C3C;
+        background: rgba(33, 148, 255, 1);
+        color: #fff;
         svg, svg path {
-            fill: #1a80c7;
+            fill: #fff;
         }
     }
 }
@@ -41,6 +39,7 @@
         border-right: none;
         padding-right: 0px;
         margin-bottom: 25px;
+        gap: 10px;
         a.nav-link {
             margin-bottom: 0px;
         }
