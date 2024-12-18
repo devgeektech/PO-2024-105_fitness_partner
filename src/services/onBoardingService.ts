@@ -8,6 +8,7 @@ export const CHECK_MEMBER_URL = `/auth/member/checkMember`;
 export const REGISTER_FIRST_STEP = `/auth/partner/signup`;
 export const VERIFY_OTP = `/auth/partner/verifyCode`;
 export const ADD_ACCOUNT_DETAILS = `/auth/partner/add`;
+export const RESEND_VERIFY_CODE = `/auth/partner/resendVerifyCode`;
 
 
 export const registerFirstStep= async (payload:any)=>{
@@ -20,4 +21,8 @@ export const verifyOtp = async (payload:any)=>{
 
 export const addAccountDetails= async (payload:any)=>{
    return http.post(ADD_ACCOUNT_DETAILS, payload);
+}
+
+export const resendVerifyCode = async (payload:any)=>{
+   return http.put(RESEND_VERIFY_CODE, payload);
 }

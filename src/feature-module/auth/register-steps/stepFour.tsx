@@ -4,7 +4,7 @@ import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
 import LocationIcon from "../../../icons/LocationIcon";
 import { Autocomplete } from "@react-google-maps/api";
-const StepFour = ({ formik, isVerifiedBussiness, setIsVerifiedBussiness, onBackClick }: any) => {
+const StepFour = ({ formik, isVerifiedBussiness, setIsVerifiedBussiness, onBackClick, onSkipNow }: any) => {
 
   const [autocomplete, setAutocomplete] = useState<any>(null);
 
@@ -90,7 +90,7 @@ const StepFour = ({ formik, isVerifiedBussiness, setIsVerifiedBussiness, onBackC
                               Continue
                             </button>
                             <div className="text-center">
-                              <Link className="underline" to={"#"}>Skip for now</Link>
+                              <Link className="underline" onClick={onSkipNow} to={""}>Skip for now</Link>
                             </div>
                           </form>
                           {/* /Login Form */}

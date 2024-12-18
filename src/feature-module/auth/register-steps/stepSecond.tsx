@@ -2,8 +2,12 @@ import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
+import { resendVerifyCode } from "../../../services/onBoardingService";
+import { toast } from "react-toastify";
+import { LANG } from "../../../constants/language";
+import { AxiosError } from "axios";
 
-const StepSecond = ({ formik, otp, setOtp, submitDetails, error, setError, onBackClick }:any) => {
+const StepSecond = ({ formik, otp, setOtp, submitDetails, error, setError, onBackClick }: any) => {
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const handleOtpChange = (index: number, value: string) => {
     if (/^[0-9]?$/.test(value)) {
@@ -24,10 +28,22 @@ const StepSecond = ({ formik, otp, setOtp, submitDetails, error, setError, onBac
   };
 
 
-  const handleResendCode = () => {
+  const handleResendCode = async () => {
     // Logic to resend the code
-    console.log("Resending code...");
-    setError(""); // Reset error
+    try {
+      const result: any = await resendVerifyCode({ email: submitDetails.email });
+      if (result.status == 200) {
+        toast.success(LANG.OTP_SEND);
+        setError(null)
+      }
+      setOtp(["", "", "", ""]);
+    } 
+    catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data?.responseMessage)
+      }
+      setError(""); // Reset error
+    }
   };
 
   return (
@@ -52,7 +68,7 @@ const StepSecond = ({ formik, otp, setOtp, submitDetails, error, setError, onBac
                     <div className="shadow-card">
                       <h2 className="text-center">Enter your verification code</h2>
                       <p className="text-center">
-                       We sent it to {submitDetails.email}
+                        We sent it to {submitDetails.email}
                       </p>
                       <div className="tab-content" id="myTabContent">
                         <div
@@ -65,9 +81,9 @@ const StepSecond = ({ formik, otp, setOtp, submitDetails, error, setError, onBac
                           <form autoComplete="off" onSubmit={formik.handleSubmit}>
                             <div className="form-group OtpForm">
                               <div className="d-flex groupInputs justify-content-center">
-                                {otp.map((digit:any, index:any) => (
+                                {otp.map((digit: any, index: any) => (
                                   <input
-                                    className={error?"border-warning":""}
+                                    className={error ? "border-warning" : ""}
                                     key={index}
                                     type="text"
                                     placeholder="_"
@@ -86,27 +102,27 @@ const StepSecond = ({ formik, otp, setOtp, submitDetails, error, setError, onBac
                                 ))}
                               </div>
                               {error && (
-                              <p
-                                className="text-center mt-2 text-warning"
-                              >
-                              ⚠ {error}
-                            </p>
-                          )}
+                                <p
+                                  className="text-center mt-2 text-warning"
+                                >
+                                  ⚠ {error}
+                                </p>
+                              )}
                             </div>
                             <div className="text-center mt-3">
-                          <button
-                            type="button"
-                            className="btn btn-link p-0"
-                            style={{
-                              color: "#0081FF",
-                              textDecoration: "underline",
-                              cursor: "pointer",
-                            }}
-                            onClick={handleResendCode}
-                          >
-                            Get a new code
-                          </button>
-                        </div>
+                              <button
+                                type="button"
+                                className="btn btn-link p-0"
+                                style={{
+                                  color: "#0081FF",
+                                  textDecoration: "underline",
+                                  cursor: "pointer",
+                                }}
+                                onClick={handleResendCode}
+                              >
+                                Get a new code
+                              </button>
+                            </div>
                             <button
                               type="submit"
                               className="btn btn-secondary register-btn d-inline-flex justify-content-center align-items-center w-100 btn-block"

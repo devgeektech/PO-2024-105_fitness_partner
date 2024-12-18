@@ -122,7 +122,7 @@ const StepFirst = ({formik}:any) => {
                                     <div className="group-img iconLeft  position-relative">
                                       <label><PhoneIcon/></label>
                                       <input
-                                        type="text"
+                                        type="number"
                                         id="phone"
                                         name= "phone"
                                         maxLength={64}

@@ -4,6 +4,7 @@ import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
 import StudioIcon from "../../../icons/StudioIcon";
 import { getWellnesslist } from "../../../services/wellness.service";
+import ErrorText from "../../../core/components/error-text";
 
 const StepThird = ({ formik, setWellnessTypeId, onBackClick }: any) => {
   const [wellnesslist, setWellnesslist] = useState<any[]>([]);
@@ -73,7 +74,7 @@ const StepThird = ({ formik, setWellnessTypeId, onBackClick }: any) => {
                                     checked={formik.values.wellnessTypeId === item._id}
                                     onChange={() => {
                                       formik.setFieldValue("wellnessTypeId", item._id);
-                                      setWellnessTypeId(item._id); 
+                                      setWellnessTypeId(item._id);
                                     }}
                                   />
                                   <h3>
@@ -88,6 +89,10 @@ const StepThird = ({ formik, setWellnessTypeId, onBackClick }: any) => {
                                   <span className="bgColor"></span>
                                 </div>
                               ))}
+                            </div>
+
+                            <div className="text-start">
+                              <ErrorText show={formik.errors.wellnessTypeId && formik.touched.wellnessTypeId} message={formik.errors?.wellnessTypeId} />
                             </div>
 
                             <button

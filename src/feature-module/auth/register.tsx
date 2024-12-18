@@ -15,6 +15,8 @@ import StepFive from "./register-steps/stepFive";
 import StepSeven from "./register-steps/stepSeven";
 import ThankYou from "./register-steps/thankYou";
 
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+
 const registerInitialValues = {
   type: "",
   firstName: "",
@@ -58,7 +60,7 @@ const stepFirstRegisterSchema = Yup.object().shape({
   businessName: Yup.string().required("Bussiness name is required"),
   email: Yup.string().email("Please add valid email").required(),
   businessWebsite: Yup.string(),
-  phone: Yup.string().min(10, LANG.MINIMUM_LIMIT_PHONE_CHAR).max(13, LANG.MAXIMUM_LIMIT_HUNDRED_CHAR),
+  phone: Yup.string().min(10, LANG.MINIMUM_LIMIT_PHONE_CHAR).max(13, LANG.MAXIMUM_LIMIT_HUNDRED_CHAR).matches(phoneRegExp, 'Phone number is not valid'),
 });
 
 const stepSecondRegisterSchema = Yup.object().shape({
@@ -231,6 +233,10 @@ const Signin = () => {
     }
   } 
 
+  const onSkipNow =() => {
+    setStep(5);
+  }
+
   const stepSevenFormik = useFormik({
     initialValues: stepSevenInitialValues,
     validationSchema: stepSevenRegisterSchema,
@@ -276,7 +282,7 @@ const Signin = () => {
         return <StepThird formik={stepThirdFormik} wellnessTypeId={wellnessTypeId} setWellnessTypeId={setWellnessTypeId} onBackClick={onBackClick}/>;
       }
       case 4: {
-        return <StepFour formik={stepFourFormik} isVerifiedBussiness={isVerifiedBussiness} setIsVerifiedBussiness={setIsVerifiedBussiness} onBackClick={onBackClick}/>;
+        return <StepFour formik={stepFourFormik} isVerifiedBussiness={isVerifiedBussiness} setIsVerifiedBussiness={setIsVerifiedBussiness} onBackClick={onBackClick} onSkipNow={onSkipNow}/>;
       }
       case 5: {
         return <StepFive formik={stepFiveFormik} locations={locations} setLocations={setLocations} onBackClick={onBackClick}/>;

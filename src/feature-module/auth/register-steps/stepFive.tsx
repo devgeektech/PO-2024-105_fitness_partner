@@ -64,6 +64,9 @@ const StepFive = ({ formik, locations, setLocations, onBackClick }: any) => {
         }
       }
     }
+    setAddress("");
+    setZipCode("");
+    setCity("");
   };
 
   const deleteLocation = (indexToRemove: number) => {
