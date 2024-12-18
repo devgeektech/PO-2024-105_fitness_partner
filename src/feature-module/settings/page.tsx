@@ -30,13 +30,9 @@ import GamesBlock from "../../core/components/games";
 
 
 const TrainerDashboard = () => {
-  // const user = useSelector((state: any) => state.user?.userDetail);
-  const [upcommingEvents, setUpcommingEvents] = useState<any[]>([]);
-  const [members, setMembers] = useState<any[]>([]);
-  const fileUrl = process.env.REACT_APP_FILE_URL;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const user = useSelector((state: any) => state.user);
   useEffect(() => {
 
   }, []);
@@ -53,19 +49,6 @@ const TrainerDashboard = () => {
         .getElementById("tabs-layout")
         ?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 400);
-  };
-
-  const getFriends = async () => {
-    try {
-      const [eventsData, memberData] = await Promise.all([
-        getAllMyUpcommingEvents({}),
-        getAllTeamMembers({}),
-      ]);
-      setUpcommingEvents(eventsData?.data?.data);
-      setMembers(memberData?.data?.data);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
@@ -87,8 +70,8 @@ const TrainerDashboard = () => {
                 </div>
                 <div className="p_content d-flex justify-content-between">
                     <div className="">
-                      <h1>ID Yoga - FiDi</h1>
-                      <p><LocationGreyIcon/><Link to={""} className="underline">121 Fulton St, New York, NY 10038, USA</Link></p>
+                      <h1>{user?.userDetail?.businessName}</h1>
+                      <p><LocationGreyIcon/><Link to={""} className="underline">{user?.userDetail?.adress}</Link></p>
                       <p><GlobeIcon/><Link to={""} className="underline">www.idhotyoga.com</Link></p>
                       <div className="tags">
                         <label className="tag">Boxing</label>
