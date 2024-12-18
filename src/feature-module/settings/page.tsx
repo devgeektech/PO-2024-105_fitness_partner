@@ -70,13 +70,17 @@ const TrainerDashboard = () => {
                 </div>
                 <div className="p_content d-flex justify-content-between">
                     <div className="">
-                      <h1>{user?.userDetail?.businessName}</h1>
-                      <p><LocationGreyIcon/><Link to={""} className="underline">{user?.userDetail?.adress}</Link></p>
-                      <p><GlobeIcon/><Link to={""} className="underline">www.idhotyoga.com</Link></p>
+                      <h1>{user?.userDetail?.partnerDetails?.businessName}</h1>
+                      <p><LocationGreyIcon/><Link to={""} className="underline">{user?.userDetail?.address}</Link></p>
+                      <p><GlobeIcon/><Link to={""} className="underline">{user?.userDetail?.partnerDetails?.businessWebsite}</Link></p>
                       <div className="tags">
-                        <label className="tag">Boxing</label>
-                        <label className="tag">Pickleball</label>
-                        <label className="tag">Spinning</label>
+                        {user?.userDetail?.services && user?.userDetail?.services.length>0 && user?.userDetail?.services.map((item:any, index:number)=>{
+                          return (
+                            <label key={index} className="tag">{item.name}</label>
+                          )
+                        })}
+                        {/* <label className="tag">Pickleball</label>
+                        <label className="tag">Spinning</label> */}
                       </div>
                     </div>
                     <div className="EditWrap">
