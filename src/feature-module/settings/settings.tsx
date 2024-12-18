@@ -30,17 +30,17 @@ import GamesBlock from "../../core/components/games";
 
 
 const TrainerDashboard = () => {
-  const user = useSelector((state: any) => state.user?.userDetail);
+  // const user = useSelector((state: any) => state.user?.userDetail);
   const [upcommingEvents, setUpcommingEvents] = useState<any[]>([]);
   const [members, setMembers] = useState<any[]>([]);
   const fileUrl = process.env.REACT_APP_FILE_URL;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const role = localStorage.getItem("role");
+  // const role = localStorage.getItem("role");
 
   useEffect(() => {
-    getFriends();
+    // getFriends();
   }, []);
 
   const updateUser = async (values: any) => {
@@ -49,7 +49,7 @@ const TrainerDashboard = () => {
   };
 
   const navigateToProfile = () => {
-    navigate("/trainer/trainer-dashboard?tab=profile&tabKey=accountSetting");
+    // navigate("/trainer/trainer-dashboard?tab=profile&tabKey=accountSetting");
     setTimeout(() => {
       document
         .getElementById("tabs-layout")

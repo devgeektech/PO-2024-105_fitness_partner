@@ -50,11 +50,10 @@ const Login = () => {
           toast.success(LANG.LOGIN_SUCCESSFULLY);
           localStorage.setItem('token', result.data?.data?.token);
           localStorage.setItem('id', result.data?.data?._id);
-          // localStorage.setItem('roles', JSON.stringify(result.data?.data?.role));
           dispatch(setLogin(true));
           dispatch(setUserDetail(result.data?.data));
           http.defaults.headers['Authorization'] = result.data?.data?.token;
-          navigate(route.trainerDashboard+'?tab=dashboard');
+          navigate(route.Settings);
         }else if(result.status == 404){
            console.log(values)
         }

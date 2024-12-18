@@ -58,3 +58,7 @@ export async function checkMemberInDB(email:string) {
     }
    }
 }
+
+export const createNewPAssword= async (payload:any)=>{
+  return http.put('/auth/partner/createNewPassword',payload);
+}

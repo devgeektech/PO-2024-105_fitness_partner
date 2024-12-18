@@ -1,23 +1,75 @@
 import React, { useState } from "react";
 import { all_routes } from "../router/all_routes";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import ImageWithBasePath from "../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../icons/BackIcon";
 import KeyIcon from "../../icons/KeyIcon";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { LANG } from "../../constants/language";
+import { createNewPAssword } from "../../services/auth.service";
+import { AxiosError } from "axios";
+import { toast } from "react-toastify";
 
-const ChangePassword = ({ email, onBoarding }: any) => {
+const ChangePassword = () => {
   const routes = all_routes;
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  console.log('email =========== ', email);
-  console.log('onBoarding >>>>> ', onBoarding);
-  
+  // Access state passed via `navigate`
+  const location = useLocation();
+  const { email, onBoarding } = location.state || {}; // Use fallback empty object to avoid errors
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const initialValues = {
+    email: email,
+    password: "",
+  };
+
+  const loginSchema = Yup.object().shape({
+    email: Yup.string().email(LANG.PLEASE_ADD_VALID_EMAIL).required(LANG.EMAIL_IS_REQUIRED),
+    password: Yup.string().required(LANG.PASSWORD_IS_REQUIRED),
+  });
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: loginSchema,
+    onSubmit: async (values, { setSubmitting }) => {
+      setLoading(true);
+      try {
+        const result = await createNewPAssword(values);
+        console.log('result ========= ',result);
+        
+        if (result.status == 200) {
+          toast.success(LANG.LOGIN_SUCCESSFULLY);
+          // localStorage.setItem('token', result.data?.data?.token);
+          // localStorage.setItem('id', result.data?.data?._id);
+          // dispatch(setLogin(true));
+          // dispatch(setUserDetail(result.data?.data));
+          // http.defaults.headers['Authorization'] = result.data?.data?.token;
+          // navigate(route.Settings);
+        } else if (result.status == 404) {
+          console.log(values)
+        }
+        setSubmitting(false);
+        setLoading(false);
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          toast.error(error.response?.data?.responseMessage)
+        }
+        console.log(error, loading)
+        setSubmitting(false);
+        setLoading(false);
+      }
+    },
+  });
+
+
   return (
     <div className="main-wrapper authendication-pages">
       <div className="content">
@@ -38,7 +90,10 @@ const ChangePassword = ({ email, onBoarding }: any) => {
                       />
                     </header>
                     <div className="shadow-card">
-                      <h2 className="text-center">Set your new password</h2>
+                      {onBoarding ?
+                        <h2 className="text-center">Create your password</h2> :
+                        <h2 className="text-center">Set your new password</h2>}
+
                       <p className="text-center">
                         Create a password with combine of alphabets, numbers and
                         symbols (@,#,%, !){" "}
@@ -51,7 +106,7 @@ const ChangePassword = ({ email, onBoarding }: any) => {
                           aria-labelledby="user-tab"
                         >
                           {/* Login Form */}
-                          <form>
+                          <form onSubmit={formik.handleSubmit}>
                             <div className="form-group">
                               <div className="pass-group group-img  iconLeft email position-relative">
                                 <label>
@@ -95,7 +150,9 @@ const ChangePassword = ({ email, onBoarding }: any) => {
                               type="submit"
                               className="btn btn-secondary register-btn d-inline-flex justify-content-center align-items-center w-100 btn-block"
                             >
-                              Set new Password
+                              {onBoarding ?
+                                'Create password and go to dashboard' :
+                                'Set new Password'}
                             </button>
                           </form>
                           {/* /Login Form */}
