@@ -283,3 +283,13 @@
     transform: translateY(-50%);
   }
 }
+
+p.warningMessage {
+  color: #E77F16!important;
+  font-size: 12px !important;
+  padding-top: 2px;
+
+}
+.borderWarning{
+  border: 1px solid #E77F16;
+}

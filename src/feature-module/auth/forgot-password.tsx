@@ -16,7 +16,6 @@ import WarningIcon from '../../icons/WarningIcon';
 
 const initialValues = {
   email: '',
-  password: ""
 }
 
 const forgotPasswordSchema = Yup.object().shape({
@@ -35,19 +34,20 @@ const ForgotPassword = () => {
   const formik = useFormik({
     initialValues,
     validationSchema: forgotPasswordSchema,
-    onSubmit: (values, { setStatus, setSubmitting }) => {
-      setTimeout(() => {
-        forgotPassword(values.email)
-          .then(({ data: { result } }) => {
-            console.log(result)
-          })
-          .catch(() => {
-            setSubmitting(false)
-            setStatus('The login detail is incorrect');
-            toast.error(LANG.ENTER_REGISTERED_EMAIL);
-            setError("Please look the entered email is correct")
-          })
-      }, 1000)
+    onSubmit: async (values, { setStatus, setSubmitting }) => {
+      try {
+        const { data: { result } } = await forgotPassword(values.email);
+        console.log(result);
+        toast.success('Password reset link sent successfully!');
+        setError(null);
+        
+        // Optionally, redirect or handle success
+      } catch (error) {
+        setSubmitting(false);
+        setStatus('The login detail is incorrect');
+        toast.error(LANG.ENTER_REGISTERED_EMAIL);
+        setError('Please look the entered email is correct.');
+      }
     },
   });
 
@@ -86,25 +86,21 @@ const ForgotPassword = () => {
                               <div className="group-img iconLeft email position-relative">
                                 <label><EmailIcon /></label>
                                 <input
+                                className={error ? "borderWarning" : "form-control commonInput"}
                                   type="text"
                                   placeholder="Email"
-                                  {...formik.getFieldProps("email")}
-                                  className={clsx(
-                                    "form-control commonInput bg-transparent",
-                                    { "border border-warning": formik.touched.email && formik.errors.email },
-                                  )}
+                                  {...formik.getFieldProps('email')}                                 
                                 />
                               </div>
-                              <ErrorText show={formik.touched.email && formik.errors.email} message= {formik.errors?.email} />
 
-
-                              {/* {error && (
+                              {error && (
                                 <p
-                                  className="text-center mt-2 text-warning"
+                                  className="warningMessage"
                                 >
-                                  ⚠ {error}
+                                  <WarningIcon></WarningIcon> {error}
                                 </p>
-                              )} */}
+                              )}
+
                             </div>
 
                             <button type="submit" className="btn btn-secondary register-btn d-inline-flex justify-content-center align-items-center w-100 btn-block">
