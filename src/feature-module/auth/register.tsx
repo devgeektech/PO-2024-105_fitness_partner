@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { all_routes } from "../router/all_routes";
 import * as Yup from "yup";
@@ -101,6 +101,9 @@ const Signin = () => {
   const [services, setServices] = useState<any>([]);
   const [checkinRate, setCheckinRate] = useState("");
 
+
+  useEffect(()=>{
+  },[setStep])
 
   const stepOneFormik = useFormik({
     initialValues: stepFirstInitialValues,
@@ -222,6 +225,12 @@ const Signin = () => {
     },
   });
 
+  const onBackClick = () => {
+    if(step > 0) {
+      setStep(step-1)
+    }
+  } 
+
   const stepSevenFormik = useFormik({
     initialValues: stepSevenInitialValues,
     validationSchema: stepSevenRegisterSchema,
@@ -258,25 +267,25 @@ const Signin = () => {
 
     switch (activeStep) {
       case 1: {
-        return <StepFirst formik={stepOneFormik} />;
+        return <StepFirst formik={stepOneFormik}/>;
       }
       case 2: {
-        return <StepSecond formik={stepSecondFormik} otp={otp} setOtp={setOtp} submitDetails={submitDetails} error={error} setError={setError}/>;
+        return <StepSecond formik={stepSecondFormik} otp={otp} setOtp={setOtp} submitDetails={submitDetails} error={error} setError={setError} onBackClick={onBackClick}/>;
       }
       case 3: {
-        return <StepThird formik={stepThirdFormik} wellnessTypeId={wellnessTypeId} setWellnessTypeId={setWellnessTypeId} />;
+        return <StepThird formik={stepThirdFormik} wellnessTypeId={wellnessTypeId} setWellnessTypeId={setWellnessTypeId} onBackClick={onBackClick}/>;
       }
       case 4: {
-        return <StepFour formik={stepFourFormik} isVerifiedBussiness={isVerifiedBussiness} setIsVerifiedBussiness={setIsVerifiedBussiness} />;
+        return <StepFour formik={stepFourFormik} isVerifiedBussiness={isVerifiedBussiness} setIsVerifiedBussiness={setIsVerifiedBussiness} onBackClick={onBackClick}/>;
       }
       case 5: {
-        return <StepFive formik={stepFiveFormik} locations={locations} setLocations={setLocations} />;
+        return <StepFive formik={stepFiveFormik} locations={locations} setLocations={setLocations} onBackClick={onBackClick}/>;
       }
       case 6: {
-        return <StepSix formik={stepSixFormik} services={services} setServices={setServices} />;
+        return <StepSix formik={stepSixFormik} services={services} setServices={setServices} onBackClick={onBackClick}/>;
       }
       case 7: {
-        return <StepSeven formik={stepSevenFormik} checkinRate={checkinRate} setCheckinRate={setCheckinRate} />;
+        return <StepSeven formik={stepSevenFormik} checkinRate={checkinRate} setCheckinRate={setCheckinRate} onBackClick={onBackClick}/>;
       }
       case 8: {
         return <ThankYou email={submitDetails.email}/>;

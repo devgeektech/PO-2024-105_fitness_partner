@@ -21,7 +21,7 @@ const ThankYou = ({ email }: any) => {
                 <div className="row no-margin vph-100 d-flex align-items-top justify-content-center">
                   <div className="col-sm-10 col-md-10 col-lg-10 mx-auto">
                     <header className="text-center position-relative">
-                      <Link className='backBtn' to={"/auth/login"}><BackIcon /></Link>
+                      {/* <Link className='backBtn' to={"/auth/login"}><BackIcon /></Link> */}
                       <ImageWithBasePath
                         src="assets/img/logo.png"
                         className="img-fluid"

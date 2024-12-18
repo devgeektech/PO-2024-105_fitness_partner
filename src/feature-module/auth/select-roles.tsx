@@ -17,7 +17,7 @@ const SelectRoles = () => {
   const navigateToRole= (role:any)=>{
     if(role=='trainer'){
       setStorageItem('role', 'trainer');
-      navigate(routes.trainerDashboard);
+      // navigate(routes.trainerDashboard);
     }
     else if(role=='sponsor'){
       setStorageItem('role', 'sponsor');

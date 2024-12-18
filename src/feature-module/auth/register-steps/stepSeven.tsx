@@ -6,7 +6,7 @@ import DollorIcon from "../../../icons/DollorIcon";
 import WarningGreyIcon from "../../../icons/WarningGreyIcon";
 
 
-const StepSeven = ({ formik }: any) => {
+const StepSeven = ({ formik, onBackClick }: any) => {
 
   return (
     <div className="main-wrapper authendication-pages">
@@ -18,9 +18,9 @@ const StepSeven = ({ formik }: any) => {
                 <div className="row no-margin vph-100 d-flex align-items-top justify-content-center">
                   <div className="col-sm-10 col-md-10 col-lg-10 mx-auto">
                     <header className="text-center position-relative">
-                      <Link className="backBtn" to={"/auth/login"}>
+                      <span className="backBtn" onClick={onBackClick}>
                         <BackIcon />
-                      </Link>
+                      </span>
                       <ImageWithBasePath
                         src="assets/img/logo.png"
                         className="img-fluid"

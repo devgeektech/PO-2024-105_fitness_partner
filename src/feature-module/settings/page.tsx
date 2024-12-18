@@ -37,10 +37,8 @@ const TrainerDashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // const role = localStorage.getItem("role");
-
   useEffect(() => {
-    // getFriends();
+
   }, []);
 
   const updateUser = async (values: any) => {

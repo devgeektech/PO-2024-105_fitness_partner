@@ -4,7 +4,7 @@ import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
 import LocationIcon from "../../../icons/LocationIcon";
 import { Autocomplete } from "@react-google-maps/api";
-const StepFour = ({ formik, isVerifiedBussiness, setIsVerifiedBussiness }: any) => {
+const StepFour = ({ formik, isVerifiedBussiness, setIsVerifiedBussiness, onBackClick }: any) => {
 
   const [autocomplete, setAutocomplete] = useState<any>(null);
 
@@ -32,9 +32,9 @@ const StepFour = ({ formik, isVerifiedBussiness, setIsVerifiedBussiness }: any) 
                 <div className="row no-margin vph-100 d-flex align-items-top justify-content-center">
                   <div className="col-sm-10 col-md-10 col-lg-10 mx-auto">
                     <header className="text-center position-relative">
-                      <Link className="backBtn" to={"/auth/login"}>
+                      <span className="backBtn" onClick={onBackClick}>
                         <BackIcon />
-                      </Link>
+                      </span>
                       <ImageWithBasePath
                         src="assets/img/logo.png"
                         className="img-fluid"

@@ -5,7 +5,7 @@ import BackIcon from "../../../icons/BackIcon";
 import StudioIcon from "../../../icons/StudioIcon";
 import { getWellnesslist } from "../../../services/wellness.service";
 
-const StepThird = ({ formik, setWellnessTypeId }: any) => {
+const StepThird = ({ formik, setWellnessTypeId, onBackClick }: any) => {
   const [wellnesslist, setWellnesslist] = useState<any[]>([]);
 
   useEffect(() => {
@@ -32,9 +32,9 @@ const StepThird = ({ formik, setWellnessTypeId }: any) => {
                 <div className="row no-margin vph-100 d-flex align-items-top justify-content-center">
                   <div className="col-sm-10 col-md-10 col-lg-10 mx-auto">
                     <header className="text-center position-relative">
-                      <Link className="backBtn" to={"/auth/login"}>
+                      <span className="backBtn" onClick={onBackClick}>
                         <BackIcon />
-                      </Link>
+                      </span>
                       <ImageWithBasePath
                         src="assets/img/logo.png"
                         className="img-fluid"
