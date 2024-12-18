@@ -5,7 +5,7 @@ import BackIcon from "../../../icons/BackIcon";
 import LocationIcon from "../../../icons/LocationIcon";
 import CrossIcon from "../../../icons/CrossIcon";
 import { Autocomplete } from "@react-google-maps/api";
-const StepFive = ({ formik, locations, setLocations }: any) => {
+const StepFive = ({ formik, locations, setLocations, onBackClick }: any) => {
   const [address, setAddress] = useState("");
   const [url, setUrl] = useState("");
   const [lat, setLat] = useState(null);
@@ -88,9 +88,9 @@ const StepFive = ({ formik, locations, setLocations }: any) => {
                 <div className="row no-margin vph-100 d-flex align-items-top justify-content-center">
                   <div className="col-sm-10 col-md-10 col-lg-10 mx-auto">
                     <header className="text-center position-relative">
-                      <Link className="backBtn" to={"/auth/login"}>
+                    <span className="backBtn" onClick={onBackClick}>
                         <BackIcon />
-                      </Link>
+                      </span>
                       <ImageWithBasePath
                         src="assets/img/logo.png"
                         className="img-fluid"

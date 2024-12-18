@@ -24,14 +24,14 @@ const ThankYou = () => {
       <div className="dull-pg">
         <div className="row no-margin vph-100 d-flex align-items-top justify-content-center">
           <div className="col-sm-10 col-md-10 col-lg-10 mx-auto">
-            <header className="text-center position-relative">
+            {/* <header className="text-center position-relative">
               <Link className='backBtn' to={"/auth/login"}><BackIcon/></Link>
                 <ImageWithBasePath
                   src="assets/img/logo.png"
                   className="img-fluid"
                   alt="Logo"
                 />
-            </header>
+            </header> */}
             <div className="shadow-card thankyou">
               <h2 className="text-center">Thank you!</h2>
               <p className="text-center">Your account has been created successfully with us. </p>

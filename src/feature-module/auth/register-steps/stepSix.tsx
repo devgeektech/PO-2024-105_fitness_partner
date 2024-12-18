@@ -5,7 +5,7 @@ import BackIcon from "../../../icons/BackIcon";
 import SearchIcon from "../../../icons/SearchIcon";
 import { getServicelist } from "../../../services/services.service";
 
-const StepSix = ({ formik , setServices}: any) => {
+const StepSix = ({ formik , setServices, onBackClick}: any) => {
   const [servicelist, setServicelist] = useState<any[]>([]);
 
   useEffect(() => {
@@ -43,9 +43,9 @@ const StepSix = ({ formik , setServices}: any) => {
                 <div className="row no-margin vph-100 d-flex align-items-top justify-content-center">
                   <div className="col-sm-10 col-md-10 col-lg-10 mx-auto">
                     <header className="text-center position-relative">
-                      <Link className="backBtn" to={"/auth/login"}>
+                      <span className="backBtn" onClick={onBackClick}>
                         <BackIcon />
-                      </Link>
+                      </span>
                       <ImageWithBasePath
                         src="assets/img/logo.png"
                         className="img-fluid"

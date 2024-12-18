@@ -31,7 +31,7 @@ import ChangePassword from "../auth/change-password";
 import Maintenance from "../pages/maintenance";
 import VerifyAccountPage from "../auth/verify-account";
 import SelectRoles from "../auth/select-roles";
-import Settings from "../settings/settings";
+import Settings from "../settings/page";
 import ValidationRedirect from "../auth/validation-redirect";
 import ConfirmEmail from "../auth/confirm-email";
 import StepOne from "../auth/stepOne";

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../../icons/BackIcon";
 
-const StepSecond = ({ formik, otp, setOtp, submitDetails, error, setError }:any) => {
+const StepSecond = ({ formik, otp, setOtp, submitDetails, error, setError, onBackClick }:any) => {
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const handleOtpChange = (index: number, value: string) => {
     if (/^[0-9]?$/.test(value)) {
@@ -40,9 +40,9 @@ const StepSecond = ({ formik, otp, setOtp, submitDetails, error, setError }:any)
                 <div className="row no-margin vph-100 d-flex align-items-top justify-content-center">
                   <div className="col-sm-10 col-md-10 col-lg-10 mx-auto">
                     <header className="text-center position-relative">
-                      <Link className="backBtn" to={"/auth/login"}>
+                      <span className="backBtn" onClick={onBackClick}>
                         <BackIcon />
-                      </Link>
+                      </span>
                       <ImageWithBasePath
                         src="assets/img/logo.png"
                         className="img-fluid"
@@ -67,7 +67,7 @@ const StepSecond = ({ formik, otp, setOtp, submitDetails, error, setError }:any)
                               <div className="d-flex groupInputs justify-content-center">
                                 {otp.map((digit:any, index:any) => (
                                   <input
-                                    style={{ border:"2px #E77F16 !Important"}}
+                                    className={error?"border-warning":""}
                                     key={index}
                                     type="text"
                                     placeholder="_"
@@ -87,8 +87,7 @@ const StepSecond = ({ formik, otp, setOtp, submitDetails, error, setError }:any)
                               </div>
                               {error && (
                               <p
-                                className="text-center mt-2"
-                                style={{ color: "#E77F16", fontSize: "0.875rem" }}
+                                className="text-center mt-2 text-warning"
                               >
                               ⚠ {error}
                             </p>
