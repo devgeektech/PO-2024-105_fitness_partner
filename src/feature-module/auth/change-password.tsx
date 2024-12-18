@@ -1,22 +1,25 @@
 import React, { useState } from "react";
 import { all_routes } from "../router/all_routes";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ImageWithBasePath from "../../core/data/img/ImageWithBasePath";
 import BackIcon from "../../icons/BackIcon";
 import KeyIcon from "../../icons/KeyIcon";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { LANG } from "../../constants/language";
-import { createNewPAssword } from "../../services/auth.service";
+import { createNewPassword } from "../../services/auth.service";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import http from "../../services/http.service";
+import { useDispatch } from "react-redux";
+import { setLogin, setUserDetail } from "../../core/data/redux/user/userSlice";
 
 const ChangePassword = () => {
-  const routes = all_routes;
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const route = all_routes;
+  const dispatch= useDispatch();
 
   // Access state passed via `navigate`
   const location = useLocation();
@@ -26,44 +29,53 @@ const ChangePassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const initialValues = {
-    email: email,
-    password: "",
-  };
-
-  const loginSchema = Yup.object().shape({
-    email: Yup.string().email(LANG.PLEASE_ADD_VALID_EMAIL).required(LANG.EMAIL_IS_REQUIRED),
-    password: Yup.string().required(LANG.PASSWORD_IS_REQUIRED),
+  const changePasswordSchema = Yup.object().shape({
+    newPassword: Yup.string()
+      .required(LANG.PASSWORD_IS_REQUIRED)
+      .min(8, LANG.PASSWORD_MIN_LENGTH)
+      .matches(/[A-Z]/, LANG.PASSWORD_UPPERCASE)
+      .matches(/[a-z]/, LANG.PASSWORD_LOWERCASE)
+      .matches(/[0-9]/, LANG.PASSWORD_NUMBER)
+      .matches(/[@#%!-]/, LANG.PASSWORD_SYMBOL),
+    confirmPassword: Yup.string()
+      .required(LANG.CONFIRM_PASSWORD_IS_REQUIRED)
+      .oneOf([Yup.ref("newPassword")], LANG.PASSWORDS_MUST_MATCH),
   });
 
   const formik = useFormik({
-    initialValues,
-    validationSchema: loginSchema,
+    initialValues: {
+      newPassword: "",
+      confirmPassword: "",
+    },
+    validationSchema: changePasswordSchema,
+
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
-        const result = await createNewPAssword(values);
-        console.log('result ========= ',result);
-        
+        const payload = { email, password: values.newPassword };
+        const result = await createNewPassword(payload);
+
         if (result.status == 200) {
           toast.success(LANG.LOGIN_SUCCESSFULLY);
-          // localStorage.setItem('token', result.data?.data?.token);
-          // localStorage.setItem('id', result.data?.data?._id);
-          // dispatch(setLogin(true));
-          // dispatch(setUserDetail(result.data?.data));
-          // http.defaults.headers['Authorization'] = result.data?.data?.token;
-          // navigate(route.Settings);
-        } else if (result.status == 404) {
-          console.log(values)
+          localStorage.setItem('token', result.data?.data?.token);
+          localStorage.setItem('id', result.data?.data?._id);
+          dispatch(setLogin(true));
+          dispatch(setUserDetail(result.data?.data));
+          http.defaults.headers['Authorization'] = result.data?.data?.token;
+          navigate(route.Settings);
+        }
+        else {
+          toast.error(LANG.UNEXPECTED_ERROR);
         }
         setSubmitting(false);
-        setLoading(false);
-      } catch (error) {
+      }
+      catch (error) {
         if (error instanceof AxiosError) {
-          toast.error(error.response?.data?.responseMessage)
+          toast.error(error.response?.data?.responseMessage || LANG.UNEXPECTED_ERROR);
         }
-        console.log(error, loading)
         setSubmitting(false);
+      }
+      finally {
         setLoading(false);
       }
     },
@@ -89,10 +101,11 @@ const ChangePassword = () => {
                         alt="Logo"
                       />
                     </header>
+
                     <div className="shadow-card">
-                      {onBoarding ?
-                        <h2 className="text-center">Create your password</h2> :
-                        <h2 className="text-center">Set your new password</h2>}
+                      <h2 className="text-center">
+                        {onBoarding ? "Create your password" : "Set your new password"}
+                      </h2>
 
                       <p className="text-center">
                         Create a password with combine of alphabets, numbers and
@@ -118,16 +131,29 @@ const ChangePassword = () => {
                                 />
                                 <input
                                   type={showPassword ? "text" : "password"}
-                                  onChange={(e) =>
-                                    setNewPassword(e.target.value)
-                                  }
-                                  value={newPassword}
+                                  name="newPassword"
+                                  value={formik.values.newPassword}
+                                  onChange={formik.handleChange}
                                   id="newpassword"
-                                  className="form-control pass-confirm"
                                   placeholder="Enter your new Password"
+
+                                  className={`form-control pass-confirm ${
+                                    formik.touched.newPassword && formik.errors.newPassword
+                                      ? "is-invalid"
+                                      : ""
+                                  }`}
+                                  // className="form-control pass-confirm"
                                 />
+
+                                {formik.touched.newPassword && formik.errors.newPassword && (
+                                  <div className="invalid-feedback">
+                                    {formik.errors.newPassword}
+                                  </div>
+                                )}
+
                               </div>
                             </div>
+
                             <div className="form-group">
                               <div className="pass-group group-img  iconLeft email position-relative">
                                 <label>
@@ -135,24 +161,33 @@ const ChangePassword = () => {
                                 </label>
                                 <input
                                   type={showPassword ? "text" : "password"}
-                                  onChange={(e) =>
-                                    setConfirmPassword(e.target.value)
-                                  }
-                                  value={confirmPassword}
+                                  name="confirmPassword"
+                                  onChange={formik.handleChange}
+                                  value={formik.values.confirmPassword}
                                   id="password"
-                                  className="form-control pass-confirm"
                                   placeholder="Confirm your new Password"
+                                  // className="form-control pass-confirm"
+
+                                  className={`form-control pass-confirm ${formik.touched.confirmPassword && formik.errors.confirmPassword
+                                      ? "is-invalid"
+                                      : ""
+                                    }`}
                                 />
+
+                                {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+                                  <div className="invalid-feedback">
+                                    {formik.errors.confirmPassword}
+                                  </div>
+                                )}
                               </div>
                             </div>
 
                             <button
                               type="submit"
                               className="btn btn-secondary register-btn d-inline-flex justify-content-center align-items-center w-100 btn-block"
+                              disabled={loading}
                             >
-                              {onBoarding ?
-                                'Create password and go to dashboard' :
-                                'Set new Password'}
+                              {loading ? "Processing..." : onBoarding ? "Create password and go to dashboard" : "Set new Password"}
                             </button>
                           </form>
                           {/* /Login Form */}
