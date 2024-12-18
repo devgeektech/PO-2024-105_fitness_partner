@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { all_routes } from "../router/all_routes";
 import ImageWithBasePath from "../../core/data/img/ImageWithBasePath";
 import { useDispatch, useSelector } from "react-redux";
-import { setLogin, setUserDetail } from "../../core/data/redux/user/userSlice";
+import { setLocations, setLogin, setUserDetail } from "../../core/data/redux/user/userSlice";
 import { Dropdown } from "react-bootstrap";
 import { clearStorage } from "../../services/storage.service";
 import { LANG } from "../../constants/language";
@@ -18,6 +18,7 @@ const Header = () => {
   const navigate = useNavigate();
   const locationId = localStorage.getItem('locationId');
   const user = useSelector((state: any) => state.user);
+
   const [availLocations, setAvailLocations] = useState<any>([]);
   // const logout = async () => {
   //   dispatch(setLogin(false));
@@ -127,7 +128,14 @@ const Header = () => {
   const getUserDetail = async () => {
     try {
       const [selectedLocation, Loc] = await Promise.all([getLocationById(), getAllLocations()]);
-      let array = Loc?.data?.data?.locations;
+      let array = Loc?.data?.data;
+      console.log(array,">>> array >>>>")
+      let filteredData;
+      if(array && Array.isArray(array)){
+        filteredData = array.filter((item:any) => item._id === locationId);
+        setAvailLocations(array)
+        dispatch(setLocations(filteredData[0]))
+      }
 
       dispatch(setUserDetail(selectedLocation?.data?.data?.partnerDetails));    
     } catch (error) {
@@ -216,7 +224,7 @@ const Header = () => {
                 <>
                   <Dropdown className="loginProfileWrapper">
                     <Dropdown.Toggle className="header-profile-button" id="dropdown-basic">
-                      firstName lastname
+                      {user?.userDetail?.businessName}
                       <svg className="ms-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 15.718L17.0513 10.6667L16.1 9.74867L12 13.8487L7.9 9.74867L6.94867 10.6667L12 15.718ZM12.0043 24C10.345 24 8.78489 23.6851 7.324 23.0553C5.86333 22.4256 4.59267 21.5709 3.512 20.4913C2.43133 19.4118 1.57589 18.1422 0.945667 16.6827C0.315222 15.2233 0 13.6639 0 12.0043C0 10.345 0.314889 8.78489 0.944667 7.324C1.57444 5.86333 2.42911 4.59267 3.50867 3.512C4.58822 2.43133 5.85778 1.57589 7.31733 0.945667C8.77667 0.315222 10.3361 0 11.9957 0C13.655 0 15.2151 0.31489 16.676 0.944668C18.1367 1.57445 19.4073 2.42911 20.488 3.50867C21.5687 4.58822 22.4241 5.85778 23.0543 7.31733C23.6848 8.77667 24 10.3361 24 11.9957C24 13.655 23.6851 15.2151 23.0553 16.676C22.4256 18.1367 21.5709 19.4073 20.4913 20.488C19.4118 21.5687 18.1422 22.4241 16.6827 23.0543C15.2233 23.6848 13.6639 24 12.0043 24ZM12 22.6667C14.9778 22.6667 17.5 21.6333 19.5667 19.5667C21.6333 17.5 22.6667 14.9778 22.6667 12C22.6667 9.02222 21.6333 6.5 19.5667 4.43333C17.5 2.36667 14.9778 1.33333 12 1.33333C9.02222 1.33333 6.5 2.36667 4.43333 4.43333C2.36667 6.5 1.33333 9.02222 1.33333 12C1.33333 14.9778 2.36667 17.5 4.43333 19.5667C6.5 21.6333 9.02222 22.6667 12 22.6667Z" fill="#3C3C3C" />
                       </svg>
@@ -237,8 +245,12 @@ const Header = () => {
                             </div>
                           </div> */}
                           <div className="linksWrap">
-                            <Dropdown.Item >Account Setting</Dropdown.Item>
-                            <Dropdown.Item >Help & Support</Dropdown.Item>
+                            { availLocations && availLocations.map((item:any)=>{
+                             return (
+                                <Dropdown.Item>{item?.address?.slice(0, 20)}</Dropdown.Item>
+                             ) 
+                            })}
+                            {/* <Dropdown.Item >Help & Support</Dropdown.Item> */}
                           </div>
                           <div className="logoutBtnWrap">
                             <Dropdown.Item><LogutIcon /> {LANG.LOGOUT}</Dropdown.Item>
