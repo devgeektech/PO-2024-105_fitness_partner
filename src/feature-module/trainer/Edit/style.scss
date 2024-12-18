@@ -11,3 +11,11 @@
         }
     }
 }
+
+@media only screen and (max-width: 767px) {
+    .settingEdit {
+        ul.breadcrumbWrapper {
+            margin-bottom: 0px;
+        }
+    }
+}

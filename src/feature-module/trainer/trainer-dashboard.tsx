@@ -99,7 +99,7 @@ const TrainerDashboard = () => {
                       </div>
                     </div>
                     <div className="EditWrap">
-                      <button><EditGreyIcon/>Edit setting</button>
+                      <Link to={'/trainer/settingEdit'}><EditGreyIcon/>Edit setting</Link>
                     </div>
                 </div>
               </div>

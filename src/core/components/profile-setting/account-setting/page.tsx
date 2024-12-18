@@ -21,6 +21,11 @@ import ErrorText from '../../error-text';
 import BusinessIcon from '../../../../icons/BusinessIcon';
 import FileIcon from '../../../../icons/FileIcon';
 import { Link } from 'react-router-dom';
+import LocationIcon from '../../../../icons/LocationIcon';
+import CrossIcon from '../../../../icons/CrossIcon';
+import TimerIcon from '../../../../icons/TimerIcon';
+import SearchIcon from '../../../../icons/SearchIcon';
+import CrossWhiteBlackIcon from '../../../../icons/CrossWhiteBlackIcon';
 
 const profileSchema:any = Yup.object().shape({
   firstName: Yup.string().required(LANG.FIELD_IS_REQUIRED),
@@ -54,6 +59,8 @@ export default function AccountSetting({ userDetail }: any) {
   const [imageUrl, setImageUrl] = useState<any>();
   const [loading, setLoading] = useState(false);
   const fileUrl = process.env.REACT_APP_FILE_URL;
+  const items = ["Item 1", "Item 2", "Item 3"];
+
   const dispatch = useDispatch();
 
   const formik = useFormik({
@@ -121,448 +128,205 @@ export default function AccountSetting({ userDetail }: any) {
           <button className='uploaddBtn' type='button'><Form.Control onChange={handleChangeProfileImage} type="file" /><EditCircleIcon /></button>
         </div>
       </div>
-      <div className='personalIformation bgFormColor p-4 formEditWrap mb-3'>
-        <label>Business information</label>
+      <div className='personalIformation   formEditWrap mb-3'>
+        
         <Form onSubmit={formik.handleSubmit}>
-          <div className='row'>
-            <div className='col-md-4'>
-              <Form.Group className="mb-3">
-              <div className="group-img iconLeft  position-relative">
-              <label><BusinessIcon/></label>
-                <input type="text" placeholder="Business name"
-                  readOnly={true}
-                  {...formik.getFieldProps("firstName")}
-                  className={clsx(
-                    "commonInput form-control",
-                    { "border border-danger": formik.touched.firstName && formik.errors.firstName },
-                  )}
-                />
+          <div className='bgFormColor p-4 mb-3'>
+            <label>Business information</label>
+            <div className='row'>
+              <div className='col-md-4'>
+                <Form.Group className="mb-3">
+                <div className="group-img iconLeft  position-relative">
+                  <label><BusinessIcon/></label>
+                  <input type="text" placeholder="Business name"
+                    readOnly={true}
+                    {...formik.getFieldProps("firstName")}
+                    className={clsx(
+                      "commonInput form-control",
+                      { "border border-danger": formik.touched.firstName && formik.errors.firstName },
+                    )}
+                  />
+                  </div>
+                </Form.Group>
+              </div>
+
+            </div>
+          
+              <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                <div className="group-img iconLeft  position-relative textareaWrap">
+                <label><FileIcon/></label>
+                <Form.Control 
+                  as="textarea" 
+                  rows={3} 
+                  defaultValue='' 
+                  {...formik.getFieldProps("description")}
+                  name="description"
+                  placeholder='Tell us something about your business'
+                /> 
                 </div>
               </Form.Group>
-            </div>
-
-            {/* <div className='col-md-4'>
-              <Form.Group className="mb-3">
-                <input type="text" placeholder={LANG.LAST_NAME}
-                  readOnly={true}
-                  {...formik.getFieldProps("lastName")}
-                  className={clsx(
-                    "commonInput form-control",
-                    { "border border-danger": formik.touched.lastName && formik.errors.lastName },
-                  )}
-                />
-              </Form.Group>
-            </div>
-            <div className='col-md-4'>
-              <Form.Group className="mb-3">
-                <input type='email' placeholder='Email'  {...formik.getFieldProps("email")}
-                  className={clsx(
-                    "commonInput form-control",
-                    { "border border-danger": formik.touched.email && formik.errors.email },
-                  )}
-                />
-              </Form.Group>
-            </div>
-            <div className='col-md-4'>
-              <Form.Group className="mb-3">
-                <input type='text'
-                  placeholder={LANG.PHONE}
-                  {...formik.getFieldProps("phone")}
-                  onKeyPress={numOnly}
-                  maxLength={11}
-                  className={clsx(
-                    "commonInput form-control",
-                    { "border border-danger": formik.touched.phone && formik.errors.phone },
-                  )} />
-              </Form.Group>
-            </div>
-            <div className='col-md-4'>
-              <Form.Group className="mb-3">
-                <input type="date" placeholder={LANG.BIRTHDAY}
-                  readOnly={true}
-                  {...formik.getFieldProps("dob")}
-                  className={clsx(
-                    "commonInput form-control",
-                    { "border border-danger": formik.touched.dob && formik.errors.dob },
-                  )}
-                />
-              </Form.Group>
-            </div> */}
-          </div>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <div className="group-img iconLeft  position-relative textareaWrap">
-          <label><FileIcon/></label>
-          <Form.Control 
-            as="textarea" 
-            rows={3} 
-            defaultValue='' 
-            {...formik.getFieldProps("description")}
-            name="description"
-            placeholder='Tell us something about your business'
-          /> 
-          </div>
-          </Form.Group>
-
-
-          <label>{LANG.ADDRESS}</label>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-            <Form.Control as="textarea" rows={2} placeholder={LANG.STREET}
-              {...formik.getFieldProps("street")}
-              className={clsx(
-                "addressTextarea",
-                { "border border-danger": formik.touched.street && formik.errors.street },
-              )} />
-          </Form.Group>
-          <div className='row'>
-            <div className='col-md-4'>
-              <Form.Group className="mb-3">
-                <input type="text"
-                  placeholder={LANG.HOUSE_NO}  {...formik.getFieldProps("houseNumber")}
-                  className={clsx(
-                    "commonInput form-control",
-                    { "border border-danger": formik.touched.houseNumber && formik.errors.houseNumber },
-                  )} />
-              </Form.Group>
-            </div>
-            <div className='col-md-4'>
-              <Form.Group className="mb-3">
-                <input type='text' placeholder={LANG.ZIP_CODE} {...formik.getFieldProps("zipCode")}
-                  className={clsx(
-                    "commonInput form-control",
-                    { "border border-danger": formik.touched.zipCode && formik.errors.zipCode },
-                  )} />
-              </Form.Group>
-            </div>
-            <div className='col-md-4'>
-              <Form.Group className="mb-3">
-                <input type='text' placeholder={LANG.CITY} {...formik.getFieldProps("city")}
-                  className={clsx(
-                    "commonInput form-control",
-                    { "border border-danger": formik.touched.city && formik.errors.city },
-                  )} />
-              </Form.Group>
-            </div>
-          </div>
-          <div className='row'>
-            <div className='col-md-4'>
-              <Form.Group className="mb-3">
-                <input type="text" placeholder={LANG.BIRTHPLACE_CITY}
-                  {...formik.getFieldProps("birthPlaceCity")}
-                  className={clsx(
-                    "commonInput form-control",
-                    { "border border-danger": formik.touched.birthPlaceCity && formik.errors.birthPlaceCity },
-                  )}
-                />
-              </Form.Group>
-            </div>
-
-
-            <div className='col-md-4'>
-              <Form.Group className="mb-3">
-                <input type='text'  {...formik.getFieldProps("birthPlaceCountry")}
-                  readOnly={true}
-                  placeholder={LANG.BIRTHPLACE_COUNTRY}
-                  className={clsx(
-                    "commonInput form-control",
-                    { "border border-danger": formik.touched.birthPlaceCountry && formik.errors.birthPlaceCountry },
-                  )}
-                />
-              </Form.Group>
-            </div>
-
-            <div className="col-md-4 form-group">
-              <div className="group-img">
-                <select
-                  {...formik.getFieldProps("nationality")}
-                  className={clsx(
-                    "commonInput form-control p-3",
-                    { "border border-danger": formik.touched.nationality && formik.errors.nationality },
-                  )}>
-                  <option value={""}>{LANG.SELECT} {LANG.NATIONALITY}</option>
-                  {NATIONALITIES.map((item, index) => (
-                    <option key={index} value={item}>{item}</option>
-                  ))}
-                </select>
-              </div>
-
-            </div>
-            <div className="col-md-4 form-group">
-              <div className="group-img">
-                <select {...formik.getFieldProps("gender")}
-                  className={clsx(
-                    "commonInput form-control p-3",
-                    { "border border-danger": formik.touched.gender && formik.errors.gender },
-                  )} 
-                  disabled
-                  >
-                  <option value={""}>{LANG.PLEASE_CHOOSE}</option>
-                  {GENDERS.map((item, index) => (
-                    <option key={index} value={item}>{item}</option>
-                  ))}
-                </select>
-              </div>
-
-            </div>
-            <div className="col-md-4 form-group">
-              <div className="group-img">
-                <select
-                  {...formik.getFieldProps("bloodGroup")}
-                  className={clsx(
-                    "commonInput form-control p-3",
-                    { "border border-danger": formik.touched.bloodGroup && formik.errors.bloodGroup },
-                  )}>
-                  <option value={""}>{LANG.SELECT} {LANG.BLOOD_GROUP}</option>
-                  {BLOOD_GROUP_LIST.map((item, index) => (
-                    <option key={index} value={item}>{item}</option>
-                  ))}
-                </select>
-              </div>
-
-            </div>
-            <div className='col-md-4'>
-              <Form.Group className="mb-3">
-                <input type='text' placeholder={LANG.PHONE}
-                  {...formik.getFieldProps("phone")}
-                  className={clsx(
-                    "commonInput form-control",
-                    { "border border-danger": formik.touched.phone && formik.errors.phone },
-                  )} />
-              </Form.Group>
-            </div>
           </div>
 
-          <VisibilityBox show={getAge(userDetail?.dob) < 18}>
-              <div className="mb-3 text-start">
-                <label className="mb-2">Übergeordnetes Detail</label>
-                <div className="d-flex gap-1">
-                  <div className="form-group col-md-6" >
-                    <input
-                      type="text"
-                      placeholder={LANG.FIRSTNAME_PARENTS}
-                      onKeyPress={alphaOnly}
-                      autoComplete="off"
-                      maxLength={64}
-                      {...formik.getFieldProps("parentFirstName")}
-                      className={clsx(
-                        "commonInput form-control",
-                        { "border border-danger": formik.touched.parentFirstName && formik.errors.parentFirstName },
-                      )}
-                    />
-                    <ErrorText show={formik.errors.parentFirstName} message={formik.errors.parentFirstName} />
-                  </div>
-                  <div className="form-group col-md-6" >
-                    <input
-                      type="text"
-                      placeholder={LANG.LASTNAME_PARENTS}
-                      onKeyPress={alphaOnly}
-                      maxLength={64}
-                      {...formik.getFieldProps("parentLastName")}
-                      className={clsx(
-                        "commonInput form-control",
-                        { "border border-danger": formik.touched.parentLastName && formik.errors.parentLastName },
-                      )}
-                    />
-                    <ErrorText show={formik.errors.parentLastName} message={formik.errors?.parentLastName} />
-                  </div>
-                </div>
-                <div className="d-flex gap-1 mt-3">
-                  <div className="form-group col-md-6" >
-                    <input
-                      type="email"
-                      placeholder={LANG.EMAIL_PARENTS}
-                      maxLength={256}
-                      {...formik.getFieldProps("parentEmail")}
-                      className={clsx(
-                        "commonInput form-control",
-                        { "border border-danger": formik.touched.parentEmail && formik.errors.parentEmail },
-                      )}
-                    />
-                    <ErrorText show={formik.errors.parentEmail} message={formik.errors?.parentEmail} />
-                  </div>
-                  <div className="form-group col-md-6" >
-                    <input
-                      type="number"
-                      placeholder={LANG.PHONE_PARENTS}
-                      min={0}
-                      onKeyPress={(event) => {
-                        if (event.key == '-') event.preventDefault();
-                      }}
-                      {...formik.getFieldProps("parentPhone")}
-                      className={clsx(
-                        "form-control commonInput",
-                        { "border border-danger": formik.touched.parentPhone && formik.errors.parentPhone },
-                      )}
-                    />
-                    <ErrorText show={formik.errors.parentPhone} message={formik.errors?.parentPhone} />
-                  </div>
-                </div>
-              </div>
-            </VisibilityBox>
-
-          <label>{LANG.BANK_DETAIL}</label>
-          <div className='row'>
-            <div className='col-md-4'>
-              <Form.Group className="mb-3">
-                <input type="text"
-                  placeholder={LANG.BANK_NAME}  {...formik.getFieldProps("bankName")}
+          <div className='bgFormColor p-4 mb-3'>
+            <label>Address</label>
+            <div className="group-img iconLeft  position-relative textareaWrap">
+              <label><LocationIcon/></label>
+              <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                <Form.Control as="textarea" rows={2} placeholder='enter street address'
+                  {...formik.getFieldProps("street")}
                   className={clsx(
-                    "commonInput form-control",
-                    { "border border-danger": formik.touched.bankName && formik.errors.bankName },
+                    "addressTextarea",
+                    { "border border-danger": formik.touched.street && formik.errors.street },
                   )} />
               </Form.Group>
             </div>
-            <div className='col-md-4'>
-              <Form.Group className="mb-3">
-                <input type='text' placeholder={LANG.IBAN_BANK_ACCOUNT} {...formik.getFieldProps("iban")}
-                  className={clsx(
-                    "commonInput form-control",
-                    { "border border-danger": formik.touched.iban && formik.errors.iban },
-                  )} />
-              </Form.Group>
+            <div className='row'>
+            <div className='col-md-6'>
+                <Form.Group className="mb-3">
+                  <input type='text' placeholder={LANG.ZIP_CODE} {...formik.getFieldProps("zipCode")}
+                    className={clsx(
+                      "commonInput form-control",
+                      { "border border-danger": formik.touched.zipCode && formik.errors.zipCode },
+                    )} />
+                </Form.Group>
+              </div>
+              <div className='col-md-6'>
+                <Form.Group className="mb-3">
+                  <input type="text"
+                    placeholder='City'  {...formik.getFieldProps("houseNumber")}
+                    className={clsx(
+                      "commonInput form-control",
+                      { "border border-danger": formik.touched.houseNumber && formik.errors.houseNumber },
+                    )} />
+                </Form.Group>
+              </div>
+              
             </div>
-            <div className='col-md-4'>
-              <Form.Group className="mb-3">
-                <input type='text' placeholder={LANG.BIC_BANK_CODE} {...formik.getFieldProps("bic")}
-                  className={clsx(
-                    "commonInput form-control",
-                    { "border border-danger": formik.touched.bic && formik.errors.bic },
-                  )} />
-              </Form.Group>
+          </div>  
+          <div className='bgFormColor p-4 mb-3'>
+            <label>Working hours</label>
+            <ul className='addedTime mb-3'>
+              <li><button><CrossIcon/></button><TimerIcon/><label>Monday, Tuesday | 05.00 AM - 04:00 PM</label></li>
+            </ul>
+            <div className='row'>
+              <div className='col-md-6'>
+                <Form.Group className="mb-xs-3 mb-3 mb-sm-3 mb-md-0 mb-lg-0 mb-xl-0 mb-xxl-0">
+                  <input type='time' placeholder='Open at' {...formik.getFieldProps("zipCode")}
+                    className={clsx(
+                      "commonInput form-control",
+                      { "border border-danger": formik.touched.zipCode && formik.errors.zipCode },
+                    )}
+                     />
+                </Form.Group>
+              </div>
+              <div className='col-md-6'>
+                <Form.Group className="mb-xs-3 mb-3 mb-sm-3 mb-md-0 mb-lg-0 mb-xl-0 mb-xxl-0">
+                  <input type="time"
+                    placeholder='Close at'  {...formik.getFieldProps("houseNumber")}
+                    className={clsx(
+                      "commonInput form-control",
+                      { "border border-danger": formik.touched.houseNumber && formik.errors.houseNumber },
+                    )} />
+                </Form.Group>
+              </div>
+              
             </div>
+            <ul className='daysCheckbox'>
+              <li><label><input type="checkbox" /><span className='day'>Everyday</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Monday</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Tuesday</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Wednesday</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Thursday</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Friday</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Saturday</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Sunday</span> <span className='bg'></span></label></li>
+            </ul>
+            <button className='updateBtn' type='button'>Add time</button>
+          </div>  
+
+          <div className='bgFormColor p-4 mb-3'>
+            <label>Services</label>
+            <div className='row'>
+              <div className='col-md-12'>
+                <div className="group-img iconLeft  position-relative textareaWrap">
+                  <label><SearchIcon/></label>
+                    <Form.Group className="mb-xs-3 mb-3 mb-sm-3 mb-md-0 mb-lg-0 mb-xl-0 mb-xxl-0">
+                      <input type='text' placeholder='Search service' {...formik.getFieldProps("zipCode")}
+                        className={clsx(
+                          "commonInput form-control",
+                          { "border border-danger": formik.touched.zipCode && formik.errors.zipCode },
+                        )}
+                        />
+                    </Form.Group>
+                </div>
+              </div>
+              
+            </div>
+            <ul className='daysCheckbox servicesWrap'>
+              <li><label><input type="checkbox" /><span className='day'>Boxing</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Climbing</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>CrossFit</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Dance</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>GRIT</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>HIIT</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Pickleball</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Pilates</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Spinning</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Swimming Yoga</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Dance</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Swimming Yoga</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>CrossFit</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Dance</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>GRIT</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>HIIT</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Pickleball</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Pilates</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Spinning</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Swimming Yoga</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Dance</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Swimming Yoga</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Dance</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Swimming Yoga</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>CrossFit</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Dance</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>GRIT</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>HIIT</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Pickleball</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Pilates</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Spinning</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Swimming Yoga</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Dance</span> <span className='bg'></span></label></li>
+              <li><label><input type="checkbox" /><span className='day'>Swimming Yoga</span> <span className='bg'></span></label></li>
+            </ul>
+          </div>  
+          <div className='bgFormColor p-4 mb-3'>
+            <label>Gym images</label>
+            <div className='uploadWrapper'>
+                <ul className='outerBlock'>
+                  <li>
+                  <ul className='showImages'>
+                      {items && items.map((item,index) =>{ return <li className='position-relative'>
+                        <button className='crossBtn'><CrossWhiteBlackIcon/></button>
+                        <div className='image'>
+                          <img src={'/assets/img/uploadOne.png'} alt='uploadOne' className='w-100 '/>
+                        </div>
+                      </li>})}
+                      <li className='uploadBlock'>
+                        <div className='upload text-center'>
+                          <input type='file'/>
+                          <img src={"/assets/img/uploadIcon.png"} alt='uploadIcon'/>
+                          <p>Drop or upload images</p>
+                          <button>Browse image</button>
+                        </div>
+                      </li>                   
+                  </ul>
+                  </li>
+                </ul>
+            </div>
+          </div>  
+          <div className='updateWrap'>
+            <Button type='submit' className='updateBtn mt-4'>Update profile</Button>
           </div>
-          <div className='row'>
-            <div className='col-md-4'>
-              <Form.Group className="mb-3">
-                <input type="text" placeholder={LANG.ACCOUNT_HOLDER}
-                  readOnly={true}
-                  {...formik.getFieldProps("accountHolder")}
-                  className={clsx(
-                    "commonInput form-control",
-                    { "border border-danger": formik.touched.accountHolder && formik.errors.accountHolder },
-                  )}
-                />
-              </Form.Group>
-            </div>
-
-
-
-
-          </div>
-
-          <label>{LANG.DOCUMENTS}</label>
-
-          <div className='row'>
-            <VisibilityBox show={userDetail?.matchPermissionDoc}>
-              <div className='col-md-12 mb-2'>
-                <div className="fileUpload form-group mb-2 border rounded" >
-                  <div className="p-2 d-flex justify-content-between w-100 align-items-center">
-                    <span className="text-black">Erstmalige Spielerlaubnis
-                    </span>
-                    <span className="iconWrap" onClick={() => download(userDetail?.matchPermissionDoc)}><DownloadIcon /></span>
-                  </div>
-                </div>
-              </div>
-            </VisibilityBox>
-            <VisibilityBox show={userDetail?.clubTransferDoc}>
-              <div className='col-md-12 mb-2'>
-                <div className="fileUpload form-group mb-2 border rounded" >
-                  <div className="p-2 d-flex justify-content-between w-100 align-items-center">
-                    <span className="text-black">Vereinswechsel
-                    </span>
-                    <span className="iconWrap" onClick={() => download(userDetail?.clubTransferDoc)}><DownloadIcon /></span>
-                  </div>
-                </div>
-              </div>
-            </VisibilityBox>
-            <VisibilityBox show={userDetail?.birthCertificateDoc}>
-              <div className='col-md-12 mb-2'>
-                <div className="fileUpload form-group mb-2 border rounded" >
-                  <div className="p-2 d-flex justify-content-between w-100 align-items-center">
-                    <span className="text-black">{LANG.BIRTH_CERTIFICATE}
-                    </span>
-                    <span className="iconWrap" onClick={() => download(userDetail?.birthCertificateDoc)}><DownloadIcon /></span>
-                  </div>
-                </div>
-              </div>
-            </VisibilityBox>
-            <VisibilityBox show={userDetail?.residenceCertificateDoc}>
-              <div className='col-md-12 mb-2'>
-                <div className="fileUpload form-group mb-2 border rounded" >
-                  <div className="p-2 d-flex justify-content-between w-100 align-items-center">
-                    <span className="text-black">{LANG.RESIDENCE_CERTIFICATION}
-                    </span>
-                    <span className="iconWrap" onClick={() => download(userDetail?.residenceCertificateDoc)} ><DownloadIcon /></span>
-                  </div>
-                </div>
-              </div>
-            </VisibilityBox>
-            <VisibilityBox show={userDetail?.playersParentDeclarationDoc}>
-              <div className='col-md-12 mb-2'>
-                <div className="fileUpload form-group mb-2 border rounded" >
-                  <div className="p-2 d-flex justify-content-between w-100 align-items-center">
-                    <span className="text-black">{LANG.PLAYER_PARENTS_DECLARATION}
-                    </span>
-                    <span className="iconWrap" onClick={() => download(userDetail?.playersParentDeclarationDoc)} ><DownloadIcon /></span>
-                  </div>
-                </div>
-              </div>
-            </VisibilityBox>
-            <VisibilityBox show={userDetail?.copyOfPassportDoc}>
-              <div className='col-md-12 mb-2'>
-                <div className="fileUpload form-group mb-2 border rounded" >
-                  <div className="p-2 d-flex justify-content-between w-100 align-items-center">
-                    <span className="text-black">{LANG.COPY_OF_PASSPORT}
-                    </span>
-                    <span className="iconWrap" onClick={() => download(userDetail?.copyOfPassportDoc)} ><DownloadIcon /></span>
-                  </div>
-                </div>
-              </div>
-            </VisibilityBox>
-            <VisibilityBox show={userDetail?.attachmentArgentinaDoc}>
-              <div className='col-md-12 mb-2'>
-                <div className="fileUpload form-group mb-2 border rounded" >
-                  <div className="p-2 d-flex justify-content-between w-100 align-items-center">
-                    <span className="text-black">{LANG.APPLICATION_ATTACHMENT_ARGETINA}
-                    </span>
-                    <span className="iconWrap" onClick={() => download(userDetail?.attachmentArgentinaDoc)}><DownloadIcon /></span>
-                  </div>
-                </div>
-              </div>
-            </VisibilityBox>
-            <VisibilityBox show={userDetail?.attachmentIstupnicaDoc}>
-              <div className='col-md-12 mb-2'>
-                <div className="fileUpload form-group mb-2 border rounded" >
-                  <div className="p-2 d-flex justify-content-between w-100 align-items-center">
-                    <span className="text-black">{LANG.APPLICATION_ATTACHMENT_ISTUPNICA}
-                    </span>
-                    <span className="iconWrap" onClick={() => download(userDetail?.attachmentIstupnicaDoc)}><DownloadIcon /></span>
-                  </div>
-                </div>
-              </div>
-            </VisibilityBox>
-            <VisibilityBox show={userDetail?.attachmentBrisovnicaDoc}>
-              <div className='col-md-12 mb-2'>
-                <div className="fileUpload form-group mb-2 border rounded" >
-                  <div className="p-2 d-flex justify-content-between w-100 align-items-center">
-                    <span className="text-black">{LANG.APPLICATION_ATTACHMENT_BRISOVNICA}
-                    </span>
-                    <span className="iconWrap" onClick={() => download(userDetail?.attachmentBrisovnicaDoc)}><DownloadIcon /></span>
-                  </div>
-                </div>
-              </div>
-            </VisibilityBox>
-            <div className='col-md-12'>
-              <Form.Group className="mb-3">
-
-              </Form.Group>
-            </div>
-            <div className='col-md-12'>
-              <Form.Group className="mb-3">
-
-              </Form.Group>
-            </div>
-          </div>
-          <Button type='submit' className='updateBtn mt-4'>{LANG.UPDATE}</Button>
         </Form>
       </div>
     </div>
