@@ -13,6 +13,8 @@ import { getUserToken } from "../../../services/user.service";
 import { LANG } from "../../../constants/language";
 import SponsorAccountSetting from "./account-setting/sponsor-account";
 import queryString from "query-string";
+import AccountSettingIcon from "../../../icons/AccountSettingIcon";
+import LockIcon from "../../../icons/LockIcon";
 
 export default function ProfileTabContent({userDetail}:any) {
   const user = useSelector((state:any)=>state.user);
@@ -44,25 +46,38 @@ export default function ProfileTabContent({userDetail}:any) {
 
   return (
     <div className="commonGrid" id="profileSection">
-      <h4 className="mb-32px">{LANG.PROFILE}</h4>
+      <h4 className="mb-32px">Edit account details</h4>
       <Tab.Container id="left-tabs-example" activeKey={activeKey} defaultActiveKey={activeKey}>
         <Row>
           <Col md={4} lg={3} className="">
             <Nav
               variant="pills"
               className="flex-column proifleSubTab border-right h-100"
+              defaultActiveKey="changePassword"
             >
-              {TAB_MENU.filter(
+              {/* {TAB_MENU.filter(
                 (item) =>
                   !((role == "trainer" || role == "sponsor") && item.eventKey == "subscription")
-              ).map((item: INTERFACE_TAB_MENU) => (
-                <Nav.Item key={item.id}>
-                  <Nav.Link onClick={()=>navigateToTab(item.eventKey)} eventKey={item.eventKey}>
-                    <SvgIcon type={item.icon} />
-                    {item.name}
+              ).map((item: INTERFACE_TAB_MENU) => ( */}
+                <Nav.Item 
+                  // key={item.id}
+                  >
+                  <Nav.Link 
+                  // onClick={()=>navigateToTab(item.eventKey)} eventKey={item.eventKey}
+                  eventKey="accountSetting"
+                  >
+                    <AccountSettingIcon/>
+                    {/* {item.name} */}
+                    Setting
                   </Nav.Link>{" "}
                 </Nav.Item>
-              ))}
+                <Nav.Item>
+                  <Nav.Link eventKey="changePassword">
+                    <LockIcon/>
+                    Change Password
+                  </Nav.Link>{" "}
+                </Nav.Item>
+              {/* ))} */}
             </Nav>
           </Col>
           <Col md={8} lg={9}>
@@ -74,14 +89,6 @@ export default function ProfileTabContent({userDetail}:any) {
               </Tab.Pane>
               <Tab.Pane eventKey="changePassword">
                 <ChangePasswordTabContent />
-              </Tab.Pane>
-              {role != "trainer" && (
-                <Tab.Pane eventKey="subscription">
-                  <SubscriptionSetting userDetail={userDetail} />
-                </Tab.Pane>
-              )}
-              <Tab.Pane eventKey="support" >
-                <HelpAndSupportSetting />
               </Tab.Pane>
             </Tab.Content>
           </Col>

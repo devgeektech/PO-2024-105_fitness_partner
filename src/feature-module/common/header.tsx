@@ -24,6 +24,34 @@ const Header = () => {
   //   clearStorage();
   //   navigate(routes.login)
   // }
+  const savedNotifications = useSelector((state: any) => state.notification?.notifications) || [];
+  const notReadNotifications = useSelector((state: any) => state.notification.notificationCount);
+  
+  // const MenuToggle = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const toggleMenu = () => {
+      setIsMenuOpen(!isMenuOpen);
+    };
+    useEffect(() => {
+      if (isMenuOpen) {
+        document.body.classList.add("menu-opened");
+        const sidebarOverlay = document.querySelector(".sidebar-overlay");
+        if (sidebarOverlay) {
+          sidebarOverlay.classList.add("opened");
+        }
+      } else {
+        document.body.classList.remove("menu-opened");
+        const sidebarOverlay = document.querySelector(".sidebar-overlay");
+        if (sidebarOverlay) {
+          sidebarOverlay.classList.remove("opened");
+    }
+      }
+  
+      // Cleanup to remove class if component unmounts
+      return () => {
+        document.body.classList.remove("menu-opened");
+      };
+    }, [isMenuOpen]);
 
   const header = [
     {
@@ -136,17 +164,20 @@ const Header = () => {
                   />
                 )}
               </Link>
+              <button className="toggleMenu menu-open" id="mobile_btn" onClick={toggleMenu}>
+                <ImageWithBasePath src="assets/img/megaMenu.png" className="img-fluid" alt="megaMenu Image" />
+              </button>
             </div>
             <div className="main-menu-wrapper">
               <div className="menu-header">
                 <Link to="index" className="menu-logo">
                   <ImageWithBasePath
-                    src="assets/img/logo-black.svg"
+                    src="assets/img/LogoWhite.svg"
                     className="img-fluid"
                     alt="Logo"
                   />
                 </Link>
-                <Link id="menu_close" className="menu-close" to="#">
+                <Link id="menu_close" className="menu-close" to="#" onClick={toggleMenu}>
                   {" "}
                   <i className="fas fa-times" />
                 </Link>
@@ -221,6 +252,7 @@ const Header = () => {
               </li>
             </ul>
           </nav>
+          <div className="sidebar-overlay " onClick={toggleMenu}></div>
         </div>
       </header>
     </>
