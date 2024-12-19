@@ -453,16 +453,119 @@ button.eyeBtn {
 }
 /* Header design changes css end */
 
+/* confirmModal scss start */
+.confirmModal {
+    .modal-header {
+        border-bottom: none;
+        .modal-title {
+            font-family: Cabin;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 19.44px;
+            text-align: left;
+            color: #1A1A1A;
+        }
+        button.btn-close {
+            opacity: 1;
+        }
+    }
+    .modal-body {
+        padding-top: 0px;
+        h2 {
+            margin: 10px 0;
+            font-family: Afacad;
+            font-size: 40px;
+            font-weight: 500;
+            line-height: 48px;
+            text-align: left;
+            color: #030D12;
+        }
+        label.dateWrap {
+            background: #EAEAEA;
+            display: flex;
+            align-items: center;
+            width: fit-content;
+            padding: 8px 12px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 19.6px;
+            text-align: left;
+            color: #2B2B2B;
+            svg {
+                margin-right: 8px;
+            }
+        }
+        .game_content {
+            .bgFormColor {
+                background: #F9F9F9;
+                border: 1px solid #F6F6F6;
+                border-radius: 16px;
+                h3 {
+                    font-size: 24px;
+                    font-weight: 500;
+                    line-height: 28.8px;
+                    color: #030D12;
+                }
+                .bookDetail {
+                    ul {
+                        li {
+                            border-bottom: 1px solid #EFF1F4;
+                            padding: 8px 0;
+                            label {
+                                font-size: 14px;
+                                font-weight: 400;
+                                line-height: 24px;
+                                text-align: left;
+                                color: #2B2B2B;
+                                font-family: Afacad;
+                            }
+                            h4 {
+                                font-size: 14px;
+                                font-weight: 500;
+                                line-height: 18.2px;
+                                text-align: left;
+                                color: #030D12;
+                                font-family: Afacad;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .modal-footer {
+        border-top: none;
+        padding-top: 0px;
+        button.btn.btn-primary {
+            background: #121C27;
+            border: 1px solid #121C27;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 14px;
+            letter-spacing: -0.20000000298023224px;
+            text-align: center;
+            padding: 22px !important;
+        }
+        p {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 19.6px;
+            letter-spacing: 0.002em;
+           color: #2B2B2B;
+        }
+        .dangerCancel {
+            border-radius: 5px;
+            label {
+                color: #dc3545;
+            }
+        }
+    }
+}
+/* confirmModal scss end */
 
 /* media Query start */
-// @media (min-width: 2500px) {
-//     .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
-//         max-width: 75%;
-//     }
-//     .profileBlock {
-//         margin-top: -170px;
-//     }
-// }
 @media (min-width: 767px) {
     .taskModal.modal {
         .modal-dialog {

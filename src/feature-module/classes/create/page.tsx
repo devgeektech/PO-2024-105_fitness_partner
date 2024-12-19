@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Tab, Row, Col, Nav } from "react-bootstrap";
 import ClassesTab from "../../../core/components/classesTab/page";
 import GymSportsIcon from "../../../icons/GymSportsIcon";
-
+import './style.scss';
 export default function CreateClass() {
   return (
     <div className="createClass">

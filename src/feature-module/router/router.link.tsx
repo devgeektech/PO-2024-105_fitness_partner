@@ -46,6 +46,7 @@ import EditSetting from "../trainer/Edit/page";
 import Classes from "../classes/page";
 import DetailClass from "../classes/detail/page";
 import CreateClass from "../classes/create/page";
+import Booking from "../booking/page";
 
 const routes = all_routes;
 
@@ -186,6 +187,11 @@ const publicRoutes = [
   {
     path: routes.classesCreate,
     element: <CreateClass/>,
+    route: Route,
+  },
+  {
+    path: routes.booking,
+    element: <Booking/>,
     route: Route,
   },
 ];
