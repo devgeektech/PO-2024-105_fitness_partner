@@ -94,6 +94,8 @@ export const LANG={
     SEASON:"Season",
     CONTACT:"Contact",
     FRIEND:"Friend",
+    OLD_PASSWORD_IS_REQUIRED:"Old password is required",
+    NEW_PASSWORD_IS_REQUIRED:"New password is required",
 
 
     ACCEPT:"Akzeptieren",
@@ -176,8 +178,6 @@ export const LANG={
     inprogress:"Im Gange",
     complete: "Vollständig",
     REQUEST_SENDED:"Anfrage gesendet",
-    OLD_PASSWORD_IS_REQUIRED:"Altes Passwort ist erforderlich",
-    NEW_PASSWORD_IS_REQUIRED:"Neues Passwort ist erforderlich",
     MEMBERS_IS_REQUIRED:"Mitglieder sind erforderlich.",
     TASK_DETAILS:"Aufgabendetails",
     EDIT_EVENT_DETAILS:"Bearbeiten Sie die Veranstaltungsdetails",

@@ -6,6 +6,7 @@ export const ACCOUNT_VERIFICATION_URL = `/auth/member/verifyAccount`;
 export const EMAIL_EXIST_URL = `/auth/member/exists`;
 export const CHECK_MEMBER_URL = `/auth/member/checkMember`;
 export const FORGOT_PASSWORD_URL = `/auth/partner/forgotPassword`;
+export const CHANGE_PASSWORD_URL = `/auth/partner/changePassword`;
 
 export const loginUser = async (payload: any) => {
   return http.post('/auth/partner/login', payload);
@@ -19,8 +20,8 @@ export const registerUser = async (payload: any) => {
   return http.post('/auth/member/register', payload);
 }
 
-export const changeUserPassword = async (payload: any) => {
-  return http.post('/auth/member/changePassword', payload);
+export const changePartnerPassword = async (payload: any) => {
+  return http.put(CHANGE_PASSWORD_URL, payload);
 }
 
 export function forgotPassword(email: string) {
