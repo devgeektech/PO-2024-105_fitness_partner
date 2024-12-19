@@ -113,17 +113,17 @@ const TrainerDashboard = () => {
               <p className="mb-0">You are always changing.  Your practice should too. At ID Hot Yoga you are not confined to a flow.  Classes evolve.  Instructors tailor.  This is a yoga experience designed around you.  Because you are like no other. Transformation is inevitable.</p>
             </div>
             <div className="timingContent">
-            <h3>Timings</h3>
-            <ul>
-              <li><TimerIcon/><span>Monday</span>|<span>05.00 AM - 04:00 PM</span></li>
-              <li><TimerIcon/><span>Tuesday</span>|<span>05.00 AM - 04:00 PM</span></li>
-              <li><TimerIcon/><span>Wednesday</span>|<span>05.00 AM - 04:00 PM</span></li>
-              <li><TimerIcon/><span>Thursday</span>|<span>05.00 AM - 04:00 PM</span></li>
-              <li><TimerIcon/><span>Friday</span>|<span>05.00 AM - 04:00 PM</span></li>
-              <li><TimerIcon/><span>Saturday</span>|<span>05.00 AM - 04:00 PM</span></li>
-              <li><TimerIcon/><span>Sunday</span>|<span>05.00 AM - 04:00 PM</span></li>
-            </ul>
-          </div>
+              <h3>Timings</h3>
+              <ul>
+                <li><TimerIcon/><span>Monday</span>|<span>05.00 AM - 04:00 PM</span></li>
+                <li><TimerIcon/><span>Tuesday</span>|<span>05.00 AM - 04:00 PM</span></li>
+                <li><TimerIcon/><span>Wednesday</span>|<span>05.00 AM - 04:00 PM</span></li>
+                <li><TimerIcon/><span>Thursday</span>|<span>05.00 AM - 04:00 PM</span></li>
+                <li><TimerIcon/><span>Friday</span>|<span>05.00 AM - 04:00 PM</span></li>
+                <li><TimerIcon/><span>Saturday</span>|<span>05.00 AM - 04:00 PM</span></li>
+                <li><TimerIcon/><span>Sunday</span>|<span>05.00 AM - 04:00 PM</span></li>
+              </ul>
+            </div>
           <div className="mulitColumnSliderWrapper">
             <h3>Classes</h3>
             {/* <MultiColumnSlider/> */}

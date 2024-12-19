@@ -68,9 +68,9 @@ input.commonInput.form-control[disabled] {
     border: 1px solid rgb(233 233 233) !important;
 }
 select.commonInput.form-control {
-    appearance: auto;
-    -webkit-appearance: auto;
-    -moz-appearance: auto;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 textarea.form-control {
     border: 1px solid rgb(233 233 233) !important;
@@ -195,9 +195,6 @@ button.toggleMenu.menu-open {
     border: none;
 }
 .commonGrid {
-    // border: 1px solid #F6F6F6;
-    // border-radius: 8px;
-    // padding: 16px 20px;
     margin-bottom: 24px;
     .friendBlock {
         box-shadow: 0 0 4px #0c0c0d0d;

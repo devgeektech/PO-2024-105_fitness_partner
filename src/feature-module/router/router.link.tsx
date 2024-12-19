@@ -43,6 +43,9 @@ import StepSix from "../auth/stepSix";
 import StepSeven from "../auth/stepSeven";
 import ThankYou from "../auth/thank-you";
 import EditSetting from "../trainer/Edit/page";
+import Classes from "../classes/page";
+import DetailClass from "../classes/detail/page";
+import CreateClass from "../classes/create/page";
 
 const routes = all_routes;
 
@@ -168,6 +171,21 @@ const publicRoutes = [
   {
     path: routes.settingEdit,
     element: <EditSetting/>,
+    route: Route,
+  },
+  {
+    path: routes.classes,
+    element: <Classes/>,
+    route: Route,
+  },
+  {
+    path: routes.classesDetail,
+    element: <DetailClass/>,
+    route: Route,
+  },
+  {
+    path: routes.classesCreate,
+    element: <CreateClass/>,
     route: Route,
   },
 ];

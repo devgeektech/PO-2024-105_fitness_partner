@@ -251,6 +251,20 @@ const Header = () => {
                     <Link to={role == "member" ? routes.userDashboard : routes.trainerDashboard}>Setting</Link>
                   </li>
                 </VisibilityBox>
+                <VisibilityBox show={user?.isLogin}>
+                  <li
+                    key={99}
+                    className={
+                      location.pathname.includes(role == "member" ? routes.userDashboard : routes.trainerDashboard)
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <Link to={'/classes/'}
+                      // to={role == "member" ? routes.userDashboard : routes.trainerDashboard}
+                      >classes</Link>
+                  </li>
+                </VisibilityBox>
                 <VisibilityBox show={user?.isLogin && role == 'member'}>
                   <li
                     key={99}
