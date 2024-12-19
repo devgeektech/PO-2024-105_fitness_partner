@@ -129,7 +129,9 @@ export const all_routes = {
 
   // setting Edit Routes
   settingEdit: "/trainer/settingEdit",
-
+  classes: "/classes/",
+  classesDetail: "/classes/detail",
+  classesCreate: "/classes/create",
 
   //contact-us
   contactUs: "/contact-us",

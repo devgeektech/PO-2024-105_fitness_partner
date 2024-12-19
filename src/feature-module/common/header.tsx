@@ -186,7 +186,6 @@ const Header = () => {
                 </Link>
               </div>
               <ul className="main-nav">
-
                 {header.map((mainMenus: any, mainIndex) => (
                   <React.Fragment key={mainIndex}>
                     {mainMenus.separateRoute ? (
