@@ -22,13 +22,13 @@ export default function ProfileTabContent({ userDetail }: any) {
   const navigate = useNavigate();
   const role = localStorage.getItem('role');
   const location = useLocation();
-  const [activeKey, setActiveKey] = useState<any>('accountSetting');
-  let { tabKey = "accountSetting", tab }: any = queryString.parse(location.search);
+  const [activeKey, setActiveKey] = useState<any>('accountSettings');
+  let { tabKey = "accountSettings", tab }: any = queryString.parse(location.search);
   const routes = all_routes;
 
-  useEffect(() => {
-    setActiveKey(tabKey);
-  }, [activeKey, tabKey])
+  // useEffect(() => {
+  //   setActiveKey(tabKey);
+  // }, [activeKey, tabKey])
 
   useEffect(() => {
     if (!getUserToken()) {
@@ -40,9 +40,9 @@ export default function ProfileTabContent({ userDetail }: any) {
     if(tabKey) tab = tabKey;
     setActiveKey(tab);
     
-    let str = ''
-    if(tabKey == 'changePassword')str = routes.settingChangePassword;
-    if (str != '') navigate(str);
+    // let str = ''
+    // if(tabKey == 'changePassword')str = routes.settingEdit;
+    // if (str != '') navigate(str);
 
   }
 
@@ -66,7 +66,8 @@ export default function ProfileTabContent({ userDetail }: any) {
               >
                 <Nav.Link
                   // onClick={()=>navigateToTab(item.eventKey)} eventKey={item.eventKey}
-                  eventKey="accountSetting"
+                  eventKey="accountSettings"
+                  onClick={() => navigateToTab("accountSettings")}
                 >
                   <AccountSettingIcon />
                   {/* {item.name} */}
@@ -85,7 +86,7 @@ export default function ProfileTabContent({ userDetail }: any) {
           </Col>
           <Col md={8} lg={9}>
             <Tab.Content className="proifleSubTabContent">
-              <Tab.Pane eventKey="accountSetting">
+              <Tab.Pane eventKey="accountSettings">
                 <AccountSetting userDetail={userDetail} />
               </Tab.Pane>
               <Tab.Pane eventKey="changePassword">

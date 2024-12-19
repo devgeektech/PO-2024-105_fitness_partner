@@ -57,8 +57,8 @@ const Login = () => {
             localStorage.setItem('locationId', locations[0]);
           }
           http.defaults.headers['Authorization'] = result.data?.data?.token;
-          navigate(route.Settings);
-        }else if(result.status == 404){
+          navigate(route.settingEdit);
+        } else if(result.status == 404){
            console.log(values)
         }
         setSubmitting(false);

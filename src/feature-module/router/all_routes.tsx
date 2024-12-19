@@ -128,7 +128,7 @@ export const all_routes = {
   stepZero: "/auth/StepZero",
 
   // setting Edit Routes
-  settingEdit: "/trainer/settingEdit",
+  settingEdit: "/settings/profile",
   classes: "/classes/",
   classesDetail: "/classes/detail",
   classesCreate: "/classes/create",
