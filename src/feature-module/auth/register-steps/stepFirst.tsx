@@ -158,7 +158,7 @@ const StepFirst = ({formik}:any) => {
                         </div>
                         <div className="bottom-text text-center">
                           <p> Already have an account?
-                              <Link to={""}  className="text-underline">Sign in</Link>
+                              <Link to={"/auth/login"}  className="text-underline">Sign in</Link>
                            </p>
                          </div>
                       </div>
