@@ -83,9 +83,7 @@ export default function ProfileTabContent({userDetail}:any) {
           <Col md={8} lg={9}>
             <Tab.Content className="proifleSubTabContent">
               <Tab.Pane eventKey="accountSetting">
-                {
-                  role=='sponsor' ? <SponsorAccountSetting userDetail={userDetail} />: <AccountSetting userDetail={userDetail} />
-                }
+                <AccountSetting userDetail={userDetail} />
               </Tab.Pane>
               <Tab.Pane eventKey="changePassword">
                 <ChangePasswordTabContent />

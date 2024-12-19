@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import clsx from "clsx";
 import { updateUserAvatarById, updateUserById } from '../../../../services/user.service';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUserDetail } from '../../../data/redux/user/userSlice';
 import moment from "moment";
 import VisibilityBox from '../../VisibilityBox';
@@ -27,58 +27,55 @@ import TimerIcon from '../../../../icons/TimerIcon';
 import SearchIcon from '../../../../icons/SearchIcon';
 import CrossWhiteBlackIcon from '../../../../icons/CrossWhiteBlackIcon';
 
-const profileSchema:any = Yup.object().shape({
-  firstName: Yup.string().required(LANG.FIELD_IS_REQUIRED),
-  lastName: Yup.string().required("Last name is required"),
-  street: Yup.string().required(LANG.FIELD_IS_REQUIRED),
-  houseNumber: Yup.string().required(LANG.FIELD_IS_REQUIRED),
-  zipCode: Yup.string().required(LANG.FIELD_IS_REQUIRED),
-  city: Yup.string().required(LANG.FIELD_IS_REQUIRED),
-  dob: Yup.date().required("Birth Date is required"),
-  birthPlaceCity: Yup.string().required(LANG.FIELD_IS_REQUIRED),
-  birthPlaceCountry: Yup.string().required(LANG.FIELD_IS_REQUIRED),
-  nationality: Yup.string().required(LANG.FIELD_IS_REQUIRED),
-  gender: Yup.string().required(LANG.FIELD_IS_REQUIRED),
-  bloodGroup: Yup.string(),
-  email: Yup.string().email("Please enter a valid email").required("Email is required"),
-  phone: Yup.string().required("Phone is required"),
-  bankName: Yup.string().required("Bank name is required"),
-  iban: Yup.string().required("IBAN is required"),
-  bic: Yup.string().required("BIC is required"),
-  accountHolder: Yup.string().required("Account Holder is required"),
-  description: Yup.string().optional(),
-
-  parentFirstName: Yup.string(),
-  parentLastName: Yup.string(),
-  parentEmail: Yup.string().email(LANG.PLEASE_ADD_VALID_EMAIL),
-  parentPhone: Yup.string(),
-  parentRelation: Yup.string(),
-});
 export default function AccountSetting({ userDetail }: any) {
   const [file, setFile] = useState<any>();
   const [imageUrl, setImageUrl] = useState<any>();
   const [loading, setLoading] = useState(false);
   const fileUrl = process.env.REACT_APP_FILE_URL;
   const items = ["Item 1", "Item 2", "Item 3"];
+  const user = useSelector((state:any)=>state.user);
+
+  const profileInitialValues:any = {
+    businessName: '',
+    description: '',
+    address: '',
+    zipCode: '',
+    city: '',
+    weekDays: [],
+    startTime: '',
+    endTime: '',
+    services: [],
+    images: []
+  }
+  
+  const profileSchema:any = Yup.object().shape({
+    businessName: Yup.string().required(LANG.FIELD_IS_REQUIRED),
+    description: Yup.string(),
+    address: Yup.string(),
+    zipCode: Yup.string(),
+    city: Yup.string(),
+    weekDays: Yup.array().optional(),
+    startTime: Yup.string(),
+    endTime: Yup.string(),
+    services: Yup.array().optional(),
+    images: Yup.array().optional()
+  });
 
   const dispatch = useDispatch();
 
   const formik = useFormik({
-    initialValues: {
-      ...userDetail,
-      dob: moment(userDetail?.dob).format("YYYY-MM-DD")
-    },
+    initialValues: profileInitialValues,
     validationSchema: profileSchema,
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
-        console.log(values, file);
-        const result = await updateUserById({ ...values, role: JSON.stringify(values.role) });
-        if (result.data) {
-          console.log(result.data);
-          dispatch(setUserDetail(result?.data?.data));
-          toast.success(LANG.PROFILE_UPDATED_SUCCESSFULLY);
-        }
+        console.log(values, "Values >>>>>>");
+        // const result = await updateUserById({ ...values, role: JSON.stringify(values.role) });
+        // if (result.data) {
+        //   console.log(result.data);
+        //   dispatch(setUserDetail(result?.data?.data));
+        //   toast.success(LANG.PROFILE_UPDATED_SUCCESSFULLY);
+        // }
       } catch (error) {
         console.log(error, loading)
         setSubmitting(false);
@@ -87,17 +84,6 @@ export default function AccountSetting({ userDetail }: any) {
     },
   });
 
-  useEffect(() => {
-    formik.setValues({ ...userDetail, dob: moment(userDetail?.dob).format("YYYY-MM-DD") });
-
-    if(getAge(userDetail?.dob)< 18){
-      profileSchema.fields.parentFirstName = profileSchema.fields.parentFirstName.required(LANG.FIRSTNAME_IS_REQUIRED);
-      profileSchema.fields.parentLastName = profileSchema.fields.parentLastName.required(LANG.LASTNAME_IS_REQUIRED);
-      profileSchema.fields.parentEmail = profileSchema.fields.parentEmail.email(LANG.PLEASE_ADD_VALID_EMAIL).required(LANG.EMAIL_IS_REQUIRED);
-      profileSchema.fields.parentPhone = profileSchema.fields.parentPhone.min(10, LANG.MINIMUM_LIMIT_PHONE_CHAR).max(13,LANG.MAXIMUM_LIMIT_HUNDRED_CHAR).required(LANG.FIELD_IS_REQUIRED);
-    }
-  }, [userDetail?._id]);
-
   const handleChangeProfileImage = async (e: any) => {
     const selectedFile = e.target.files[0];
     const url = URL.createObjectURL(selectedFile);
@@ -105,17 +91,9 @@ export default function AccountSetting({ userDetail }: any) {
     setImageUrl(url);
     const formData = new FormData();
     formData.append("avatar", selectedFile);
-    await updateUserAvatarById(formData);
+    // await updateUserAvatarById(formData);
   };
 
-  const download = (filename: any) => {
-    const a = document.createElement("a");
-    a.href = process.env.REACT_APP_FILE_URL + filename;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
   return (
     <div className='accountSettingTab'>
  
