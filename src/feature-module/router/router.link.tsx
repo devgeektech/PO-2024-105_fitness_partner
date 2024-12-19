@@ -47,6 +47,7 @@ import EditSetting from "../settings/Edit/page";
 import Classes from "../classes/page";
 import DetailClass from "../classes/detail/page";
 import CreateClass from "../classes/create/page";
+import ChangePasswordTabContent from "../../core/components/profile-setting/change-password/page";
 
 const routes = all_routes;
 
@@ -172,6 +173,11 @@ const publicRoutes = [
   {
     path: routes.settingEdit,
     element: <EditSetting/>,
+    route: Route,
+  },
+  {
+    path: routes.settingChangePassword,
+    element: <ChangePasswordTabContent/>,
     route: Route,
   },
   {

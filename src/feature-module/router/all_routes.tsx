@@ -132,6 +132,7 @@ export const all_routes = {
   classes: "/classes/",
   classesDetail: "/classes/detail",
   classesCreate: "/classes/create",
+  settingChangePassword: "/settings/changePassword",
 
   //contact-us
   contactUs: "/contact-us",

@@ -15,33 +15,35 @@ import SponsorAccountSetting from "./account-setting/sponsor-account";
 import queryString from "query-string";
 import AccountSettingIcon from "../../../icons/AccountSettingIcon";
 import LockIcon from "../../../icons/LockIcon";
+import { all_routes } from "../../../feature-module/router/all_routes";
 
-export default function ProfileTabContent({userDetail}:any) {
-  const user = useSelector((state:any)=>state.user);
-  const navigate= useNavigate();
+export default function ProfileTabContent({ userDetail }: any) {
+  const user = useSelector((state: any) => state.user);
+  const navigate = useNavigate();
   const role = localStorage.getItem('role');
   const location = useLocation();
-  const [activeKey, setActiveKey]= useState<any>('accountSetting');
-  const { tabKey = "accountSetting",tab }:any = queryString.parse(location.search);
+  const [activeKey, setActiveKey] = useState<any>('accountSetting');
+  let { tabKey = "accountSetting", tab }: any = queryString.parse(location.search);
+  const routes = all_routes;
 
-  useEffect(()=> {
-    setActiveKey(tabKey); 
+  useEffect(() => {
+    setActiveKey(tabKey);
   }, [activeKey, tabKey])
 
-  useEffect(()=>{
-    if(!getUserToken()){
+  useEffect(() => {
+    if (!getUserToken()) {
       navigate("/auth/login");
     }
-  },[]);
+  }, []);
 
-  const navigateToTab=(tabKey: string)=> {
-    setActiveKey(tab)
-    let str =''
-    if(role == 'trainer') str = `/trainer/trainer-dashboard?tab=${tab}&tabKey=${tabKey}`;
-    if(role == 'sponsor') str = `/sponsor/sponsor-dashboard?tab=${tab}&tabKey=${tabKey}`;
-    if(role == 'member')  str = `/user/user-dashboard?=${tab}&tabKey=${tabKey}`;
-    if(str!= '')  navigate(str);
+  const navigateToTab = (tabKey: string) => {
+    if(tabKey) tab = tabKey;
+    setActiveKey(tab);
     
+    let str = ''
+    if(tabKey == 'changePassword')str = routes.settingChangePassword;
+    if (str != '') navigate(str);
+
   }
 
   return (
@@ -59,24 +61,25 @@ export default function ProfileTabContent({userDetail}:any) {
                 (item) =>
                   !((role == "trainer" || role == "sponsor") && item.eventKey == "subscription")
               ).map((item: INTERFACE_TAB_MENU) => ( */}
-                <Nav.Item 
-                  // key={item.id}
-                  >
-                  <Nav.Link 
+              <Nav.Item
+              // key={item.id}
+              >
+                <Nav.Link
                   // onClick={()=>navigateToTab(item.eventKey)} eventKey={item.eventKey}
                   eventKey="accountSetting"
-                  >
-                    <AccountSettingIcon/>
-                    {/* {item.name} */}
-                    Setting
-                  </Nav.Link>{" "}
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="changePassword">
-                    <LockIcon/>
-                    Change Password
-                  </Nav.Link>{" "}
-                </Nav.Item>
+                >
+                  <AccountSettingIcon />
+                  {/* {item.name} */}
+                  Setting
+                </Nav.Link>{" "}
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="changePassword" onClick={() => navigateToTab("changePassword")}
+                >
+                  <LockIcon />
+                  Change Password
+                </Nav.Link>{" "}
+              </Nav.Item>
               {/* ))} */}
             </Nav>
           </Col>
