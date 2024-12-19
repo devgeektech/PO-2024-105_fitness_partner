@@ -40,8 +40,8 @@ const ForgotPassword = () => {
         console.log(result);
         toast.success('Password reset link sent successfully!');
         setError(null);
-        
-        // Optionally, redirect or handle success
+
+        navigate('/auth/confirm-email', { state: { email:values.email } });
       } catch (error) {
         setSubmitting(false);
         setStatus('The login detail is incorrect');
@@ -86,10 +86,10 @@ const ForgotPassword = () => {
                               <div className="group-img iconLeft email position-relative">
                                 <label><EmailIcon /></label>
                                 <input
-                                className={error ? "borderWarning" : "form-control commonInput"}
+                                  className={error ? "borderWarning" : "form-control commonInput"}
                                   type="text"
                                   placeholder="Email"
-                                  {...formik.getFieldProps('email')}                                 
+                                  {...formik.getFieldProps('email')}
                                 />
                               </div>
 

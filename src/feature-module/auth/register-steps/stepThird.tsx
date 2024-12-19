@@ -33,9 +33,9 @@ const StepThird = ({ formik, setWellnessTypeId, onBackClick }: any) => {
                 <div className="row no-margin vph-100 d-flex align-items-top justify-content-center">
                   <div className="col-sm-10 col-md-10 col-lg-10 mx-auto">
                     <header className="text-center position-relative">
-                      <span className="backBtn" onClick={onBackClick}>
+                      {/* <span className="backBtn" onClick={onBackClick}>
                         <BackIcon />
-                      </span>
+                      </span> */}
                       <ImageWithBasePath
                         src="assets/img/logo.png"
                         className="img-fluid"
