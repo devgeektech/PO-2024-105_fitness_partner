@@ -564,12 +564,50 @@ button.eyeBtn {
     }
 }
 /* confirmModal scss end */
+// Check In Modal scss start 
+.CheckModal {
+    .modalImg {
+        text-align: center;
+        img {
+            max-width: 150px;
+        }
+    }
+    .game_content {
+        h2 {
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 38.4px;
+            color: #030D12;
+        }
+        p {
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 22.4px;
+            color: #2B2B2B;
+        }
+    }
+    .modal-footer {
+        button.btn.btn-primary {
+            font-size: 16px;
+            line-height: 16px;
+        }
+    }
+}
+// Check In Modal scss end 
 
 /* media Query start */
 @media (min-width: 767px) {
     .taskModal.modal {
         .modal-dialog {
             max-width: 675px
+        }
+    }
+}
+
+@media (min-width: 576px) {
+    .CheckModal {
+        .modal-sm {
+            max-width: 450px;
         }
     }
 }

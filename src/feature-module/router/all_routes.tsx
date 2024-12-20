@@ -1,5 +1,6 @@
 import StepFour from "../auth/stepFour";
 
+
 export const all_routes = {
   home: "/index",
 
@@ -134,6 +135,10 @@ export const all_routes = {
   classesCreate: "/classes/create",
   booking: "/booking",
   checkIn: "/check-in",
+  DashboardPage: "/dashboard",
+  paymentHistory: "/paymentHistory",
+  month: "/paymentHistory/month",
+  history: "/paymentHistory/month/history",
   //contact-us
   contactUs: "/contact-us",
 };

@@ -48,6 +48,10 @@ import DetailClass from "../classes/detail/page";
 import CreateClass from "../classes/create/page";
 import Booking from "../booking/page";
 import CheckIn from "../check-in/page";
+import DashboardPage from "../dashboard/page";
+import PaymentHistory from "../paymentHistory/page";
+import Month from "../paymentHistory/month/page";
+import History from "../paymentHistory/month/history/page";
 
 const routes = all_routes;
 
@@ -199,7 +203,24 @@ const publicRoutes = [
     path: routes.checkIn,
     element: <CheckIn/>,
     route: Route,
-  }
+  },
+  {
+    path: routes.DashboardPage,
+    element: <DashboardPage/>,
+    route: Route,
+  },
+  {
+    path: routes.paymentHistory,
+    element: <PaymentHistory/>,
+  },
+  {
+    path: routes.month,
+    element: <Month/>
+  },
+  {
+    path: routes.history,
+    element: <History/>
+  },  
 ];
 
 const withoutHeaderRoutes = [
