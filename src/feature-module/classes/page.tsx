@@ -12,6 +12,8 @@ export default function Classes() {
     const locationId = localStorage.getItem('locationId') || '';
     const [servicelist, setClasslist] = useState<any[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const [filterOption, setFilterOption] = useState<string>('newToOld');
+
     const tabs = [
         {
             eventKey: "all",
@@ -31,16 +33,25 @@ export default function Classes() {
     ];
 
     useEffect(() => {
-        getClasses();
+        getClasses(filterOption);
     }, []);
-    const getClasses = async () => {
+    const getClasses = async (filterOption: string) => {
         try {
-            const payload = { locationId };
+            const payload = { 
+                locationId:locationId,
+                sortOrder: filterOption
+             };
             const result = await getClasslist(payload);
             setClasslist(result?.data?.data || []);
         } catch (error) {
             console.error(error);
         }
+    };
+
+    // Update filter option state
+    const handleFilterChange = (filter: string) => {
+        setFilterOption(filter); 
+        getClasses(filter)
     };
 
     // Filter servicelist based on searchTerm
@@ -88,10 +99,31 @@ export default function Classes() {
                                         <FilterIcon />
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
-                                        <button className='active'>Date, new to old</button>
-                                        <button>Date, old to new</button>
-                                        <button>Alphabetically, A-Z</button>
-                                        <button>Alphabetically, Z-A</button>
+                                        <button
+                                            className={filterOption === 'newToOld' ? 'active' : ''}
+                                            onClick={() => handleFilterChange('newToOld')}
+                                        >
+                                            Date, new to old
+                                        </button>
+                                        <button
+                                            className={filterOption === 'oldToNew' ? 'active' : ''}
+                                            onClick={() => handleFilterChange('oldToNew')}
+                                        >
+                                            Date, old to new
+                                        </button>
+                                        <button
+                                            className={filterOption === 'aToZ' ? 'active' : ''}
+                                            onClick={() => handleFilterChange('aToZ')}
+                                        >
+                                            Alphabetically, A-Z
+                                        </button>
+                                        <button
+                                            className={filterOption === 'zToA' ? 'active' : ''}
+                                            onClick={() => handleFilterChange('zToA')}
+                                        >
+                                            Alphabetically, Z-A
+                                        </button>
+
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </div>
