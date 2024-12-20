@@ -5,7 +5,6 @@ import EditCircleIcon from '../../../../icons/EditCircleIcon'
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import clsx from "clsx";
-import { updateUserAvatarById, updateUserById } from '../../../../services/user.service';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserDetail } from '../../../data/redux/user/userSlice';
 import moment from "moment";
@@ -28,6 +27,7 @@ import SearchIcon from '../../../../icons/SearchIcon';
 import CrossWhiteBlackIcon from '../../../../icons/CrossWhiteBlackIcon';
 import { getServicelist } from '../../../../services/services.service';
 import { Autocomplete } from "@react-google-maps/api";
+import { editPartner } from '../../../../services/partner.service';
 
 export default function AccountSetting({ userDetail }: any) {
   const [file, setFile] = useState<any>();
@@ -54,20 +54,21 @@ export default function AccountSetting({ userDetail }: any) {
     { id: "sunday", name: "Sunday" },
   ];
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
+  const [images, setImages] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
 
   const profileInitialValues:any = {
-    businessName: '',
-    description: '',
-    address: '',
-    zipCode: '',
-    city: '',
-    weekDays: [],
-    startTime: '',
-    endTime: '',
-    services: [],
-    images: []
-  }
-
+    businessName: user?.userDetail?.partnerDetails?.businessName || '',
+    description: user?.userDetail?.partnerDetails?.description || '',
+    address: user?.userDetail?.address || '',
+    zipCode: user?.userDetail?.zipCode || '',
+    city: user?.userDetail?.city || '',
+    weekDays: user?.userDetail?.weekDays || '',
+    startTime: user?.userDetail?.startTime || '',
+    endTime: user?.userDetail?.endTime || '',
+    services: user?.userDetail?.endTime?.services || [],
+    images: user?.userDetail?.images || []
+   }
 
   const profileSchema:any = Yup.object().shape({
     businessName: Yup.string().required(LANG.FIELD_IS_REQUIRED),
@@ -82,11 +83,22 @@ export default function AccountSetting({ userDetail }: any) {
     images: Yup.array().optional()
   });
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     getServices();
   }, []);
+
+  useEffect(() => {
+    if(user?.userDetail?.images && user?.userDetail?.images?.length > 0){
+      setPreviews([...user?.userDetail?.images]);
+      setImages([...user?.userDetail?.images]);
+    }
+
+    if(user?.userDetail?.services && user?.userDetail?.services?.length>0){
+      console.log("user?.userDetail?.services", user?.userDetail?.services)
+      setServices(user?.userDetail?.services)
+      formik.setFieldValue("services", user?.userDetail?.services);
+    }
+  }, [user]);
 
   const getServices = async () => {
     try {
@@ -104,11 +116,11 @@ export default function AccountSetting({ userDetail }: any) {
       place.address_components.forEach((component: any) => {
         const types = component.types;
         if (types.includes("postal_code")) {
-          console.log("zipCode", component.long_name);
           setZipCode(component.long_name);
+          formik.setFieldValue("zipCode", component.long_name);
         }
         if (types.includes("locality")) {
-          console.log("setCity", component.long_name);
+          formik.setFieldValue("city", component.long_name);
           setCity(component.long_name);
         }
       });
@@ -132,16 +144,35 @@ export default function AccountSetting({ userDetail }: any) {
   const formik = useFormik({
     initialValues: profileInitialValues,
     validationSchema: profileSchema,
+    enableReinitialize: true,
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
-        console.log(values, "Values >>>>>>");
-        // const result = await updateUserById({ ...values, role: JSON.stringify(values.role) });
-        // if (result.data) {
-        //   console.log(result.data);
-        //   dispatch(setUserDetail(result?.data?.data));
-        //   toast.success(LANG.PROFILE_UPDATED_SUCCESSFULLY);
-        // }
+        values.locationId = user?.userDetail?._id;
+        values.weekDays = selectedDays
+        if(file) values.image = file
+        if(images && images.length > 0) values.images = images;
+        const formData = new FormData();
+        for (const key in values) {
+          if (Array.isArray(values[key])) {
+            values[key].forEach((item:any, index:any) => {
+              if (typeof item === 'object' && item instanceof File) {
+                formData.append(`${key}[${index}]`, item);
+              } else {
+                formData.append(`${key}[${index}]`, item);
+              }
+            });
+          } else if (typeof values[key] === 'object' && values[key] instanceof File) {
+            formData.append(key, values[key]);
+          } else {
+            formData.append(key, values[key]);
+          }
+        }
+        const result = await editPartner(formData);
+        if (result.data) {
+          console.log(result.data);
+          toast.success("Profile updated successfully");
+        }
       } catch (error) {
         console.log(error, loading)
         setSubmitting(false);
@@ -155,9 +186,6 @@ export default function AccountSetting({ userDetail }: any) {
     const url = URL.createObjectURL(selectedFile);
     setFile(selectedFile);
     setImageUrl(url);
-    const formData = new FormData();
-    formData.append("image", selectedFile);
-
   };
 
   const filteredServices = searchTerm
@@ -179,11 +207,47 @@ export default function AccountSetting({ userDetail }: any) {
     } else {
       const filteredDays = updatedDays.filter((day) => day !== "everyday");
       setSelectedDays(filteredDays);
-
-      formik.setFieldValue("weekDays", filteredDays);
     }
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(e.target.files || []);
+    const selectedPreviews = selectedFiles.map((file) =>
+      URL.createObjectURL(file)
+    );
+
+    setImages((prev) => [...prev, ...selectedFiles]);
+    setPreviews((prev) => [...prev, ...selectedPreviews]);
+  };
+
+  const handleRemoveImage = (index: number) => {
+    setImages((prev) => prev.filter((_, i) => i !== index));
+    setPreviews((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const changeAddress = (e: any)=>{
+    setAddress(e.target.value)
+   }
+
+  const changeCity = (e: any) => {
+    setCity(e.target.value)
+  }
+
+  const changeZipcode = (e: any) => {
+    setZipCode(e.target.value);
+  }
+
+  function isLiveUrl(filename:any) {
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp'];
+
+    const extension = filename.slice(filename.lastIndexOf('.')).toLowerCase();
+
+    if (imageExtensions.includes(extension)) {
+        return true;
+    } else {
+        return false
+    }
+}
 
   return (
     <div className="accountSettingTab">
@@ -193,8 +257,8 @@ export default function AccountSetting({ userDetail }: any) {
           <div className="d-flex align-items-center flex-column profileImageChange">
             <img
               src={
-                userDetail?.avatar
-                  ? fileUrl + userDetail?.avatar
+                user?.userDetail?.partnerDetails?.image && !file
+                  ? fileUrl + user?.userDetail?.partnerDetails?.image
                   : imageUrl
                     ? imageUrl
                     : "/assets/img/default-avatar.png"
@@ -273,7 +337,7 @@ export default function AccountSetting({ userDetail }: any) {
                   className="commonInput form-control"
                   placeholder="Search for a place"
                   value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  onChange={(e) => changeAddress(e)}
                 />
               </Autocomplete>
               </Form.Group>
@@ -289,7 +353,7 @@ export default function AccountSetting({ userDetail }: any) {
                       "border border-danger":
                         formik.touched.zipCode && formik.errors.zipCode,
                     })}
-                    onChange={(v) => setZipCode(v.target.value)}
+                    onChange={(v) => changeZipcode}
                     value={zipCode}
                   />
                 </Form.Group>
@@ -305,7 +369,7 @@ export default function AccountSetting({ userDetail }: any) {
                         formik.touched.houseNumber && formik.errors.houseNumber,
                     })}
                     value={city}
-                    onChange={(v) => setCity(v.target.value)}
+                    onChange={(e) => changeCity(e)}
                   />
                 </Form.Group>
               </div>
@@ -350,64 +414,6 @@ export default function AccountSetting({ userDetail }: any) {
                 </Form.Group>
               </div>
             </div>
-            {/* <ul className="daysCheckbox">
-              <li>
-                <label>
-                  <input type="checkbox" />
-                  <span className="day">Everyday</span>{" "}
-                  <span className="bg"></span>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" />
-                  <span className="day">Monday</span>{" "}
-                  <span className="bg"></span>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" />
-                  <span className="day">Tuesday</span>{" "}
-                  <span className="bg"></span>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" />
-                  <span className="day">Wednesday</span>{" "}
-                  <span className="bg"></span>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" />
-                  <span className="day">Thursday</span>{" "}
-                  <span className="bg"></span>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" />
-                  <span className="day">Friday</span>{" "}
-                  <span className="bg"></span>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" />
-                  <span className="day">Saturday</span>{" "}
-                  <span className="bg"></span>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" />
-                  <span className="day">Sunday</span>{" "}
-                  <span className="bg"></span>
-                </label>
-              </li>
-            </ul> */}
 
             <ul className="daysCheckbox">
                   {daysOfWeek.map((day) => (
@@ -426,9 +432,6 @@ export default function AccountSetting({ userDetail }: any) {
                   ))}
                 </ul>
 
-            {/* <button className="updateBtn" type="button">
-              Add time
-            </button> */}
           </div>
 
           <div className="bgFormColor p-4 mb-3">
@@ -453,7 +456,7 @@ export default function AccountSetting({ userDetail }: any) {
             </div>
             <ul className="daysCheckbox servicesWrap">
               {filteredServices?.map((item: any, index: number) => (
-                <li key={index}>
+                <li key={index} className='align-items-center'>
                   <label>
                     <input
                       type="checkbox"
@@ -475,30 +478,37 @@ export default function AccountSetting({ userDetail }: any) {
               <ul className="outerBlock">
                 <li>
                   <ul className="showImages">
-                    {items &&
-                      items.map((item, index) => {
-                        return (
-                          <li className="position-relative">
-                            <button className="crossBtn">
-                              <CrossWhiteBlackIcon />
-                            </button>
-                            <div className="image">
-                              <img
-                                src={"/assets/img/uploadOne.png"}
-                                alt="uploadOne"
-                                className="w-100 "
-                              />
-                            </div>
-                          </li>
-                        );
-                      })}
+                  {previews.map((preview, index) => (
+                      <li className="position-relative" key={index}>
+                        <button
+                          className="crossBtn"
+                          onClick={() => handleRemoveImage(index)}
+                        >
+                          <CrossWhiteBlackIcon />
+                        </button>
+                        <div className="image">
+                          <img 
+                          src= {
+                            isLiveUrl(preview)
+                              ? fileUrl + preview
+                              : preview
+                          } 
+                          alt={`Uploaded ${index}`} className="w-100" />
+                        </div>
+                      </li>
+                    ))}
                     <li className="uploadBlock">
                       <div className="upload text-center">
-                        <input type="file" />
-                        <img
-                          src={"/assets/img/uploadIcon.png"}
-                          alt="uploadIcon"
-                        />
+                        <input
+                            type="file"
+                            multiple
+                            onChange={handleFileChange}
+                            accept="image/*"
+                          />
+                          <img
+                            src={"/assets/img/uploadIcon.png"}
+                            alt="uploadIcon"
+                          />
                         <p>Drop or upload images</p>
                         <button>Browse image</button>
                       </div>
