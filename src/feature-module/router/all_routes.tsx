@@ -136,6 +136,8 @@ export const all_routes = {
   classesCreate: "/classes/create",
   settingChangePassword: "/settings/changePassword",
 
+  booking: "/booking",
+  checkIn: "/check-in",
   //contact-us
   contactUs: "/contact-us",
 };
