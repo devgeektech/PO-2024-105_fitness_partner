@@ -160,8 +160,9 @@
             width: 120px;
         }
         ul.daysCheckbox.servicesWrap {
-            height: 160px;
+            max-height: 160px;
             overflow-y: auto;
+            align-items: flex-start;
         }
         ul.outerBlock {
             ul.showImages {
