@@ -6,7 +6,7 @@ import 'swiper/css/navigation';
 import './style.scss';
 
 import { Navigation } from 'swiper/modules';
-import GamesBlock from '../games';
+import ClassesCard from '../classesCard';
 
 export default function MultiColumnSlider() {
   return (
@@ -44,16 +44,16 @@ export default function MultiColumnSlider() {
         className="mySwiperMultiColumn"
       >
         <SwiperSlide>
-            <GamesBlock/>
+            <ClassesCard/>
         </SwiperSlide>
-        <SwiperSlide><GamesBlock/></SwiperSlide>
-        <SwiperSlide><GamesBlock/></SwiperSlide>
-        <SwiperSlide><GamesBlock/></SwiperSlide>
-        <SwiperSlide><GamesBlock/></SwiperSlide>
-        <SwiperSlide><GamesBlock/></SwiperSlide>
-        <SwiperSlide><GamesBlock/></SwiperSlide>
-        <SwiperSlide><GamesBlock/></SwiperSlide>
-        <SwiperSlide><GamesBlock/></SwiperSlide>
+        <SwiperSlide><ClassesCard/></SwiperSlide>
+        <SwiperSlide><ClassesCard/></SwiperSlide>
+        <SwiperSlide><ClassesCard/></SwiperSlide>
+        <SwiperSlide><ClassesCard/></SwiperSlide>
+        <SwiperSlide><ClassesCard/></SwiperSlide>
+        <SwiperSlide><ClassesCard/></SwiperSlide>
+        <SwiperSlide><ClassesCard/></SwiperSlide>
+        <SwiperSlide><ClassesCard/></SwiperSlide>
       </Swiper>
     </div>
   );

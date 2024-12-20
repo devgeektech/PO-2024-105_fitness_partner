@@ -25,7 +25,7 @@ import LocationGreyIcon from "../../icons/LocationGreyIcon";
 import TimerIcon from "../../icons/TimerIcon";
 import SingleSlideSlider from "../../core/components/singleSlideSlider";
 import MultiColumnSlider from "../../core/components/multiColumSlider";
-import GamesBlock from "../../core/components/games";
+import ClassesCard from "../../core/components/classesCard";
 // import Swiper from 'swiper';
 
 
@@ -113,7 +113,7 @@ const TrainerDashboard = () => {
             <h3>Classes</h3>
             {/* <MultiColumnSlider/> */}
             <div className="mulitColumnSlider">
-              {/* <GamesBlock/> */}
+              {/* <ClassesCard/> */}
               <MultiColumnSlider/>
             </div>
           </div>

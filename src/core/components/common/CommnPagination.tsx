@@ -7,10 +7,12 @@ interface Props {
     recordsPerPage?: number;
     onPageChange: (pageNumber: number) => void;  // Function to notify parent about page change event
 }
-export const CommonPagination = ({ totalRecords, recordsPerPage = 10, onPageChange }: Props) => {
+
+export const CommonPagination = ({ totalRecords, recordsPerPage, onPageChange }: Props) => {
     const [activePage, setActivePage] = useState(1);
 
     // Calculate total pages
+    recordsPerPage = recordsPerPage || 10;
     const totalPages = Math.ceil(totalRecords / recordsPerPage);
 
     // Handle page click
