@@ -1,13 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./style.scss";
 import SearchIcon from '../../icons/SearchIcon';
 import { Link } from 'react-router-dom';
 import { Dropdown, Nav, Pagination, Tab } from 'react-bootstrap';
 import FilterIcon from '../../icons/FilterIcon';
 import GamesBlock from '../../core/components/games';
-export default function Classes() {
+import { getClasslist } from '../../services/classes.service';
 
-    const items = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12", "Item 13", "Item 14", "Item 15", "Item 16"];
+
+export default function Classes() {
+    const items = ["Item 1", "Item 2", "Item 3"];
+
+    const locationId = localStorage.getItem('locationId') || '';
+
+    const [servicelist, setClasslist] = useState<any[]>([]);
+
+
+    useEffect(() => {
+        getClasses();
+    }, []);
+
+    const getClasses = async () => {
+        try {
+            let payload = {
+                locationId
+            };
+            const result = await getClasslist(payload);
+            setClasslist(result?.data?.data || []);
+            console.log("servicelist ======= ", servicelist);
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
 
     return (
         <div className='classesWrapper'>
@@ -52,6 +78,7 @@ export default function Classes() {
                                 </Dropdown>
                             </div>
                         </div>
+
                         <Tab.Content>
                             <Tab.Pane eventKey="all">
                                 <div className='container-fluid'>
@@ -66,6 +93,7 @@ export default function Classes() {
                                     </div>
                                 </div>
                             </Tab.Pane>
+
                             <Tab.Pane eventKey="active">
                                 <div className='container-fluid'>
                                     <div className='row'>
@@ -92,7 +120,9 @@ export default function Classes() {
                                     </div>
                                 </div>
                             </Tab.Pane>
+
                         </Tab.Content>
+
                         <div className='paginationWrapper'>
                             <Pagination>
                                 <Pagination.First />
