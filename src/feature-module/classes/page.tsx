@@ -6,6 +6,7 @@ import { Dropdown, Nav, Pagination, Tab } from 'react-bootstrap';
 import FilterIcon from '../../icons/FilterIcon';
 import ClassesCard from '../../core/components/classesCard';
 import { getClasslist } from '../../services/classes.service';
+import { CommonPagination } from '../../core/components/common/CommnPagination';
 
 
 export default function Classes() {
@@ -13,36 +14,34 @@ export default function Classes() {
     const [servicelist, setClasslist] = useState<any[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [filterOption, setFilterOption] = useState<string>('newToOld');
+    const [currentPage, setCurrentPage] = useState<number>(1);  // Track current page
+    const [totalItems, setTotalItems] = useState<number>(0);  // Track total number of items
+    const itemsPerPage = 8; // Number of items per page
 
     const tabs = [
-        {
-            eventKey: "all",
-            label: "All",
-            filterCondition: () => true, // Show all items
-        },
-        {
-            eventKey: "active",
-            label: "Active",
-            filterCondition: (item: any) => item.status === "active", // Show active items
-        },
-        {
-            eventKey: "inactive",
-            label: "In-active",
-            filterCondition: (item: any) => item.status === "inactive", // Show inactive items
-        },
+        { eventKey: "all", label: "All", filterCondition: () => true },
+        { eventKey: "active", label: "Active", filterCondition: (item: any) => item.status === "active" },
+        { eventKey: "inactive", label: "In-active", filterCondition: (item: any) => item.status === "inactive" },
     ];
 
     useEffect(() => {
-        getClasses(filterOption);
-    }, []);
-    const getClasses = async (filterOption: string) => {
+        getClasses(filterOption, currentPage);
+    }, [filterOption]);
+
+    const getClasses = async (filterOption: string, page: number,) => {
+        let skip = (page - 1) * itemsPerPage;
+        console.log("currentPage >>> ", page, "  >>> itemsPerPage ", itemsPerPage, ' --- skip ', skip);
+
         try {
-            const payload = { 
-                locationId:locationId,
-                sortOrder: filterOption
-             };
+            const payload = {
+                locationId: locationId,
+                sortOrder: filterOption,
+                skip,
+                limit: itemsPerPage,
+            };
             const result = await getClasslist(payload);
             setClasslist(result?.data?.data || []);
+            setTotalItems(result?.data?.totalRecord || 0)
         } catch (error) {
             console.error(error);
         }
@@ -50,15 +49,23 @@ export default function Classes() {
 
     // Update filter option state
     const handleFilterChange = (filter: string) => {
-        setFilterOption(filter); 
-        getClasses(filter)
+        setFilterOption(filter);
+        setCurrentPage(1);  // Reset to page 1 when filter changes
+
+        getClasses(filter, currentPage);
     };
 
     // Filter servicelist based on searchTerm
     const filteredServices = servicelist.filter((service) =>
         service?.className?.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    console.log("filteredServices ========= ", filteredServices);
+
+    // Paginated data for the current page
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+        getClasses(filterOption, page)
+    };
+
 
     return (
         <div className='classesWrapper'>
@@ -134,38 +141,32 @@ export default function Classes() {
                                 <Tab.Pane eventKey={tab.eventKey} key={tab.eventKey}>
                                     <div className='container-fluid'>
                                         <div className='row'>
-                                            {filteredServices && 
-                                            filteredServices.filter(tab.filterCondition).map((item, index) => {
-                                                return <div className='col-md-4 col-sm-6 col-lg-3 mb-4' key={index} >
-                                                    <Link to={'/classes/detail'}>
-                                                        <ClassesCard
-                                                            className={item.className}
-                                                            image={item.images[0]}
-                                                            status={item.status}
-                                                            classType={item.classType}
-                                                            participants={item.participants}
-                                                        />
-                                                    </Link>
-                                                </div>
-                                            })}
+                                            {filteredServices &&
+                                                filteredServices.filter(tab.filterCondition).map((item, index) => {
+                                                    return <div className='col-md-4 col-sm-6 col-lg-3 mb-4' key={index} >
+                                                        <Link to={'/classes/detail'}>
+                                                            <ClassesCard
+                                                                className={item.className}
+                                                                image={item.images[0]}
+                                                                status={item.status}
+                                                                classType={item.classType}
+                                                                participants={item.participants}
+                                                            />
+                                                        </Link>
+                                                    </div>
+                                                })}
                                         </div>
                                     </div>
                                 </Tab.Pane>
                             ))}
                         </Tab.Content>
 
-                        <div className='paginationWrapper'>
-                            <Pagination>
-                                <Pagination.First />
-                                <Pagination.Prev />
-                                <Pagination.Item active>{1}</Pagination.Item>
-                                <Pagination.Item>{2}</Pagination.Item>
-                                <Pagination.Item>{3}</Pagination.Item>
-                                <Pagination.Ellipsis />
-                                <Pagination.Item >{10}</Pagination.Item>
-                                <Pagination.Next />
-                                <Pagination.Last />
-                            </Pagination>
+                        <div className="paginationWrapper">
+                            <CommonPagination
+                                totalRecords={totalItems}
+                                recordsPerPage={itemsPerPage}
+                                onPageChange={handlePageChange}
+                            />
                         </div>
                     </Tab.Container>
                 </div>
