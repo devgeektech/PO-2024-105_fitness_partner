@@ -131,7 +131,7 @@ export const all_routes = {
   settingEdit: "/settings",
 
   
-  classes: "/classes/",
+  classes: "/classes",
   classesDetail: "/classes/detail",
   classesCreate: "/classes/create",
   settingChangePassword: "/settings/changePassword",

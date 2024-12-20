@@ -71,7 +71,7 @@ const Header = () => {
       tittle: "Classes",
       showAsTab: false,
       separateRoute: true,
-      routes: routes.contactUs,
+      routes: routes.classes,
       hasSubRoute: false,
       showSubRoute: false
     },
@@ -95,7 +95,7 @@ const Header = () => {
       tittle: "Settings",
       showAsTab: false,
       separateRoute: true,
-      routes: routes.contactUs,
+      routes: routes.settingEdit,
       hasSubRoute: false,
       showSubRoute: false
     },
