@@ -94,7 +94,6 @@ export default function AccountSetting({ userDetail }: any) {
     }
 
     if(user?.userDetail?.services && user?.userDetail?.services?.length>0){
-      console.log("user?.userDetail?.services", user?.userDetail?.services)
       setServices(user?.userDetail?.services)
       formik.setFieldValue("services", user?.userDetail?.services);
     }
