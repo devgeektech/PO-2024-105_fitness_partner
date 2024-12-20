@@ -10,10 +10,10 @@ export default function CreateClass() {
       <div className="container">
         <ul className="breadcrumbWrapper">
           <li>
-            <Link to={"#"}>Setting</Link>
+            <Link to={"#"}>Cardio</Link>
           </li> /
           <li>
-            <span>Edit setting</span>
+            <span>Edit class</span>
           </li>
         </ul>
         <h3>Create class</h3>
@@ -22,9 +22,10 @@ export default function CreateClass() {
             <Row>
               <Col md={4} lg={3}>
                 <Nav variant="pills" className="flex-column">
-                  <Nav.Item>
+                  <Nav.Item className="mb-3">
                     <Nav.Link eventKey="first"><GymSportsIcon/>Class settings</Nav.Link>
                   </Nav.Item>
+                  
                 </Nav>
               </Col>
               <Col md={8} lg={9}>

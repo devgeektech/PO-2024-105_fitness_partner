@@ -63,7 +63,7 @@ export default function Booking() {
                     <td>
                         <div className="d-flex gap-2 align-items-center">
                         <span className="text-danger">Cancelled</span>
-                        <button className="cancelbtn">Details</button>
+                        <button onClick={handleShow} className="cancelbtn">Details</button>
                         </div>
                     </td>
                     </tr>

@@ -133,6 +133,7 @@ export const all_routes = {
   classesDetail: "/classes/detail",
   classesCreate: "/classes/create",
   booking: "/booking",
+  checkIn: "/check-in",
   //contact-us
   contactUs: "/contact-us",
 };

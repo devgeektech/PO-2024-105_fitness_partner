@@ -47,6 +47,7 @@ import Classes from "../classes/page";
 import DetailClass from "../classes/detail/page";
 import CreateClass from "../classes/create/page";
 import Booking from "../booking/page";
+import CheckIn from "../check-in/page";
 
 const routes = all_routes;
 
@@ -194,6 +195,11 @@ const publicRoutes = [
     element: <Booking/>,
     route: Route,
   },
+  {
+    path: routes.checkIn,
+    element: <CheckIn/>,
+    route: Route,
+  }
 ];
 
 const withoutHeaderRoutes = [
