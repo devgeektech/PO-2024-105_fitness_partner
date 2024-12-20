@@ -12,6 +12,23 @@ export default function Classes() {
     const locationId = localStorage.getItem('locationId') || '';
     const [servicelist, setClasslist] = useState<any[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const tabs = [
+        {
+            eventKey: "all",
+            label: "All",
+            filterCondition: () => true, // Show all items
+        },
+        {
+            eventKey: "active",
+            label: "Active",
+            filterCondition: (item: any) => item.status === "active", // Show active items
+        },
+        {
+            eventKey: "inactive",
+            label: "In-active",
+            filterCondition: (item: any) => item.status === "inactive", // Show inactive items
+        },
+    ];
 
     useEffect(() => {
         getClasses();
@@ -31,7 +48,6 @@ export default function Classes() {
         service?.className?.toLowerCase().includes(searchTerm.toLowerCase())
     );
     console.log("filteredServices ========= ", filteredServices);
-
 
     return (
         <div className='classesWrapper'>
@@ -58,15 +74,11 @@ export default function Classes() {
                         <div className='tab_top_filter d-flex justify-content-between align-items-center mb-4'>
                             <Nav variant="pills" className="tabBtns">
                                 <div className='tabBtnInner d-flex gap-2 align-items-center'>
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="all">All</Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="active">Active</Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="inactive">In-active</Nav.Link>
-                                    </Nav.Item>
+                                    {tabs.map((tab) => (
+                                        <Nav.Item key={tab.eventKey}>
+                                            <Nav.Link eventKey={tab.eventKey}>{tab.label}</Nav.Link>
+                                        </Nav.Item>
+                                    ))}
                                 </div>
                             </Nav>
 
@@ -86,55 +98,28 @@ export default function Classes() {
                         </div>
 
                         <Tab.Content>
-                            <Tab.Pane eventKey="all">
-                                <div className='container-fluid'>
-                                    <div className='row'>
-                                        {filteredServices && filteredServices.map((item, index) => {
-                                            return <div className='col-md-4 col-sm-6 col-lg-3 mb-4'  key={index} >
-                                                <Link to={'/classes/detail'}>
-                                                <ClassesCard
-                                                    className={item.className}
-                                                    image={item.images[0]}
-                                                    status={item.status}
-                                                    classType={item.classType}
-                                                    participants={item.participants}
-                                                />
-                                                </Link>
-                                            </div>
-                                        })}
+                            {tabs.map((tab) => (
+                                <Tab.Pane eventKey={tab.eventKey} key={tab.eventKey}>
+                                    <div className='container-fluid'>
+                                        <div className='row'>
+                                            {filteredServices && 
+                                            filteredServices.filter(tab.filterCondition).map((item, index) => {
+                                                return <div className='col-md-4 col-sm-6 col-lg-3 mb-4' key={index} >
+                                                    <Link to={'/classes/detail'}>
+                                                        <ClassesCard
+                                                            className={item.className}
+                                                            image={item.images[0]}
+                                                            status={item.status}
+                                                            classType={item.classType}
+                                                            participants={item.participants}
+                                                        />
+                                                    </Link>
+                                                </div>
+                                            })}
+                                        </div>
                                     </div>
-                                </div>
-                            </Tab.Pane>
-
-
-                            <Tab.Pane eventKey="active">
-                                <div className='container-fluid'>
-                                    <div className='row'>
-                                        {filteredServices && filteredServices.map((item, index) => {
-                                            return <div className='col-md-4 col-sm-6 col-lg-3 mb-4'>
-                                                <Link to={'/classes/detail'}>
-                                                    <ClassesCard />
-                                                </Link>
-                                            </div>
-                                        })}
-                                    </div>
-                                </div>
-                            </Tab.Pane>
-
-                            <Tab.Pane eventKey="inactive">
-                                <div className='container-fluid'>
-                                    <div className='row'>
-                                        {filteredServices && filteredServices.map((item, index) => {
-                                            return <div className='col-md-4 col-sm-6 col-lg-3 mb-4'>
-                                                <Link to={'/classes/detail'}>
-                                                    <ClassesCard />
-                                                </Link>
-                                            </div>
-                                        })}
-                                    </div>
-                                </div>
-                            </Tab.Pane>
-
+                                </Tab.Pane>
+                            ))}
                         </Tab.Content>
 
                         <div className='paginationWrapper'>
