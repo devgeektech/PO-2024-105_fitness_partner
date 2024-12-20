@@ -4,35 +4,33 @@ import SearchIcon from '../../icons/SearchIcon';
 import { Link } from 'react-router-dom';
 import { Dropdown, Nav, Pagination, Tab } from 'react-bootstrap';
 import FilterIcon from '../../icons/FilterIcon';
-import GamesBlock from '../../core/components/games';
+import ClassesCard from '../../core/components/classesCard';
 import { getClasslist } from '../../services/classes.service';
 
 
 export default function Classes() {
-    const items = ["Item 1", "Item 2", "Item 3"];
-
     const locationId = localStorage.getItem('locationId') || '';
-
     const [servicelist, setClasslist] = useState<any[]>([]);
-
+    const [searchTerm, setSearchTerm] = useState<string>('');
 
     useEffect(() => {
         getClasses();
     }, []);
-
     const getClasses = async () => {
         try {
-            let payload = {
-                locationId
-            };
+            const payload = { locationId };
             const result = await getClasslist(payload);
             setClasslist(result?.data?.data || []);
-            console.log("servicelist ======= ", servicelist);
-
         } catch (error) {
             console.error(error);
         }
     };
+
+    // Filter servicelist based on searchTerm
+    const filteredServices = servicelist.filter((service) =>
+        service?.className?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    console.log("filteredServices ========= ", filteredServices);
 
 
     return (
@@ -43,11 +41,18 @@ export default function Classes() {
                         <h2>Classes</h2>
                         <div className='search_wrap position-relative'>
                             <label><SearchIcon /></label>
-                            <input type='text' className='form-control' placeholder='Search class ... ' />
+                            <input
+                                type='text'
+                                className='form-control'
+                                placeholder='Search class ... '
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
                         </div>
                     </div>
                     <Link to={'#'} className='classBtn'><span>+</span>Create new class</Link>
                 </div>
+
                 <div className='tab_FilterWrapper'>
                     <Tab.Container id="left-tabs-example" defaultActiveKey="all">
                         <div className='tab_top_filter d-flex justify-content-between align-items-center mb-4'>
@@ -64,6 +69,7 @@ export default function Classes() {
                                     </Nav.Item>
                                 </div>
                             </Nav>
+
                             <div className='filterDropdown'>
                                 <Dropdown>
                                     <Dropdown.Toggle id="dropdown-basic">
@@ -83,10 +89,16 @@ export default function Classes() {
                             <Tab.Pane eventKey="all">
                                 <div className='container-fluid'>
                                     <div className='row'>
-                                        {items && items.map((item, index) => {
-                                            return <div className='col-md-4 col-sm-6 col-lg-3 mb-4'>
+                                        {filteredServices && filteredServices.map((item, index) => {
+                                            return <div className='col-md-4 col-sm-6 col-lg-3 mb-4'  key={index} >
                                                 <Link to={'/classes/detail'}>
-                                                    <GamesBlock />
+                                                <ClassesCard
+                                                    className={item.className}
+                                                    image={item.images[0]}
+                                                    status={item.status}
+                                                    classType={item.classType}
+                                                    participants={item.participants}
+                                                />
                                                 </Link>
                                             </div>
                                         })}
@@ -94,26 +106,28 @@ export default function Classes() {
                                 </div>
                             </Tab.Pane>
 
+
                             <Tab.Pane eventKey="active">
                                 <div className='container-fluid'>
                                     <div className='row'>
-                                        {items && items.map((item, index) => {
+                                        {filteredServices && filteredServices.map((item, index) => {
                                             return <div className='col-md-4 col-sm-6 col-lg-3 mb-4'>
                                                 <Link to={'/classes/detail'}>
-                                                    <GamesBlock />
+                                                    <ClassesCard />
                                                 </Link>
                                             </div>
                                         })}
                                     </div>
                                 </div>
                             </Tab.Pane>
+
                             <Tab.Pane eventKey="inactive">
                                 <div className='container-fluid'>
                                     <div className='row'>
-                                        {items && items.map((item, index) => {
+                                        {filteredServices && filteredServices.map((item, index) => {
                                             return <div className='col-md-4 col-sm-6 col-lg-3 mb-4'>
                                                 <Link to={'/classes/detail'}>
-                                                    <GamesBlock />
+                                                    <ClassesCard />
                                                 </Link>
                                             </div>
                                         })}
