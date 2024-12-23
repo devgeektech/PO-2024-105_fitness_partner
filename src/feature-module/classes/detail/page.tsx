@@ -42,10 +42,6 @@ export default function DetailClass() {
     }
   };
 
-  const editClass = (id: any) => {
-    navigate(`/classes/edit`, { state: { id } });
-  };
-
 
   return (
     <div className='classDetail'>
@@ -65,7 +61,7 @@ export default function DetailClass() {
             </ul>
           </div>
           <div className='classRightSide'>
-            <Link onClick={() => editClass(classDetails._id)} to="#"><EditGreyIcon />Edit class</Link>
+            <Link to={`/classes/edit/${classDetails._id}`}><EditGreyIcon />Edit class</Link>
           </div>
         </div>
         <div className="aboutContent">
