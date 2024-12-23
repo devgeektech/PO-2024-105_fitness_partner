@@ -14,3 +14,9 @@ export const editPartner = async (payload: any) => {
     const partnerId = getStorageItem("id");
     return http.put(`/partner/editProfile/${partnerId}`, payload);
 }
+
+export const getClassById = async(payload: any) => {
+    const id = payload.id;
+    console.log(id,">>>> get Id  index >>>>>")
+    return http.get(`/partner/class/${id}`)
+}

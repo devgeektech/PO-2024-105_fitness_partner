@@ -1,11 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Tab, Row, Col, Nav } from "react-bootstrap";
 import ClassesTab from "../../../core/components/classesTab/page";
 import GymSportsIcon from "../../../icons/GymSportsIcon";
 import './style.scss';
+import { getClassById } from "../../../services/partner.service";
 export default function CreateClass() {
   const { id } = useParams();
+  const [classData, setClassData] = useState<any>({});
+
+  useEffect(() => {
+    if(id){
+      getClassDataOnEdit(id)
+    }
+  }, []);
+
+  const getClassDataOnEdit = async (id:any)=> {
+    try {
+      const result = await getClassById({id});
+      if (result?.data?.data) {
+        let obj = result?.data?.data;
+        if (obj.classRepeat.type === "repeat") {
+          obj.classRepeatType = "repeat";
+        }
+        if (obj.classRepeat.type === "doesNotRepeat") {
+          obj.classRepeatType = "doesNotRepeat";
+        }
+        if (obj.classRepeat.selection && obj.classRepeat.selection) {
+          obj.classWeekdays = obj.classRepeat.selection;
+        }
+        if (obj.classRepeat && obj.classRepeat.weekDays && obj.classRepeat.weekDays.length > 0) {
+          obj.selection = obj.classRepeat.weekDays;
+        }
+        obj.classEndType = obj.classEnd.type;
+        if (obj.classEnd.type == "on") {
+          obj.classEndDate = obj.classEnd.date;
+        }
+        if (obj.classEnd.type == "after") {
+          obj.classEndType = obj.classEnd.NoOfOccurence;
+        }
+        obj.classStartTime = obj?.classTime?.start
+        obj.classEndTime = obj?.classTime?.end
+        obj.classStartDate = obj?.classTime?.date
+        setClassData(result?.data?.data);
+      }
+    }
+    catch (error) {
+     
+    }
+  }
+
   return (
     <div className="createClass">
       <div className="container">
@@ -32,7 +76,7 @@ export default function CreateClass() {
               <Col md={8} lg={9}>
                 <Tab.Content>
                   <Tab.Pane eventKey="first">
-                    <ClassesTab id={id}/>
+                    <ClassesTab id={id} classData={classData}/>
                   </Tab.Pane>
                 </Tab.Content>
               </Col>
