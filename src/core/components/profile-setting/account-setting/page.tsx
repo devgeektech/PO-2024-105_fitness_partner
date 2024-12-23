@@ -5,21 +5,12 @@ import EditCircleIcon from '../../../../icons/EditCircleIcon'
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import clsx from "clsx";
-import { useDispatch, useSelector } from 'react-redux';
-import { setUserDetail } from '../../../data/redux/user/userSlice';
+import { useSelector } from 'react-redux';
 import moment from "moment";
-import VisibilityBox from '../../VisibilityBox';
-import UploadIcon from '../../../../icons/UploadIcon';
-import DownloadIcon from '../../../../icons/DownloadIcon';
 import { LANG } from '../../../../constants/language';
 import { toast } from 'react-toastify';
-import { alphaOnly, getAge, numOnly } from '../../../../utils';
-import { NATIONALITIES } from '../../../../constants/nationalities';
-import { BLOOD_GROUP_LIST, GENDERS } from '../../../../constants';
-import ErrorText from '../../error-text';
 import BusinessIcon from '../../../../icons/BusinessIcon';
 import FileIcon from '../../../../icons/FileIcon';
-import { Link } from 'react-router-dom';
 import LocationIcon from '../../../../icons/LocationIcon';
 import CrossIcon from '../../../../icons/CrossIcon';
 import TimerIcon from '../../../../icons/TimerIcon';
@@ -35,7 +26,7 @@ export default function AccountSetting({ userDetail }: any) {
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
   const fileUrl = process.env.REACT_APP_FILE_URL;
-  const user = useSelector((state:any)=>state.user);
+  const user = useSelector((state: any) => state.user);
   const [servicelist, setServicelist] = useState<any[]>([]);
   const [services, setServices] = useState<any>([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -55,21 +46,23 @@ export default function AccountSetting({ userDetail }: any) {
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
+  const [startTimeFormat, setStartTimeFormat] = useState<string>('');
+  const [endTimeFormat, setEndTimeFormat] = useState<string>('');
 
-  const profileInitialValues:any = {
+  const profileInitialValues: any = {
     businessName: user?.userDetail?.partnerDetails?.businessName || '',
     description: user?.userDetail?.partnerDetails?.description || '',
     address: user?.userDetail?.address || '',
     zipCode: user?.userDetail?.zipCode || '',
     city: user?.userDetail?.city || '',
-    weekDays: user?.userDetail?.weekDays || '',
+    weekDays: user?.userDetail?.weekDays || [],
     startTime: user?.userDetail?.startTime || '',
     endTime: user?.userDetail?.endTime || '',
     services: user?.userDetail?.endTime?.services || [],
     images: user?.userDetail?.images || []
-   }
+  }
 
-  const profileSchema:any = Yup.object().shape({
+  const profileSchema: any = Yup.object().shape({
     businessName: Yup.string().required(LANG.FIELD_IS_REQUIRED),
     description: Yup.string(),
     address: Yup.string(),
@@ -87,15 +80,31 @@ export default function AccountSetting({ userDetail }: any) {
   }, []);
 
   useEffect(() => {
-    if(user?.userDetail?.images && user?.userDetail?.images?.length > 0){
+    if (user?.userDetail?.images && user?.userDetail?.images?.length > 0) {
       setPreviews([...user?.userDetail?.images]);
       setImages([...user?.userDetail?.images]);
     }
 
-    if(user?.userDetail?.services && user?.userDetail?.services?.length>0){
-      setServices(user?.userDetail?.services)
-      formik.setFieldValue("services", user?.userDetail?.services);
+    if (user?.userDetail?.services && user?.userDetail?.services?.length > 0) {
+      let serviceIdArr = [];
+      for (let service of user?.userDetail?.services) {
+        serviceIdArr.push(service._id)
+      }
+      setServices(serviceIdArr)
+      formik.setFieldValue("services", serviceIdArr);
     }
+
+    if (user?.userDetail?.weekDays && user?.userDetail?.weekDays?.length > 0) {
+      setSelectedDays(user?.userDetail?.weekDays)
+      formik.setFieldValue("selectedDays", user?.userDetail?.weekDays);
+    }
+
+    // Get AM or PM
+    const amOrPmMorning = moment(user?.userDetail?.startTime, 'HH:mm').format('A');
+    const amOrPmEvening = moment(user?.userDetail?.endTime, 'HH:mm').format('A');
+    setStartTimeFormat(amOrPmMorning)
+    setEndTimeFormat(amOrPmEvening)
+
   }, [user]);
 
   const getServices = async () => {
@@ -136,7 +145,7 @@ export default function AccountSetting({ userDetail }: any) {
       : (formik.values.services || []).filter((id: string) => id !== value);
 
     formik.setFieldValue("services", updatedServices);
-    setServices(updatedServices); 
+    setServices(updatedServices);
   };
 
   const formik = useFormik({
@@ -148,23 +157,17 @@ export default function AccountSetting({ userDetail }: any) {
       try {
         values.locationId = user?.userDetail?._id;
         values.weekDays = selectedDays
-        if(file) values.image = file
-        if(images && images.length > 0) values.images = images;
+        if (file) values.image = file
+        if (images && images.length > 0) values.images = images;
         const formData = new FormData();
-        let services=[];
+        let services = [];
         for (const key in values) {
-          
-          if (Array.isArray(values[key])) {
-            console.log('key >>>>>>>>> 1111111 ',key, values[key]);
 
-            values[key].forEach((item:any, index:any) => {
+          if (Array.isArray(values[key])) {
+            values[key].forEach((item: any, index: any) => {
               if (typeof item === 'object' && item instanceof File) {
-                console.log('item ---------- 2222 ', item);
-                
                 formData.append(`${key}[${index}]`, item);
               } else {
-                console.log('item ---------- 3333 ', item);
-
                 formData.append(`${key}[${index}]`, item);
               }
             });
@@ -196,8 +199,8 @@ export default function AccountSetting({ userDetail }: any) {
 
   const filteredServices = searchTerm
     ? servicelist.filter((item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
     : servicelist;
 
   const handleDayCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -231,9 +234,9 @@ export default function AccountSetting({ userDetail }: any) {
     setPreviews((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const changeAddress = (e: any)=>{
+  const changeAddress = (e: any) => {
     setAddress(e.target.value)
-   }
+  }
 
   const changeCity = (e: any) => {
     setCity(e.target.value)
@@ -243,17 +246,17 @@ export default function AccountSetting({ userDetail }: any) {
     setZipCode(e.target.value);
   }
 
-  function isLiveUrl(filename:any) {
+  function isLiveUrl(filename: any) {
     const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp'];
 
     const extension = filename.slice(filename.lastIndexOf('.')).toLowerCase();
 
     if (imageExtensions.includes(extension)) {
-        return true;
+      return true;
     } else {
-        return false
+      return false
     }
-}
+  }
 
   return (
     <div className="accountSettingTab">
@@ -333,19 +336,19 @@ export default function AccountSetting({ userDetail }: any) {
                 <LocationIcon />
               </label>
               <Form.Group className="mb-3">
-              <Autocomplete
-                onLoad={handleLoad}
-                onPlaceChanged={handlePlaceChanged}
-              >
-                <input
-                  type="text"
-                  name="search"
-                  className="commonInput form-control"
-                  placeholder="Search for a place"
-                  value={address}
-                  onChange={(e) => changeAddress(e)}
-                />
-              </Autocomplete>
+                <Autocomplete
+                  onLoad={handleLoad}
+                  onPlaceChanged={handlePlaceChanged}
+                >
+                  <input
+                    type="text"
+                    name="search"
+                    className="commonInput form-control"
+                    placeholder="Search for a place"
+                    value={address}
+                    onChange={(e) => changeAddress(e)}
+                  />
+                </Autocomplete>
               </Form.Group>
             </div>
             <div className="row">
@@ -381,6 +384,7 @@ export default function AccountSetting({ userDetail }: any) {
               </div>
             </div>
           </div>
+
           <div className="bgFormColor p-4 mb-3">
             <label>Working hours</label>
             <ul className="addedTime mb-3">
@@ -389,7 +393,7 @@ export default function AccountSetting({ userDetail }: any) {
                   <CrossIcon />
                 </button>
                 <TimerIcon />
-                <label>Monday, Tuesday | 05.00 AM - 04:00 PM</label>
+                <label>{selectedDays} | {user?.userDetail?.startTime} {startTimeFormat} - {user?.userDetail?.endTime} {endTimeFormat}</label>
               </li>
             </ul>
             <div className="row">
@@ -422,22 +426,21 @@ export default function AccountSetting({ userDetail }: any) {
             </div>
 
             <ul className="daysCheckbox">
-                  {daysOfWeek.map((day) => (
-                    <li key={day.id}>
-                      <label>
-                        <input
-                          type="checkbox"
-                          value={day.id}
-                          checked={selectedDays.includes(day.id)}
-                          onChange={handleDayCheckboxChange}
-                        />
-                        <span className="day">{day.name}</span>
-                        <span className="bg"></span>
-                      </label>
-                    </li>
-                  ))}
-                </ul>
-
+              {daysOfWeek.map((day) => (
+                <li key={day.id}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      value={day.id}
+                      checked={selectedDays.includes(day.id)}
+                      onChange={handleDayCheckboxChange}
+                    />
+                    <span className="day">{day.name}</span>
+                    <span className="bg"></span>
+                  </label>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div className="bgFormColor p-4 mb-3">
@@ -452,7 +455,7 @@ export default function AccountSetting({ userDetail }: any) {
                     <input
                       type="text"
                       placeholder="Search service"
-                      className= "commonInput form-control"
+                      className="commonInput form-control"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -468,23 +471,24 @@ export default function AccountSetting({ userDetail }: any) {
                       type="checkbox"
                       name="service"
                       value={item._id}
-                      checked={(formik.values.services || []).includes(item._id)}
+                      checked={formik.values.services.includes(item._id)}
                       onChange={handleCheckboxChange}
                     />
                     <span className="day">{item.name}</span>
                     <span className="bg"></span>
                   </label>
                 </li>
-                ))}
-              </ul>
+              ))}
+            </ul>
           </div>
+
           <div className="bgFormColor p-4 mb-3">
             <label>Gym images</label>
             <div className="uploadWrapper">
               <ul className="outerBlock">
                 <li>
                   <ul className="showImages">
-                  {previews.map((preview, index) => (
+                    {previews.map((preview, index) => (
                       <li className="position-relative" key={index}>
                         <button
                           className="crossBtn"
@@ -493,28 +497,28 @@ export default function AccountSetting({ userDetail }: any) {
                           <CrossWhiteBlackIcon />
                         </button>
                         <div className="image">
-                          <img 
-                          src= {
-                            isLiveUrl(preview)
-                              ? fileUrl + preview
-                              : preview
-                          } 
-                          alt={`Uploaded ${index}`} className="w-100" />
+                          <img
+                            src={
+                              isLiveUrl(preview)
+                                ? fileUrl + preview
+                                : preview
+                            }
+                            alt={`Uploaded ${index}`} className="w-100" />
                         </div>
                       </li>
                     ))}
                     <li className="uploadBlock">
                       <div className="upload text-center">
                         <input
-                            type="file"
-                            multiple
-                            onChange={handleFileChange}
-                            accept="image/*"
-                          />
-                          <img
-                            src={"/assets/img/uploadIcon.png"}
-                            alt="uploadIcon"
-                          />
+                          type="file"
+                          multiple
+                          onChange={handleFileChange}
+                          accept="image/*"
+                        />
+                        <img
+                          src={"/assets/img/uploadIcon.png"}
+                          alt="uploadIcon"
+                        />
                         <p>Drop or upload images</p>
                         <button>Browse image</button>
                       </div>

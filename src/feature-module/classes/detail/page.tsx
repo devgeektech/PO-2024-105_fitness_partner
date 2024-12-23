@@ -65,7 +65,7 @@ export default function DetailClass() {
             </ul>
           </div>
           <div className='classRightSide'>
-            <Link onClick={() => editClass(classDetails._id)} to="#"><EditGreyIcon />Edit class</Link>
+            <Link onClick={() => editClass(classDetails?._id)} to="#"><EditGreyIcon />Edit class</Link>
           </div>
         </div>
         <div className="aboutContent">
@@ -75,9 +75,9 @@ export default function DetailClass() {
         <div className="timingContent">
           <h3>Class timings</h3>
           <ul>
-            {classDetails.days && classDetails.days.map((day: string) => (
+            {classDetails?.days && classDetails?.days.map((day: string) => (
               <li>
-                <TimerIcon /><span>{day}</span> | <span>{classDetails.startTime} {startTimeFormat} - {classDetails.endTime} {endTimeFormat}</span>
+                <TimerIcon /><span>{day}</span> | <span>{classDetails?.startTime} {startTimeFormat} - {classDetails?.endTime} {endTimeFormat}</span>
               </li>
             ))}
           </ul>
