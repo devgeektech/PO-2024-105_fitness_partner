@@ -35,7 +35,6 @@ export default function AccountSetting({ userDetail }: any) {
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
   const fileUrl = process.env.REACT_APP_FILE_URL;
-  const items = ["Item 1", "Item 2", "Item 3"];
   const user = useSelector((state:any)=>state.user);
   const [servicelist, setServicelist] = useState<any[]>([]);
   const [services, setServices] = useState<any>([]);
