@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "./style.scss";
 import SearchIcon from '../../icons/SearchIcon';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Dropdown, Nav, Pagination, Tab } from 'react-bootstrap';
 import FilterIcon from '../../icons/FilterIcon';
 import ClassesCard from '../../core/components/classesCard';
@@ -19,6 +19,7 @@ export default function Classes() {
     const [currentPage, setCurrentPage] = useState<number>(1);  // Track current page
     const [totalItems, setTotalItems] = useState<number>(0);  // Track total number of items
     const itemsPerPage = 8; // Number of items per page
+    const navigate = useNavigate();
 
     const tabs = [
         { eventKey: "all", label: "All", filterCondition: () => true },
@@ -68,6 +69,10 @@ export default function Classes() {
         getClasses(filterOption, page)
     };
 
+    const classDetails = (id: any) => {
+        navigate('/classes/detail', { state: { id } });
+    };
+    
 
     return (
         <div className='classesWrapper'>
@@ -146,7 +151,7 @@ export default function Classes() {
                                             {filteredServices &&
                                                 filteredServices.filter(tab.filterCondition).map((item, index) => {
                                                     return <div className='col-md-4 col-sm-6 col-lg-3 mb-4' key={index} >
-                                                        <Link to={route.classesDetail}>
+                                                        <Link onClick={() => classDetails(item._id)} to="#">
                                                             <ClassesCard
                                                                 className={item.className}
                                                                 image={item.images[0]}
