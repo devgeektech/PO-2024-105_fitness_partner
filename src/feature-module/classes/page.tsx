@@ -7,9 +7,11 @@ import FilterIcon from '../../icons/FilterIcon';
 import ClassesCard from '../../core/components/classesCard';
 import { getClasslist } from '../../services/classes.service';
 import { CommonPagination } from '../../core/components/common/CommnPagination';
+import { all_routes } from '../router/all_routes';
 
 
 export default function Classes() {
+    const route = all_routes;
     const locationId = localStorage.getItem('locationId') || '';
     const [servicelist, setClasslist] = useState<any[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
@@ -144,7 +146,7 @@ export default function Classes() {
                                             {filteredServices &&
                                                 filteredServices.filter(tab.filterCondition).map((item, index) => {
                                                     return <div className='col-md-4 col-sm-6 col-lg-3 mb-4' key={index} >
-                                                        <Link to={'/classes/detail'}>
+                                                        <Link to={route.classesDetail}>
                                                             <ClassesCard
                                                                 className={item.className}
                                                                 image={item.images[0]}
