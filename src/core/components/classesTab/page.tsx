@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
 import * as Yup from "yup";
 import { Form } from "react-bootstrap";
@@ -13,8 +13,9 @@ import { useFormik } from "formik";
 import { editPartner } from "../../../services/partner.service";
 import { toast } from "react-toastify";
 import { addClass } from "../../../services/classes.service";
+import { getServicelist } from "../../../services/services.service";
 
-export default function ClassesTab() {
+export default function ClassesTab(params:any) {
   const fileUrl = process.env.REACT_APP_FILE_URL;
   const [count, setCount] = useState(0);
   const [afterOccurencesCount, setAfterOccurencesCount] = useState(0)
@@ -22,6 +23,7 @@ export default function ClassesTab() {
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
+  const [servicelist, setServicelist] = useState<any[]>([]);
   const classInitialValues: any = {
     classStatus: true,
     serviceId: "",
@@ -78,6 +80,10 @@ export default function ClassesTab() {
   ];
 
   const slotOptions = ["day", "week", "month", "year"];
+
+  useEffect(() => {
+    getServices();
+  }, []);
 
   function increment(type = "repeat") {
     if (type == "end") {
@@ -146,6 +152,14 @@ export default function ClassesTab() {
     setPreviews((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleServiceChange = (event: any) => {
+    let item:any = servicelist.find(item => item.name==event.target.value)
+ 
+    if(item._id){
+      formik.setFieldValue("serviceId", item._id)
+    }
+  };
+
   function isLiveUrl(filename:any) {
     const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp'];
     const extension = filename.slice(filename.lastIndexOf('.')).toLowerCase();
@@ -161,10 +175,8 @@ export default function ClassesTab() {
     validationSchema: classSchema,
     enableReinitialize: true,
     onSubmit: async (values, { setSubmitting }) => {
+      console.log(values,">>> values >>>>")
 
-        //rerove code
-        values.serviceId="6752cd84b79938c8f6968437"
-        //
       let classRepeat: any = {
         repeatCount: count,
       }
@@ -208,8 +220,8 @@ export default function ClassesTab() {
       if(values.classEndTime){
         classTime.end = values.classStartTime
       }
-      if(values.classEndDate){
-        classTime.date = values.classEndDate
+      if(values.classStartDate){
+        classTime.date = values.classStartDate
       }
       values.classRepeat = classRepeat;
       values.classEnd = classEnd;
@@ -218,6 +230,7 @@ export default function ClassesTab() {
       const formData = new FormData();
       for (const key in values) {
         if (Array.isArray(values[key])) {
+          console.log(values[key],">>> If  >>>")
           values[key].forEach((item:any, index:any) => {
             if (typeof item === 'object' && item instanceof File) {
               formData.append(`${key}[${index}]`, item);
@@ -225,10 +238,17 @@ export default function ClassesTab() {
               formData.append(`${key}[${index}]`, item);
             }
           });
-        } else if (typeof values[key] === 'object' && values[key] instanceof File) {
+        } 
+        else if (typeof values[key] === 'object' && values[key] instanceof File) {
+          console.log(values[key],">>> Else If >>>")
           formData.append(key, values[key]);
-        } else {
-          formData.append(key, values[key]);
+        } 
+        else {
+          if(typeof values[key] === 'object'){
+            formData.append(key, JSON.stringify(values[key]));
+          }else {
+            formData.append(key, values[key]);
+          }
         }
       }
 
@@ -247,6 +267,15 @@ export default function ClassesTab() {
       }
     },
   });
+
+  const getServices = async () => {
+    try {
+      const result = await getServicelist();
+      setServicelist(result?.data?.data || []);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Form onSubmit={formik.handleSubmit}>
@@ -273,12 +302,12 @@ export default function ClassesTab() {
                 className="commonInput form-control"
                 name="serviceId"
                 value={formik.values.serviceId}
-                onChange={formik.handleChange}
+                onChange={handleServiceChange}
                 onBlur={formik.handleBlur}
               >
                 <option value="">Select service</option>
-                {services.map((service: any) => (
-                  <option key={service.id} value={service.id}>
+                {servicelist.map((service: any) => (
+                  <option key={service._id} value={service.name}>
                     {service.name}
                   </option>
                 ))}
@@ -424,10 +453,11 @@ export default function ClassesTab() {
                       <div className="addOption">
                         <input value={count} />
                         <div className="btnsWrap">
-                          <button onClick={() => increment("repeat")}>
+                          <button type="button" onClick={() => increment("repeat")}>
                             <AngleWhiteTopIcon />
                           </button>
                           <button
+                            type="button"
                             className="rotate"
                             onClick={() => decrement("repeat")}
                           >
@@ -552,10 +582,11 @@ export default function ClassesTab() {
                         <div className="addOccurenceOption">
                           <input value={afterOccurencesCount + " occurences"} />
                           <div className="btnsWrap">
-                            <button onClick={() => increment("end")}>
+                            <button type="button" onClick={() => increment("end")}>
                               <AngleWhiteTopIcon />
                             </button>
                             <button
+                              type="button"
                               className="rotate"
                               onClick={() => decrement("end")}
                             >
@@ -571,7 +602,7 @@ export default function ClassesTab() {
             </div>
             <ul className="addedTime my-3">
               <li>
-                <button>
+                <button  type="button">
                   <CrossIcon />
                 </button>
                 <TimerIcon />
@@ -614,6 +645,7 @@ export default function ClassesTab() {
                   {previews.map((preview, index) => (
                       <li className="position-relative" key={index}>
                         <button
+                          type="button"
                           className="crossBtn"
                           onClick={() => handleRemoveImage(index)}
                         >
@@ -643,7 +675,7 @@ export default function ClassesTab() {
                             alt="uploadIcon"
                           />
                         <p>Drop or upload images</p>
-                        <button>Browse image</button>
+                        <button  type="button">Browse image</button>
                       </div>
                     </li>
                   </ul>

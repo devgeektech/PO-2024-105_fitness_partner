@@ -1,10 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Tab, Row, Col, Nav } from "react-bootstrap";
 import ClassesTab from "../../../core/components/classesTab/page";
 import GymSportsIcon from "../../../icons/GymSportsIcon";
 import './style.scss';
 export default function CreateClass() {
+  const { id } = useParams();
   return (
     <div className="createClass">
       <div className="container">
@@ -31,7 +32,7 @@ export default function CreateClass() {
               <Col md={8} lg={9}>
                 <Tab.Content>
                   <Tab.Pane eventKey="first">
-                    <ClassesTab/>
+                    <ClassesTab id={id}/>
                   </Tab.Pane>
                 </Tab.Content>
               </Col>
