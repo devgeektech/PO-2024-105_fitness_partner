@@ -12,6 +12,7 @@ import GroupUsersIcon from "../../../icons/GroupUsersIcon";
 import { useFormik } from "formik";
 import { editPartner } from "../../../services/partner.service";
 import { toast } from "react-toastify";
+import { addClass } from "../../../services/classes.service";
 
 export default function ClassesTab() {
   const fileUrl = process.env.REACT_APP_FILE_URL;
@@ -160,6 +161,10 @@ export default function ClassesTab() {
     validationSchema: classSchema,
     enableReinitialize: true,
     onSubmit: async (values, { setSubmitting }) => {
+
+        //rerove code
+        values.serviceId="6752cd84b79938c8f6968437"
+        //
       let classRepeat: any = {
         repeatCount: count,
       }
@@ -227,7 +232,7 @@ export default function ClassesTab() {
         }
       }
 
-      const result = await editPartner(formData);
+      const result = await addClass(formData);
       if (result.data) {
         console.log(result.data);
         toast.success("Classes Added successfully");
