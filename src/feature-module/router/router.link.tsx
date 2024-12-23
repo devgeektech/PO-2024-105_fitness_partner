@@ -198,6 +198,11 @@ const publicRoutes = [
     route: Route,
   },
   {
+    path: routes.classesEdit,
+    element: <CreateClass/>,
+    route: Route,
+  },
+  {
     path: routes.booking,
     element: <Booking/>,
     route: Route,
