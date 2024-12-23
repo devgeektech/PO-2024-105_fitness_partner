@@ -43,7 +43,7 @@ export default function DetailClass() {
   };
 
   const editClass = (id: any) => {
-    navigate(`/classes/edit/${id}`, { state: { id } });
+    navigate(`/classes/edit`, { state: { id } });
   };
 
 
