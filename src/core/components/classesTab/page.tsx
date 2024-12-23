@@ -10,7 +10,6 @@ import CrossIcon from "../../../icons/CrossIcon";
 import TimerIcon from "../../../icons/TimerIcon";
 import GroupUsersIcon from "../../../icons/GroupUsersIcon";
 import { useFormik } from "formik";
-import { editPartner } from "../../../services/partner.service";
 import { toast } from "react-toastify";
 import { addClass } from "../../../services/classes.service";
 import { getServicelist } from "../../../services/services.service";
@@ -25,22 +24,22 @@ export default function ClassesTab(params:any) {
   const [previews, setPreviews] = useState<string[]>([]);
   const [servicelist, setServicelist] = useState<any[]>([]);
   const classInitialValues: any = {
-    classStatus: true,
-    serviceId: "",
-    className: "",
-    description: "",
-    classStartDate: "",
-    classStartTime: "",
-    classEndTime: "",
-    classRepeatType: "",
-    classRepeatCount: 0,
-    classSelection: "",
-    classWeekdays: [],
-    classEndType: "",
-    classEndDate: "",
-    classEndOccurence: 0,
-    maxBooking: 1,
-    images: [],
+    classStatus: (params?.classData?.classStatus == "true") || true,
+    serviceId: params?.classData?.serviceId || "",
+    className: params?.classData?.className || "",
+    description: params?.classData?.description || "",
+    classStartDate: params?.classData?.classStartDate || "",
+    classStartTime: params?.classData?.classStartTime || "",
+    classEndTime: params?.classData?.classEndTime || "",
+    classRepeatType: params?.classData?.classRepeatType || "",
+    classRepeatCount: params?.classData?.classRepeatCount || 0,
+    classSelection: params?.classData?.classSelection || "",
+    classWeekdays: params?.classData?.classWeekdays || [],
+    classEndType: params?.classData?.classEndType || "",
+    classEndDate: params?.classData?.classEndDate || "",
+    classEndOccurence: params?.classData?.classEndOccurence || 0,
+    maxBooking: params?.classData?.maxBooking || 1,
+    images: params?.classData?.images || [],
   };
 
   const classSchema: any = Yup.object().shape({
@@ -61,13 +60,6 @@ export default function ClassesTab(params:any) {
     // images: Yup.array().optional(),
   });
 
-  const services = [
-    { id: "1", name: "Service One" },
-    { id: "2", name: "Service Two" },
-    { id: "3", name: "Service Three" },
-    { id: "4", name: "Service Four" },
-  ];
-
   const daysOfWeek = [
     { id: "everyday", name: "Everyday" },
     { id: "monday", name: "Monday" },
@@ -81,9 +73,36 @@ export default function ClassesTab(params:any) {
 
   const slotOptions = ["day", "week", "month", "year"];
 
-  useEffect(() => {
+  useEffect(()=> {
     getServices();
-  }, []);
+  }, [])
+
+  useEffect(() => {
+    if(params?.classData?.images && params?.classData?.images?.length > 0){
+      setPreviews([...params?.classData?.images]);
+      setImages([...params?.classData?.images]);
+    }
+
+    if(params?.classData?.serviceId){
+      let item:any = servicelist.find(item => item._id==params?.classData?.serviceId)
+      console.log("item:::", item);
+      if(item._id){
+          formik.setFieldValue("serviceId", item._id)
+      }
+    }
+
+    if(params?.classData?.classEndType){
+      setAfterOccurencesCount(params?.classData?.classEndType)
+    }
+    if (params?.classData?.selection) {
+      const weekDays = params?.classData?.selection;
+      if (weekDays.includes("everyday")) {
+        setSelectedDays(["everyday"]);
+      } else {
+        setSelectedDays(weekDays);
+      }
+    }
+  }, [params]);
 
   function increment(type = "repeat") {
     if (type == "end") {
@@ -175,8 +194,6 @@ export default function ClassesTab(params:any) {
     validationSchema: classSchema,
     enableReinitialize: true,
     onSubmit: async (values, { setSubmitting }) => {
-      console.log(values,">>> values >>>>")
-
       let classRepeat: any = {
         repeatCount: count,
       }
@@ -205,9 +222,9 @@ export default function ClassesTab(params:any) {
       if(values.classEndType){
         classEnd.type = values.classEndType
         if(values.classEndType == "on"){
-            if(values.classEndDate){
+          if(values.classEndDate){
             classEnd.date = values.classEndDate
-            }
+          }
         }
         if(values.classEndType == "after"){
             classEnd.NoOfOccurence = afterOccurencesCount;

@@ -67,7 +67,7 @@ export default function AccountSetting({ userDetail }: any) {
     endTime: user?.userDetail?.endTime || '',
     services: user?.userDetail?.endTime?.services || [],
     images: user?.userDetail?.images || []
-   }
+  }
 
   const profileSchema:any = Yup.object().shape({
     businessName: Yup.string().required(LANG.FIELD_IS_REQUIRED),
