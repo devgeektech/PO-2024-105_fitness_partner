@@ -151,12 +151,20 @@ export default function AccountSetting({ userDetail }: any) {
         if(file) values.image = file
         if(images && images.length > 0) values.images = images;
         const formData = new FormData();
+        let services=[];
         for (const key in values) {
+          
           if (Array.isArray(values[key])) {
+            console.log('key >>>>>>>>> 1111111 ',key, values[key]);
+
             values[key].forEach((item:any, index:any) => {
               if (typeof item === 'object' && item instanceof File) {
+                console.log('item ---------- 2222 ', item);
+                
                 formData.append(`${key}[${index}]`, item);
               } else {
+                console.log('item ---------- 3333 ', item);
+
                 formData.append(`${key}[${index}]`, item);
               }
             });

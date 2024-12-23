@@ -97,7 +97,7 @@ export const all_routes = {
   // trainer
 
   Settings: "/settings/profile",
- 
+
   // Listing Routes
   listingGridSidebar: "/listing/listing-grid-sidebar",
   listingGrid: "/listing/listing-grid",
@@ -130,11 +130,11 @@ export const all_routes = {
   // setting Edit Routes
   settingEdit: "/settings",
 
-  
+  // Classes Routes
   classes: "/classes",
   classesDetail: "/classes/detail",
   classesCreate: "/classes/create",
-  classesEdit: "/classes/edit/:id",
+  classesEdit: "/classes/edit",
   settingChangePassword: "/settings/changePassword",
 
   booking: "/booking",
