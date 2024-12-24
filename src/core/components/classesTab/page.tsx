@@ -15,6 +15,7 @@ import { addClass, editClass } from "../../../services/classes.service";
 import { getServicelist } from "../../../services/services.service";
 import Select from 'react-select';
 import moment from "moment";
+import { MIME_TYPE_MAP } from "../../../constants/utlis";
 
 export default function ClassesTab(params:any) {
   const fileUrl = process.env.REACT_APP_FILE_URL;
@@ -85,8 +86,23 @@ export default function ClassesTab(params:any) {
 
   useEffect(() => {
     if(params?.classData?._id){
-      if(params?.classData?.images && params?.classData?.images?.length > 0){
-        setPreviews([...params?.classData?.images]);
+      // if(params?.classData?.images && params?.classData?.images?.length > 0){
+      //   setPreviews([...params?.classData?.images]);
+      //   setImages([...params?.classData?.images]);
+      // }
+
+      if (params?.classData?.images && params?.classData?.images?.length > 0) {
+        let previewImgArr:any = [];
+        for (let item of params?.classData?.images) {
+          const extension = item.split('.').pop().toLowerCase();
+          let mimeType = MIME_TYPE_MAP[extension] || 'application/octet-stream';
+  
+          previewImgArr.push({
+            preview: item,
+            type: mimeType,
+          })
+        }
+        setPreviews([...previewImgArr]);
         setImages([...params?.classData?.images]);
       }
 
@@ -181,11 +197,13 @@ export default function ClassesTab(params:any) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || []);
     const selectedPreviews = selectedFiles.map((file) =>
-      URL.createObjectURL(file)
-    );
+    ({
+      preview: URL.createObjectURL(file),
+      type: file.type, // Save the MIME type
+    }));
 
     setImages((prev) => [...prev, ...selectedFiles]);
-    setPreviews((prev) => [...prev, ...selectedPreviews]);
+    setPreviews((prev:any) => [...prev, ...selectedPreviews]);
   };
 
   const handleRemoveImage = (index: number) => {
@@ -542,11 +560,12 @@ export default function ClassesTab(params:any) {
                     </label>
                   </div>
                 </div>
-                {formik.touched.classRepeatType && formik.errors.classRepeatType && (
-                  <div className="invalid-feedback">
-                    {formik.errors.classRepeatType}
-                  </div>
-                )}
+                {/* {formik.touched.classRepeatType &&
+                  formik.errors.classRepeatType && (
+                    <div className="invalid-feedback">
+                      {formik.errors.classRepeatType}
+                    </div>
+                  )} */}
               </div>
               <div className="col-xl-8">
                 {formik.values.classRepeatType != "doesNotRepeat" && (
@@ -608,8 +627,8 @@ export default function ClassesTab(params:any) {
                           name="classEndType"
                           onChange={(e) => {
                             formik.setFieldValue("classEndType", "never");
-                            formik.setFieldValue("classEndDate", "")
-                            setAfterOccurencesCount(0)
+                            formik.setFieldValue("classEndDate", "");
+                            setAfterOccurencesCount(0);
                           }}
                           checked={formik.values.classEndType === "never"}
                         />
@@ -733,21 +752,33 @@ export default function ClassesTab(params:any) {
             <ul className="outerBlock">
               <li>
                 <ul className="showImages">
-                  {previews.map((preview, index) => (
+                  {previews.map(({ preview, type }:any, index:any) => (
                     <li className="position-relative" key={index}>
                       <button
                         type="button"
-                        className="crossBtn"
+                        className="crossBtn removeGymFile"
                         onClick={() => handleRemoveImage(index)}
                       >
                         <CrossWhiteBlackIcon />
                       </button>
                       <div className="image">
-                        <img
-                          src={isLiveUrl(preview) ? fileUrl + preview : preview}
-                          alt={`Uploaded ${index}`}
-                          className="w-100"
-                        />
+                        {type.startsWith("video") ? (
+                          <video
+                            src={
+                              isLiveUrl(preview) ? fileUrl + preview : preview
+                            }
+                            controls
+                            className="w-100"
+                          />
+                        ) : (
+                          <img
+                            src={
+                              isLiveUrl(preview) ? fileUrl + preview : preview
+                            }
+                            alt={`Preview ${index}`}
+                            className="w-100"
+                          />
+                        )}
                       </div>
                     </li>
                   ))}
@@ -757,14 +788,14 @@ export default function ClassesTab(params:any) {
                         type="file"
                         multiple
                         onChange={handleFileChange}
-                        accept="image/*"
+                        accept="image/*,video/*"
                       />
                       <img
                         src={"/assets/img/uploadIcon.png"}
                         alt="uploadIcon"
                       />
                       <p>Drop or upload images</p>
-                      <button type="button">Browse image</button>
+                      <button>Browse image</button>
                     </div>
                   </li>
                 </ul>
