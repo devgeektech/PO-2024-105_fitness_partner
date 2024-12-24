@@ -91,7 +91,7 @@ export default function Classes() {
                             />
                         </div>
                     </div>
-                    <Link to={'#'} className='classBtn'><span>+</span>Create new class</Link>
+                    <Link to={'/classes/create'} className='classBtn'><span>+</span>Create new class</Link>
                 </div>
 
                 <div className='tab_FilterWrapper'>
