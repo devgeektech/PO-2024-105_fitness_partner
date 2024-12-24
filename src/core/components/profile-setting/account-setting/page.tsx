@@ -243,7 +243,7 @@ export default function AccountSetting({ userDetail }: any) {
     setPreviews((prev) => [...prev, ...selectedPreviews]);
   };
 
-  const handleRemoveImage = (index: number) => {
+  const handleRemoveImage = (index: number) => {    
     setImages((prev) => prev.filter((_, i) => i !== index));
     setPreviews((prev) => prev.filter((_, i) => i !== index));
   };
@@ -505,7 +505,8 @@ export default function AccountSetting({ userDetail }: any) {
                     {previews.map(({ preview, type }, index) => (
                       <li className="position-relative" key={index}>
                         <button
-                          className="crossBtn"
+                        type = "button"
+                          className="crossBtn removeGymFile"
                           onClick={() => handleRemoveImage(index)}
                         >
                           <CrossWhiteBlackIcon />
