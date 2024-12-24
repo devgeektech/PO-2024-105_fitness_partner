@@ -16,6 +16,7 @@ import { getServicelist } from "../../../services/services.service";
 import Select from 'react-select';
 import moment from "moment";
 import { MIME_TYPE_MAP } from "../../../constants/utlis";
+import { useSelector } from "react-redux";
 
 export default function ClassesTab(params:any) {
   const fileUrl = process.env.REACT_APP_FILE_URL;
@@ -25,6 +26,7 @@ export default function ClassesTab(params:any) {
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
+  const user = useSelector((state: any) => state.user);
   const [servicelist, setServicelist] = useState<any[]>([]);
   const [endTimeFormat, setEndTimeFormat] = useState<string>('');
   const [startTimeFormat, setStartTimeFormat] = useState<string>('');
@@ -242,6 +244,7 @@ export default function ClassesTab(params:any) {
     validationSchema: classSchema,
     enableReinitialize: true,
     onSubmit: async (values, { setSubmitting }) => {
+      values.partnerLocation = user?.userDetail?._id;
       let classRepeat: any = {
         repeatCount: count,
       }
