@@ -19,6 +19,8 @@ import CrossWhiteBlackIcon from '../../../../icons/CrossWhiteBlackIcon';
 import { getServicelist } from '../../../../services/services.service';
 import { Autocomplete } from "@react-google-maps/api";
 import { editPartner } from '../../../../services/partner.service';
+import { MIME_TYPE_MAP } from '../../../../constants/utlis';
+
 
 export default function AccountSetting({ userDetail }: any) {
   const [file, setFile] = useState<any>();
@@ -45,7 +47,7 @@ export default function AccountSetting({ userDetail }: any) {
   ];
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [images, setImages] = useState<File[]>([]);
-  const [previews, setPreviews] = useState<string[]>([]);
+  const [previews, setPreviews] = useState<any[]>([]);
   const [startTimeFormat, setStartTimeFormat] = useState<string>('');
   const [endTimeFormat, setEndTimeFormat] = useState<string>('');
 
@@ -81,7 +83,17 @@ export default function AccountSetting({ userDetail }: any) {
 
   useEffect(() => {
     if (user?.userDetail?.images && user?.userDetail?.images?.length > 0) {
-      setPreviews([...user?.userDetail?.images]);
+      let previewImgArr = [];
+      for (let item of user?.userDetail?.images) {
+        const extension = item.split('.').pop().toLowerCase();
+        let mimeType = MIME_TYPE_MAP[extension] || 'application/octet-stream';
+
+        previewImgArr.push({
+          preview: item,
+          type: mimeType,
+        })
+      }
+      setPreviews([...previewImgArr]);
       setImages([...user?.userDetail?.images]);
     }
 
@@ -222,8 +234,10 @@ export default function AccountSetting({ userDetail }: any) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || []);
     const selectedPreviews = selectedFiles.map((file) =>
-      URL.createObjectURL(file)
-    );
+    ({
+      preview: URL.createObjectURL(file),
+      type: file.type, // Save the MIME type
+    }));
 
     setImages((prev) => [...prev, ...selectedFiles]);
     setPreviews((prev) => [...prev, ...selectedPreviews]);
@@ -247,7 +261,7 @@ export default function AccountSetting({ userDetail }: any) {
   }
 
   function isLiveUrl(filename: any) {
-    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp'];
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp', '.mp4', '.gif'];
 
     const extension = filename.slice(filename.lastIndexOf('.')).toLowerCase();
 
@@ -488,7 +502,7 @@ export default function AccountSetting({ userDetail }: any) {
               <ul className="outerBlock">
                 <li>
                   <ul className="showImages">
-                    {previews.map((preview, index) => (
+                    {previews.map(({ preview, type }, index) => (
                       <li className="position-relative" key={index}>
                         <button
                           className="crossBtn"
@@ -496,24 +510,29 @@ export default function AccountSetting({ userDetail }: any) {
                         >
                           <CrossWhiteBlackIcon />
                         </button>
+
                         <div className="image">
-                          <img
-                            src={
-                              isLiveUrl(preview)
-                                ? fileUrl + preview
-                                : preview
-                            }
-                            alt={`Uploaded ${index}`} className="w-100" />
+                          {type.startsWith('video') ? (
+                            <video src={isLiveUrl(preview)
+                              ? fileUrl + preview
+                              : preview} controls className="w-100" />
+                          ) : (
+                            <img src={isLiveUrl(preview)
+                              ? fileUrl + preview
+                              : preview} alt={`Preview ${index}`} className="w-100" />
+                          )}
                         </div>
                       </li>
                     ))}
+
                     <li className="uploadBlock">
                       <div className="upload text-center">
                         <input
                           type="file"
                           multiple
                           onChange={handleFileChange}
-                          accept="image/*"
+                          accept="image/*,video/*"
+
                         />
                         <img
                           src={"/assets/img/uploadIcon.png"}
