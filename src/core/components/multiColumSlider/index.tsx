@@ -54,6 +54,7 @@ export default function MultiColumnSlider({ classes }: any) {
                 classType={item.classType}
                 participants={item.participants}
                 showImg={false}
+                classId={item._id}
               />
             </SwiperSlide>
           ))}

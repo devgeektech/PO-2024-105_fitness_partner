@@ -151,7 +151,8 @@ export default function Classes() {
                                             {filteredServices &&
                                                 filteredServices.filter(tab.filterCondition).map((item, index) => {
                                                     return <div className='col-md-4 col-sm-6 col-lg-3 mb-4' key={index} >
-                                                        <Link onClick={() => classDetails(item._id)} to="#">
+                                                        {/* <Link onClick={() => classDetails(item._id)} to="#"> */}
+                                                        <Link  to={`/classes/detail/${item._id}`}>
                                                             <ClassesCard
                                                                 className={item.className}
                                                                 image={item.images[0]}
@@ -159,6 +160,7 @@ export default function Classes() {
                                                                 classType={item.classType}
                                                                 participants={item.participants}
                                                                 showImg ={false}
+                                                                classId= {item._id}
                                                             />
                                                         </Link>
                                                     </div>

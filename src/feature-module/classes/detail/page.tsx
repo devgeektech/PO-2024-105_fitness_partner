@@ -5,7 +5,7 @@ import TimerIcon from '../../../icons/TimerIcon';
 import BusinessIcon from '../../../icons/BusinessIcon';
 import CalendarIcon from '../../../icons/CalendarIcon';
 import GroupUsersIcon from '../../../icons/GroupUsersIcon';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import EditIcon from '../../../icons/EditIcon';
 import EditGreyIcon from '../../../icons/EditGreyIcon';
 import { all_routes } from '../../router/all_routes';
@@ -17,17 +17,17 @@ export default function DetailClass() {
   const route = all_routes;
   const locationId = localStorage.getItem('locationId') || '';
   const location = useLocation();
-  const { id } = location.state || {};
+  const { id } = useParams() || '';
   const [classDetails, setClassDetails] = useState<any>({});
   const [startTimeFormat, setStartTimeFormat] = useState<string>('');
   const [endTimeFormat, setEndTimeFormat] = useState<string>('');
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect(() => {    
     getClasseDetails(id);
   }, []);
 
-  const getClasseDetails = async (id: string) => {
+  const getClasseDetails = async (id: any) => {
     try {
       const result = await getClassDetails(id);
       setClassDetails(result?.data?.data || {});

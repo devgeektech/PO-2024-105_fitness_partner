@@ -5,7 +5,7 @@ import "./style.scss";
 import CalendarIcon from '../../../icons/CalendarIcon';
 import GroupUsersIcon from '../../../icons/GroupUsersIcon';
 
-export default function ClassesCard({ className, image, status, classType, participants, showImg}: any) {
+export default function ClassesCard({ className, image, status, classType, participants, showImg, classId}: any) {
 
     return (
         <div className='classesBlock'>
@@ -18,7 +18,7 @@ export default function ClassesCard({ className, image, status, classType, parti
             <div className='gameContent'>
                 <div className='name_btn d-flex justify-content-between align-items-start mb-2'>
                     <Link to={'#'} className='title'>{className}</Link>
-                    <Link to={'#'} className='gameBtn'><ArrowWhiteRightIcon /></Link>
+                    <Link to={`/classes/detail/${classId}`} className='gameBtn'><ArrowWhiteRightIcon /></Link>
                 </div>
                 <ul>
                     <li><CalendarIcon />{classType}</li>
