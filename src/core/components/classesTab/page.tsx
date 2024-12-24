@@ -11,7 +11,7 @@ import TimerIcon from "../../../icons/TimerIcon";
 import GroupUsersIcon from "../../../icons/GroupUsersIcon";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
-import { addClass } from "../../../services/classes.service";
+import { addClass, editClass } from "../../../services/classes.service";
 import { getServicelist } from "../../../services/services.service";
 
 export default function ClassesTab(params:any) {
@@ -263,20 +263,29 @@ export default function ClassesTab(params:any) {
         else {
           if(typeof values[key] === 'object'){
             formData.append(key, JSON.stringify(values[key]));
-          }else {
+          } else {
             formData.append(key, values[key]);
           }
         }
       }
-
-      const result = await addClass(formData);
-      if (result.data) {
-        console.log(result.data);
-        toast.success("Classes Added successfully");
-      }
       setLoading(true);
       try {
-        console.log();
+        if (params?.classData?._id) 
+        {
+          const result = await editClass(params?.classData?._id, formData)
+          if (result.data) {
+            console.log(result.data);
+            toast.success("Classes Updated successfully");
+          }
+        } 
+        else 
+        {
+          const result = await addClass(formData);
+          if (result.data) {
+            console.log(result.data);
+            toast.success("Classes Added successfully");
+          }
+        }
       } catch (error) {
         console.log(error, loading);
         setSubmitting(false);
