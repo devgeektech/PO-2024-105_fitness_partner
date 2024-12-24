@@ -28,7 +28,7 @@ export default function ClassesTab(params:any) {
   const [endTimeFormat, setEndTimeFormat] = useState<string>('');
   const [startTimeFormat, setStartTimeFormat] = useState<string>('');
   const classInitialValues: any = {
-    classStatus: (params?.classData?.classStatus) || true,
+    classStatus: (params?.classData?.classStatus == true),
     serviceId: params?.classData?.serviceId || "",
     className: params?.classData?.className || "",
     description: params?.classData?.description || "",
@@ -84,7 +84,6 @@ export default function ClassesTab(params:any) {
   }, [])
 
   useEffect(() => {
-    console.log(params?.classData,">>> classData ::::: ")
     if(params?.classData?._id){
       if(params?.classData?.images && params?.classData?.images?.length > 0){
         setPreviews([...params?.classData?.images]);
@@ -106,10 +105,6 @@ export default function ClassesTab(params:any) {
         }
       }
 
-      if(params?.classData?.classEndType){
-        setAfterOccurencesCount(params?.classData?.classEndType)
-      }
-
       if (params?.classData?.selection) {
         const weekDays = params?.classData?.selection;
         if (weekDays.includes("everyday")) {
@@ -117,6 +112,10 @@ export default function ClassesTab(params:any) {
         } else {
           setSelectedDays(weekDays);
         }
+      }
+
+      if (params?.classData?.classEnd?.NoOfOccurence && params?.classData?.classEnd?.type == "after" ){
+        setAfterOccurencesCount(params?.classData?.classEnd?.NoOfOccurence)
       }
 
       // Get AM or PM
