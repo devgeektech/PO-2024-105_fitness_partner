@@ -35,7 +35,7 @@ export default function ClassesTab(params:any) {
     classStartDate: params?.classData?.classStartDate || "",
     classStartTime: params?.classData?.classStartTime || "",
     classEndTime: params?.classData?.classEndTime || "",
-    classRepeatType: params?.classData?.classRepeatType || "",
+    classRepeatType: params?.classData?.classRepeatType || null,
     classRepeatCount: params?.classData?.classRepeatCount || 0,
     classSelection: params?.classData?.classSelection || "",
     classWeekdays: params?.classData?.classWeekdays || [],
@@ -48,7 +48,7 @@ export default function ClassesTab(params:any) {
 
   const classSchema: any = Yup.object().shape({
     classStatus: Yup.string().optional(),
-    // classRepeatType: Yup.string().required("Field is required"),
+    classRepeatType: Yup.string().required("Field is required"),
     // classEndType: Yup.string().required("Field is required")
     // serviceId: Yup.string().optional(),
     // className: Yup.string().optional(),
@@ -542,11 +542,11 @@ export default function ClassesTab(params:any) {
                     </label>
                   </div>
                 </div>
-                {/* {formik.touched.classRepeatType && formik.errors.classRepeatType && (
+                {formik.touched.classRepeatType && formik.errors.classRepeatType && (
                   <div className="invalid-feedback">
                     {formik.errors.classRepeatType}
                   </div>
-                )} */}
+                )}
               </div>
               <div className="col-xl-8">
                 {formik.values.classRepeatType != "doesNotRepeat" && (
