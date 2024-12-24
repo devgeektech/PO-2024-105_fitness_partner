@@ -407,7 +407,7 @@ export default function AccountSetting({ userDetail }: any) {
                   <CrossIcon />
                 </button>
                 <TimerIcon />
-                <label>{selectedDays} | {user?.userDetail?.startTime} {startTimeFormat} - {user?.userDetail?.endTime} {endTimeFormat}</label>
+                <label>{selectedDays?.join(', ')}| {user?.userDetail?.startTime} {startTimeFormat} - {user?.userDetail?.endTime} {endTimeFormat}</label>
               </li>
             </ul>
             <div className="row">

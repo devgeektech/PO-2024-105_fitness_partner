@@ -37,7 +37,7 @@ export default function CreateClass() {
           obj.classEndDate = obj.classEnd.date;
         }
         if (obj.classEnd.type == "after") {
-          obj.classEndType = obj.classEnd.NoOfOccurence;
+          obj.classEndType = obj.classEnd.type;
         }
         obj.classStartTime = obj?.classTime?.start
         obj.classEndTime = obj?.classTime?.end
