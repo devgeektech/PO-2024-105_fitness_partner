@@ -5,13 +5,15 @@ import "./style.scss";
 import CalendarIcon from '../../../icons/CalendarIcon';
 import GroupUsersIcon from '../../../icons/GroupUsersIcon';
 
-export default function ClassesCard({ className, image, status, classType, participants }: any) {
+export default function ClassesCard({ className, image, status, classType, participants, showImg}: any) {
 
     return (
         <div className='classesBlock'>
             <div className='gameImg'>
-                <img src={image || '/assets/img/cardio.png'} alt={className} />
-                <label className='badge'>{status}</label>
+                {showImg &&
+                    <img src={image} alt={className} />
+                }
+                {/* <label className='badge'>{status}</label> */}
             </div>
             <div className='gameContent'>
                 <div className='name_btn d-flex justify-content-between align-items-start mb-2'>

@@ -33,14 +33,17 @@ const TrainerDashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
+  const fileUrl = process.env.REACT_APP_FILE_URL;
+  const [startTimeFormat, setStartTimeFormat] = useState<string>('');
+  const [endTimeFormat, setEndTimeFormat] = useState<string>('');
+
   useEffect(() => {
-
+    // Get AM or PM
+    const amOrPmMorning = moment(user?.userDetail?.startTime, 'HH:mm').format('A');
+    const amOrPmEvening = moment(user?.userDetail?.endTime, 'HH:mm').format('A');
+    setStartTimeFormat(amOrPmMorning)
+    setEndTimeFormat(amOrPmEvening)
   }, []);
-
-  const updateUser = async (values: any) => {
-    const result = await updateUserById(values);
-    dispatch(setUserDetail(result?.data?.data));
-  };
 
   const navigateToProfile = () => {
     // navigate("/trainer/trainer-dashboard?tab=profile&tabKey=accountSetting");
@@ -66,60 +69,58 @@ const TrainerDashboard = () => {
             <div className="container">
               <div className="profileContent">
                 <div className="profileImg">
-                  <img src={"/assets/img/DefaultProfile.png"} alt="DefaultProfile" className="profileDp" />
+                  <img src={user?.userDetail?.partnerDetails?.image ? fileUrl + user?.userDetail?.partnerDetails?.image : "/assets/img/DefaultProfile.png"} alt="DefaultProfile" className="profileDp" />
                 </div>
                 <div className="p_content d-flex justify-content-between">
-                    <div className="">
-                      <h1>{user?.userDetail?.partnerDetails?.businessName}</h1>
-                      <p><LocationGreyIcon/><Link to={""} className="underline">{user?.userDetail?.address}</Link></p>
-                      <p><GlobeIcon/><Link to={""} className="underline">{user?.userDetail?.partnerDetails?.businessWebsite}</Link></p>
-                      <div className="tags">
-                        {user?.userDetail?.services && user?.userDetail?.services.length>0 && user?.userDetail?.services.map((item:any, index:number)=>{
-                          return (
-                            <label key={index} className="tag">{item.name}</label>
-                          )
-                        })}
-                        {/* <label className="tag">Pickleball</label>
-                        <label className="tag">Spinning</label> */}
-                      </div>
+                  <div className="">
+                    <h1>{user?.userDetail?.partnerDetails?.businessName}</h1>
+                    <p><LocationGreyIcon /><Link to={""} className="underline">{user?.userDetail?.address}</Link></p>
+                    <p><GlobeIcon /><Link to={""} className="underline">{user?.userDetail?.partnerDetails?.businessWebsite}</Link></p>
+                    <div className="tags">
+                      {user?.userDetail?.services && user?.userDetail?.services.length > 0 && user?.userDetail?.services.map((item: any, index: number) => {
+                        return (
+                          <label key={index} className="tag">{item.name}</label>
+                        )
+                      })}
                     </div>
-                    <div className="EditWrap">
-                      <Link to={'/trainer/settingEdit'}><EditGreyIcon/>Edit setting</Link>
-                    </div>
+                  </div>
+                  <div className="EditWrap">
+                    <Link to={'/settings'}><EditGreyIcon />Edit setting</Link>
+                  </div>
                 </div>
               </div>
-            </div>  
+            </div>
           </div>
-          
         </div>
+
         <div className="container">
-            <div className="aboutContent">
-              <h3>About</h3>
-              <p className="mb-0">You are always changing.  Your practice should too. At ID Hot Yoga you are not confined to a flow.  Classes evolve.  Instructors tailor.  This is a yoga experience designed around you.  Because you are like no other. Transformation is inevitable.</p>
-            </div>
-            <div className="timingContent">
-              <h3>Timings</h3>
-              <ul>
-                <li><TimerIcon/><span>Monday</span>|<span>05.00 AM - 04:00 PM</span></li>
-                <li><TimerIcon/><span>Tuesday</span>|<span>05.00 AM - 04:00 PM</span></li>
-                <li><TimerIcon/><span>Wednesday</span>|<span>05.00 AM - 04:00 PM</span></li>
-                <li><TimerIcon/><span>Thursday</span>|<span>05.00 AM - 04:00 PM</span></li>
-                <li><TimerIcon/><span>Friday</span>|<span>05.00 AM - 04:00 PM</span></li>
-                <li><TimerIcon/><span>Saturday</span>|<span>05.00 AM - 04:00 PM</span></li>
-                <li><TimerIcon/><span>Sunday</span>|<span>05.00 AM - 04:00 PM</span></li>
-              </ul>
-            </div>
+          <div className="aboutContent">
+            <h3>About</h3>
+            <p className="mb-0">{user?.userDetail?.partnerDetails?.description}</p>
+          </div>
+          <div className="timingContent">
+            <h3>Timings</h3>
+            <ul>
+              {user?.userDetail?.weekDays && user?.userDetail?.weekDays.map((day: string) => (
+                <li><TimerIcon /><span>{day}</span>|<span>{user?.userDetail?.startTime} {startTimeFormat} - {user?.userDetail?.endTime} {endTimeFormat}</span></li>
+              ))}
+            </ul>
+          </div>
+
           <div className="mulitColumnSliderWrapper">
             <h3>Classes</h3>
-            {/* <MultiColumnSlider/> */}
             <div className="mulitColumnSlider">
-              {/* <ClassesCard/> */}
-              <MultiColumnSlider/>
+              <MultiColumnSlider
+              classes={user?.userDetail?.classes}
+               />
             </div>
           </div>
+
           <div className="singleSlideSlider">
             <h3>Glimpse of gym</h3>
-              <SingleSlideSlider/>
+            <SingleSlideSlider
+            imageList={user?.userDetail?.images}
+             />
           </div>
 
 

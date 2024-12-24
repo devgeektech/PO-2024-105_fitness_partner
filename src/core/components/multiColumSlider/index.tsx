@@ -8,7 +8,7 @@ import './style.scss';
 import { Navigation } from 'swiper/modules';
 import ClassesCard from '../classesCard';
 
-export default function MultiColumnSlider() {
+export default function MultiColumnSlider({ classes }: any) {
   return (
     <div>
       <Swiper
@@ -18,42 +18,45 @@ export default function MultiColumnSlider() {
           clickable: true,
         }}
         breakpoints={{
-            300: {
-                slidesPerView: 1,
-                spaceBetween: 20,
-              },
-            575: {
-              slidesPerView: 2,
-              spaceBetween: 20,
-            },
-            768: {
-              slidesPerView: 3,
-              spaceBetween: 15,
-            },
-            991: {
-              slidesPerView: 3,
-              spaceBetween: 20,
-            },
-            1024: {
-                slidesPerView: 4,
-                spaceBetween: 20,
-            },
+          300: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+          },
+          575: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 15,
+          },
+          991: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+          1024: {
+            slidesPerView: 4,
+            spaceBetween: 20,
+          },
         }}
         navigation={true}
         modules={[Navigation]}
         className="mySwiperMultiColumn"
       >
-        <SwiperSlide>
-            <ClassesCard/>
-        </SwiperSlide>
-        <SwiperSlide><ClassesCard/></SwiperSlide>
-        <SwiperSlide><ClassesCard/></SwiperSlide>
-        <SwiperSlide><ClassesCard/></SwiperSlide>
-        <SwiperSlide><ClassesCard/></SwiperSlide>
-        <SwiperSlide><ClassesCard/></SwiperSlide>
-        <SwiperSlide><ClassesCard/></SwiperSlide>
-        <SwiperSlide><ClassesCard/></SwiperSlide>
-        <SwiperSlide><ClassesCard/></SwiperSlide>
+
+        {classes?.length &&
+          classes.map((item: any) => (
+            <SwiperSlide>
+              <ClassesCard
+                className={item.className}
+                image={item.images[0]}
+                status={item.status}
+                classType={item.classType}
+                participants={item.participants}
+                showImg={false}
+              />
+            </SwiperSlide>
+          ))}
       </Swiper>
     </div>
   );

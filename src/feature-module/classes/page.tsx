@@ -158,6 +158,7 @@ export default function Classes() {
                                                                 status={item.status}
                                                                 classType={item.classType}
                                                                 participants={item.participants}
+                                                                showImg ={false}
                                                             />
                                                         </Link>
                                                     </div>
