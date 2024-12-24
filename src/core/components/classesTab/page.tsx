@@ -353,7 +353,7 @@ export default function ClassesTab(params:any) {
                     type="switch"
                     id="custom-switch"
                     {...formik.getFieldProps("classStatus")}
-                    checked= {formik.values.classStatus == true}
+                    checked={formik.values.classStatus == true}
                   />
                 </div>
               </div>
@@ -378,7 +378,11 @@ export default function ClassesTab(params:any) {
                 name="service"
                 className="commonInput"
                 options={servicelist}
-                value={servicelist.find(option => option.value === formik.values.serviceId) || null}
+                value={
+                  servicelist.find(
+                    (option) => option.value === formik.values.serviceId
+                  ) || null
+                }
                 onChange={handleServiceChange}
                 placeholder="Select a service"
               />
@@ -490,11 +494,13 @@ export default function ClassesTab(params:any) {
                           formik.values.classRepeatType === "doesNotRepeat"
                         }
                         onChange={(e) => {
-                          console.log("e.target.value", e.target.value);
                           formik.setFieldValue(
                             "classRepeatType",
                             "doesNotRepeat"
                           );
+                          formik.setFieldValue("classWeekdays", "");
+                          setCount(0);
+                          setSelectedDays([]);
                         }}
                       />
                       <span className="radioText">Does not repeat</span>
@@ -508,14 +514,9 @@ export default function ClassesTab(params:any) {
                       <input
                         type="radio"
                         {...formik.getFieldProps("classRepeatType")}
-                        checked={
-                          formik.values.classRepeatType === "repeat"
-                        }
+                        checked={formik.values.classRepeatType === "repeat"}
                         onChange={(e) => {
-                          formik.setFieldValue(
-                            "classRepeatType",
-                            "repeat"
-                          );
+                          formik.setFieldValue("classRepeatType", "repeat");
                         }}
                       />
                       <span className="radioText">Repeat every</span>
@@ -523,7 +524,10 @@ export default function ClassesTab(params:any) {
                       <div className="addOption">
                         <input value={count} />
                         <div className="btnsWrap">
-                          <button type="button" onClick={() => increment("repeat")}>
+                          <button
+                            type="button"
+                            onClick={() => increment("repeat")}
+                          >
                             <AngleWhiteTopIcon />
                           </button>
                           <button
@@ -545,23 +549,25 @@ export default function ClassesTab(params:any) {
                 )} */}
               </div>
               <div className="col-xl-8">
-                <ul className="daysRadioBox">
-                  {slotOptions.map((option) => (
-                    <li key={option}>
-                      <label>
-                        <input
-                          type="radio"
-                          name="classWeekdays"
-                          value={option}
-                          onChange={formik.handleChange}
-                          checked={formik.values.classWeekdays === option}
-                        />
-                        <span className="day">{option}</span>
-                        <span className="bg"></span>
-                      </label>
-                    </li>
-                  ))}
-                </ul>
+                {formik.values.classRepeatType != "doesNotRepeat" && (
+                  <ul className="daysRadioBox">
+                    {slotOptions.map((option) => (
+                      <li key={option}>
+                        <label>
+                          <input
+                            type="radio"
+                            name="classWeekdays"
+                            value={option}
+                            onChange={formik.handleChange}
+                            checked={formik.values.classWeekdays === option}
+                          />
+                          <span className="day">{option}</span>
+                          <span className="bg"></span>
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </div>
 
@@ -602,6 +608,8 @@ export default function ClassesTab(params:any) {
                           name="classEndType"
                           onChange={(e) => {
                             formik.setFieldValue("classEndType", "never");
+                            formik.setFieldValue("classEndDate", "")
+                            setAfterOccurencesCount(0)
                           }}
                           checked={formik.values.classEndType === "never"}
                         />
@@ -658,7 +666,10 @@ export default function ClassesTab(params:any) {
                         <div className="addOccurenceOption">
                           <input value={afterOccurencesCount + " occurences"} />
                           <div className="btnsWrap">
-                            <button type="button" onClick={() => increment("end")}>
+                            <button
+                              type="button"
+                              onClick={() => increment("end")}
+                            >
                               <AngleWhiteTopIcon />
                             </button>
                             <button
@@ -678,12 +689,16 @@ export default function ClassesTab(params:any) {
             </div>
             <ul className="addedTime my-3">
               <li>
-                <button  type="button">
+                <button type="button">
                   <CrossIcon />
                 </button>
                 <TimerIcon />
                 <label>
-                <label>{selectedDays?.join(', ')} | {params?.classData?.classTime?.start} {startTimeFormat} - {params?.classData?.classTime?.end} {endTimeFormat}</label>
+                  <label>
+                    {selectedDays?.join(", ")} |{" "}
+                    {params?.classData?.classTime?.start} {startTimeFormat} -{" "}
+                    {params?.classData?.classTime?.end} {endTimeFormat}
+                  </label>
                 </label>
               </li>
             </ul>
@@ -716,46 +731,44 @@ export default function ClassesTab(params:any) {
           <label>Class images</label>
           <div className="uploadWrapper">
             <ul className="outerBlock">
-            <li>
-                  <ul className="showImages">
+              <li>
+                <ul className="showImages">
                   {previews.map((preview, index) => (
-                      <li className="position-relative" key={index}>
-                        <button
-                          type="button"
-                          className="crossBtn"
-                          onClick={() => handleRemoveImage(index)}
-                        >
-                          <CrossWhiteBlackIcon />
-                        </button>
-                        <div className="image">
-                          <img 
-                          src= {
-                            isLiveUrl(preview)
-                              ? fileUrl + preview
-                              : preview
-                          } 
-                          alt={`Uploaded ${index}`} className="w-100" />
-                        </div>
-                      </li>
-                    ))}
-                    <li className="uploadBlock">
-                      <div className="upload text-center">
-                        <input
-                            type="file"
-                            multiple
-                            onChange={handleFileChange}
-                            accept="image/*"
-                          />
-                          <img
-                            src={"/assets/img/uploadIcon.png"}
-                            alt="uploadIcon"
-                          />
-                        <p>Drop or upload images</p>
-                        <button  type="button">Browse image</button>
+                    <li className="position-relative" key={index}>
+                      <button
+                        type="button"
+                        className="crossBtn"
+                        onClick={() => handleRemoveImage(index)}
+                      >
+                        <CrossWhiteBlackIcon />
+                      </button>
+                      <div className="image">
+                        <img
+                          src={isLiveUrl(preview) ? fileUrl + preview : preview}
+                          alt={`Uploaded ${index}`}
+                          className="w-100"
+                        />
                       </div>
                     </li>
-                  </ul>
-                </li>
+                  ))}
+                  <li className="uploadBlock">
+                    <div className="upload text-center">
+                      <input
+                        type="file"
+                        multiple
+                        onChange={handleFileChange}
+                        accept="image/*"
+                      />
+                      <img
+                        src={"/assets/img/uploadIcon.png"}
+                        alt="uploadIcon"
+                      />
+                      <p>Drop or upload images</p>
+                      <button type="button">Browse image</button>
+                    </div>
+                  </li>
+                </ul>
+              </li>
             </ul>
           </div>
         </div>
