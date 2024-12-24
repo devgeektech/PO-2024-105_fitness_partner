@@ -186,6 +186,9 @@
                             object-fit: cover;
                         }
                     }
+                    .removeGymFile{
+                        z-index: 999;
+                    }
                 }
                 .uploadBlock {
                     border: 1px dashed #D9DBDE;
