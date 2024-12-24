@@ -13,6 +13,8 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { addClass, editClass } from "../../../services/classes.service";
 import { getServicelist } from "../../../services/services.service";
+import Select from 'react-select';
+import moment from "moment";
 
 export default function ClassesTab(params:any) {
   const fileUrl = process.env.REACT_APP_FILE_URL;
@@ -23,8 +25,10 @@ export default function ClassesTab(params:any) {
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
   const [servicelist, setServicelist] = useState<any[]>([]);
+  const [endTimeFormat, setEndTimeFormat] = useState<string>('');
+  const [startTimeFormat, setStartTimeFormat] = useState<string>('');
   const classInitialValues: any = {
-    classStatus: (params?.classData?.classStatus == "true") || true,
+    classStatus: (params?.classData?.classStatus) || true,
     serviceId: params?.classData?.serviceId || "",
     className: params?.classData?.className || "",
     description: params?.classData?.description || "",
@@ -44,6 +48,8 @@ export default function ClassesTab(params:any) {
 
   const classSchema: any = Yup.object().shape({
     classStatus: Yup.string().optional(),
+    // classRepeatType: Yup.string().required("Field is required"),
+    // classEndType: Yup.string().required("Field is required")
     // serviceId: Yup.string().optional(),
     // className: Yup.string().optional(),
     // description: Yup.string().optional(),
@@ -78,29 +84,46 @@ export default function ClassesTab(params:any) {
   }, [])
 
   useEffect(() => {
-    if(params?.classData?.images && params?.classData?.images?.length > 0){
-      setPreviews([...params?.classData?.images]);
-      setImages([...params?.classData?.images]);
-    }
-
-    if(params?.classData?.serviceId){
-      let item:any = servicelist.find(item => item._id==params?.classData?.serviceId)
-      console.log("item:::", item);
-      if(item._id){
-          formik.setFieldValue("serviceId", item._id)
+    console.log(params?.classData,">>> classData ::::: ")
+    if(params?.classData?._id){
+      if(params?.classData?.images && params?.classData?.images?.length > 0){
+        setPreviews([...params?.classData?.images]);
+        setImages([...params?.classData?.images]);
       }
-    }
 
-    if(params?.classData?.classEndType){
-      setAfterOccurencesCount(params?.classData?.classEndType)
-    }
-    if (params?.classData?.selection) {
-      const weekDays = params?.classData?.selection;
-      if (weekDays.includes("everyday")) {
-        setSelectedDays(["everyday"]);
-      } else {
-        setSelectedDays(weekDays);
+      if(params?.classData?.serviceId){
+        let item:any = servicelist.find(item => item._id==params?.classData?.serviceId)
+        console.log("item:::", item);
+        if(item._id){
+            formik.setFieldValue("serviceId", item._id)
+        }
       }
+
+      if(params?.classData?.classRepeatCount){
+        let number = parseInt(params?.classData?.classRepeatCount)
+        if(!isNaN(number)){
+          setCount(number)        
+        }
+      }
+
+      if(params?.classData?.classEndType){
+        setAfterOccurencesCount(params?.classData?.classEndType)
+      }
+
+      if (params?.classData?.selection) {
+        const weekDays = params?.classData?.selection;
+        if (weekDays.includes("everyday")) {
+          setSelectedDays(["everyday"]);
+        } else {
+          setSelectedDays(weekDays);
+        }
+      }
+
+      // Get AM or PM
+      const amOrPmMorning = moment(params?.classData?.classTime?.start, 'HH:mm').format('A');
+      const amOrPmEvening = moment(params?.classData?.classTime?.end, 'HH:mm').format('A');
+      setStartTimeFormat(amOrPmMorning)
+      setEndTimeFormat(amOrPmEvening)
     }
   }, [params]);
 
@@ -171,11 +194,19 @@ export default function ClassesTab(params:any) {
     setPreviews((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleServiceChange = (event: any) => {
-    let item:any = servicelist.find(item => item.name==event.target.value)
+  // const handleServiceChange = (event: any) => {
+  //   let item:any = servicelist.find(item => item.name==event.target.value)
  
-    if(item._id){
-      formik.setFieldValue("serviceId", item._id)
+  //   if(item._id){
+  //     console.log("item._id it is working fine ", item._id);
+  //     formik.setFieldValue("serviceId", item._id)
+  //   }
+  // };
+
+  const handleServiceChange = (selectedOption: any) => {
+    if (selectedOption?.value) {
+      console.log("Selected service ID:", selectedOption.value);
+      formik.setFieldValue("serviceId", selectedOption.value);
     }
   };
 
@@ -189,7 +220,7 @@ export default function ClassesTab(params:any) {
         }
     }
 
-  const formik = useFormik({
+  const formik:any = useFormik({
     initialValues: classInitialValues,
     validationSchema: classSchema,
     enableReinitialize: true,
@@ -297,7 +328,13 @@ export default function ClassesTab(params:any) {
   const getServices = async () => {
     try {
       const result = await getServicelist();
-      setServicelist(result?.data?.data || []);
+      let array = result?.data?.data;
+      if(Array.isArray(array) && array.length>0){
+        array = array.map((item)=>{
+          return {...item, value:item._id, label:item.name }
+        })
+        setServicelist(array)
+      }
     } catch (error) {
       console.error(error);
     }
@@ -317,18 +354,18 @@ export default function ClassesTab(params:any) {
                     type="switch"
                     id="custom-switch"
                     {...formik.getFieldProps("classStatus")}
+                    checked= {formik.values.classStatus == true}
                   />
                 </div>
               </div>
             </div>
 
             <div className="col-md-4 mb-3">
-              <Form.Select
-                aria-label="Default select example"
+              {/* <Form.Select
                 className="commonInput form-control"
-                name="serviceId"
+                {...formik.getFieldProps("serviceId")}
                 value={formik.values.serviceId}
-                onChange={handleServiceChange}
+                onChange={servicelist.find(option => option._id === formik.values.serviceId) || null}
                 onBlur={formik.handleBlur}
               >
                 <option value="">Select service</option>
@@ -337,7 +374,15 @@ export default function ClassesTab(params:any) {
                     {service.name}
                   </option>
                 ))}
-              </Form.Select>
+              </Form.Select> */}
+              <Select
+                name="service"
+                className="commonInput"
+                options={servicelist}
+                value={servicelist.find(option => option.value === formik.values.serviceId) || null}
+                onChange={handleServiceChange}
+                placeholder="Select a service"
+              />
             </div>
             {/* {formik.touched.serviceId && formik?.errors.serviceId && (
                 <div className="error-message">{formik?.errors.serviceId}</div>
@@ -441,7 +486,7 @@ export default function ClassesTab(params:any) {
                     <label className="mb-0 d-flex align-items-center">
                       <input
                         type="radio"
-                        {...formik.getFieldProps("doesNotRepeat")}
+                        {...formik.getFieldProps("classRepeatType")}
                         checked={
                           formik.values.classRepeatType === "doesNotRepeat"
                         }
@@ -463,7 +508,7 @@ export default function ClassesTab(params:any) {
                     <label className="mb-0 d-flex align-items-center">
                       <input
                         type="radio"
-                        {...formik.getFieldProps("repeat")}
+                        {...formik.getFieldProps("classRepeatType")}
                         checked={
                           formik.values.classRepeatType === "repeat"
                         }
@@ -494,6 +539,11 @@ export default function ClassesTab(params:any) {
                     </label>
                   </div>
                 </div>
+                {/* {formik.touched.classRepeatType && formik.errors.classRepeatType && (
+                  <div className="invalid-feedback">
+                    {formik.errors.classRepeatType}
+                  </div>
+                )} */}
               </div>
               <div className="col-xl-8">
                 <ul className="daysRadioBox">
@@ -605,6 +655,7 @@ export default function ClassesTab(params:any) {
                           checked={formik.values.classEndType === "after"}
                         />
                         <span className="radioText">After</span>
+                        <span className="bgBlue"></span>
                         <div className="addOccurenceOption">
                           <input value={afterOccurencesCount + " occurences"} />
                           <div className="btnsWrap">
@@ -633,7 +684,7 @@ export default function ClassesTab(params:any) {
                 </button>
                 <TimerIcon />
                 <label>
-                  Monday, Tuesday | 05.00 AM - 04:00 PM | end on 4 Feb 2025
+                <label>{selectedDays?.join(', ')} | {params?.classData?.classTime?.start} {startTimeFormat} - {params?.classData?.classTime?.end} {endTimeFormat}</label>
                 </label>
               </li>
             </ul>

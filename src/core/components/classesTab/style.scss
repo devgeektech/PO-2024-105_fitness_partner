@@ -135,6 +135,7 @@
                         line-height: 19.6px;
                         letter-spacing: -0.002em;
                         text-align: left;
+                        color: #2B2B2B;
                     }
                 }
                 .addOption {
@@ -173,12 +174,12 @@
                     right: 10px;
                     z-index: 3;
                     input {
-                        width: 120px;
+                        width: 100px;
                         background-color: #fff;
                         border: 1px solid #fff;
                         border-radius: 4px;
                         text-align: center;
-                        font-size: 18px;
+                        font-size: 14px;
                         line-height: normal;
                     }
                     .btnsWrap {
@@ -199,14 +200,14 @@
             .dateShow {
                 position: relative;
                 &:after {
-                    content: '';
+                    content: "";
                     position: absolute;
                     background: #fff;
-                    width: 110px;
+                    width: 90px;
                     height: 40px;
-                    left: -12px;
+                    left: 16px;
                     z-index: 0;
-                    top: -11px;
+                    top: 10px;
                     border-radius: 4px;
                 }
                 input[type="date"] {
@@ -388,6 +389,18 @@
         text-align: center;
         text-decoration-line: underline;
         color: #121C27;
+    }
+}
+form {
+    label {
+        span {
+            color: #2B2B2B !important;
+        }
+    }
+}
+.addOccurenceOption {
+    input {
+        height: 45px;
     }
 }
 

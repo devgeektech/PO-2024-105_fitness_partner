@@ -1683,7 +1683,7 @@ const Home = () => {
                       </p>
                     </div>
                     <div className="listing-venue-owner">
-                      <Link className="navigation">
+                      <Link to="" className="navigation">
                         <ImageWithBasePath
                           src="assets/img/profiles/avatar-03.jpg"
                           alt="User"
